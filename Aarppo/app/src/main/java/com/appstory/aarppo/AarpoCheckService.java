@@ -1,8 +1,11 @@
 package com.appstory.aarppo;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -34,6 +37,13 @@ public class AarpoCheckService extends Service {
     Date todaysMatchTime;
     int todaysTeam1;
     int todaysTeam2;
+    boolean intentCalled;
+
+    int syncIndex;
+    int syncArray[]= {10, 20, 30, 45, 60, 75, 80, 85, 90};
+    int MAX_SIZE = 9;
+
+
     private ServiceHandler mServiceHandler;
     public Runnable updateTimer = new Runnable() {
         public void run() {
@@ -59,7 +69,36 @@ public class AarpoCheckService extends Service {
             handler.postDelayed(this, 1000);
         }};
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    private Date getDateNow()
+    {
+        Date today = new Date();
 
+        try {
+            if( isNetworkAvailable()) {
+
+
+                today = ISLMatchPage.getNetworkTime();
+                //Date netWorkTime = new Date();
+
+            }
+            else {
+                Log.d("JKS","No internet connection using local time");
+                today = new Date();
+            }
+        }
+        catch(IOException ex)
+        {
+
+        }
+
+        return today;
+    }
     // Handler that receives messages from the thread
     private final class ServiceHandler extends Handler {
         public ServiceHandler(Looper looper) {
@@ -75,42 +114,94 @@ public class AarpoCheckService extends Service {
                     if(isPlayingToday())
                     {
 
-                        try {
-                            Date netWorkTime = ISLMatchPage.getNetworkTime();
-                            //Date netWorkTime = new Date();
-                            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                            Log.d("JKS","Today "+df.format(todaysMatchTime) + " now = "+df.format(netWorkTime));
-                            long diffTime_Match = todaysMatchTime.getTime() - netWorkTime.getTime();
-                            long hours = TimeUnit.MILLISECONDS.toHours(diffTime_Match)%24;
-                            long days = TimeUnit.MILLISECONDS.toDays(diffTime_Match);
-                        long mins = TimeUnit.MILLISECONDS.toMinutes(diffTime_Match) %60;
-                        long secs = TimeUnit.MILLISECONDS.toSeconds(diffTime_Match)%60;
-                        Log.d("JKS","days =" +days + "hours ="+hours +" mins = "+ mins +"seconds = "+secs);
-                            Log.d("JKS", "more than one hours for the match " +diffTime_Match);
-                            if(isMatchNotStarted(diffTime_Match))
-                            {
-                                if(days == 0 && hours == 0 && mins == 0) {
-                                    if(cbRemoved == 1) {
-                                        Log.d("JKS", "seconds left = " + secs);
-
-                                        diffTime = secs;
-                                        handler.postDelayed(updateTimer, 0);
-                                        cbRemoved =0;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                Log.d("JKS","Match stared, check for aarpo sync");
-
-                            }
-
-                        }
-                        catch(IOException ex)
+                        if(matchGoingOn())
                         {
+                            Log.d("JKS ","Match is going on :: lets sync");
+
+
+                            Date netWorkTime = getDateNow();
+
+                            long elapsedTime =( netWorkTime.getTime() - todaysMatchTime.getTime() ) /(1000*60);
+                            Log.d("JKS","Elapesed minutes = "+elapsedTime);
+                            int realIndex = 0;
+                            for(int i = 0; i <MAX_SIZE;i++) {
+                                if (elapsedTime >= syncArray[i])
+                                    realIndex++;
+                                else
+                                    break;
+                            }
+                            if(realIndex != syncIndex) {
+                                Log.d("JKS ", "Syncing the aarpo sync time");
+                                syncIndex =realIndex;
+                                continue;
+                            }
+                            if(syncIndex>=MAX_SIZE) {
+                                Thread.sleep(5000);
+                                continue;
+
+                            }
+
+                            Log.d("JKS","Sync index="+syncIndex + " value = "+syncArray[syncIndex]);
+                            long syncTime = todaysMatchTime.getTime() + syncArray[syncIndex] * 60 * 1000;
+
+                            long diffTime_Match = syncTime - netWorkTime.getTime();
+                            long hours = TimeUnit.MILLISECONDS.toHours(diffTime_Match) % 24;
+                            long days = TimeUnit.MILLISECONDS.toDays(diffTime_Match);
+                            long mins = TimeUnit.MILLISECONDS.toMinutes(diffTime_Match) % 60;
+                            long secs = TimeUnit.MILLISECONDS.toSeconds(diffTime_Match) % 60;
+                            Log.d("JKS", days + "days =" + hours + " hours = " + mins + "mins = " + secs+ "seconds to sync" );
+                            if (days == 0 && hours == 0 && mins == 0 && secs <= 25) {
+                                if(intentCalled == false) {
+                                    Intent i = new Intent(AarpoCheckService.this, AarpoBlast.class);
+                                    i.putExtra("timeLeft", diffTime);
+                                    i.putExtra("gameId", todaysGameId);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(i);
+                                    intentCalled = true;
+                                    syncIndex++;
+                                }
+                                else Log.d("JKS","not launcing activity");
+
+                            }
+                            else intentCalled = false;
 
                         }
+                        else if(matchOver())
+                        {
+                            Log.d("JKS","Blasters match is over WAIT TILL next match");
+                        }
+                        else {
+                            Date netWorkTime = getDateNow();
+                            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                            Log.d("JKS", "Today " + df.format(todaysMatchTime) + " now = " + df.format(netWorkTime));
+                            long diffTime_Match = todaysMatchTime.getTime() - netWorkTime.getTime();
+                            long hours = TimeUnit.MILLISECONDS.toHours(diffTime_Match) % 24;
+                            long days = TimeUnit.MILLISECONDS.toDays(diffTime_Match);
+                            long mins = TimeUnit.MILLISECONDS.toMinutes(diffTime_Match) % 60;
+                            long secs = TimeUnit.MILLISECONDS.toSeconds(diffTime_Match) % 60;
+                            Log.d("JKS", days + "days =" + hours + " hours = " + mins + "mins = " + secs+ "seconds=" );
+                            if (days == 0 && hours == 0 && mins == 0 && secs <= 25) {
+                                if(intentCalled == false) {
+                                    Intent i = new Intent(AarpoCheckService.this, AarpoBlast.class);
+                                    i.putExtra("timeLeft", diffTime);
+                                    i.putExtra("gameId", todaysGameId);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(i);
+                                    intentCalled = true;
+                                    syncIndex = 0;
+                                }
+                                else Log.d("JKS","not launcing activity");
+                                /*if(cbRemoved == 1) {
+                                    Log.d("JKS", "seconds left = " + secs);
 
+                                    diffTime = secs;
+                                    handler.postDelayed(updateTimer, 0);
+                                    cbRemoved =0;
+                                }*/
+
+                            }
+                            else intentCalled = false;
+                        }
                     }
                     else Log.d("JKS","Blasters not playing today");
 
@@ -128,27 +219,27 @@ public class AarpoCheckService extends Service {
         }
     }
 
-    private  int getNewDiffTime()
+    private  boolean matchGoingOn()
     {
-        return 120;
+        Date today = getDateNow();
+        long timeDifference = today.getTime() - todaysMatchTime.getTime();
+        if( timeDifference > 0 && timeDifference < 5400000)
+            return  true;
+        else
+            return  false;
+
+    }
+    private boolean matchOver()
+    {
+        Date today = getDateNow();
+        long timeDifference = today.getTime() - todaysMatchTime.getTime();
+        if( timeDifference >  5400000)
+            return  true;
+        else
+            return  false;
+
     }
 
-    private boolean isMatchNotStarted(long matchDiffTime)
-    {
-        boolean result = false;
-
-        if(matchDiffTime < 0)
-        {
-            result = true;
-        }
-
-        long hours = TimeUnit.MILLISECONDS.toHours(matchDiffTime)%24;
-        long days = TimeUnit.MILLISECONDS.toDays(matchDiffTime);
-        long mins = TimeUnit.MILLISECONDS.toMinutes(matchDiffTime) %60;
-        long secs = TimeUnit.MILLISECONDS.toSeconds(matchDiffTime)%60;
-
-        return result;
-    }
     private boolean isPlayingToday()
     {
         boolean result = false;
@@ -167,7 +258,7 @@ public class AarpoCheckService extends Service {
         cal.add(Calendar.DATE, -2);
         Date dayBefore = cal.getTime();
 
-        Log.d("JKS","Todays date = "+todaysDate +" after "+ df.format(dayAfter) + " before " +df.format(dayBefore));
+       // Log.d("JKS","Todays date = "+todaysDate +" after "+ df.format(dayAfter) + " before " +df.format(dayBefore));
         String query = "select * from tbl_schedule WHERE date_time<'"+df.format(dayAfter) + "' AND date_time>'"+df.format(dayBefore)+"' AND (team1=2 OR team2=2)" ;
         Cursor c1 = db.selectData(query);
         if(c1 != null)
@@ -186,7 +277,7 @@ public class AarpoCheckService extends Service {
             }
 
         }
-        Log.d("JKS","query ="+query +" got data="+c1.getCount());
+       // Log.d("JKS","query ="+query +" got data="+c1.getCount());
 
         if(c1.getCount() > 0) result = true;
         db.closeConnection();
@@ -195,23 +286,6 @@ public class AarpoCheckService extends Service {
 
     }
 
-    private int getNextMatch()
-    {
-        int matchId = 0;
-        AarpoDb db = new AarpoDb();
-        db.openConnection();
-
-        String query = "select * from tbl_schedule";
-        Cursor c1 = db.selectData(query);
-        while(c1.moveToNext())
-        {
-
-        }
-        db.closeConnection();
-
-        return  matchId;
-
-    }
 
     @Override
     public void onCreate() {

@@ -65,10 +65,14 @@ public class AarpoBlast extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Log.d("JKS","request feature");
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Log.d("JKS","request set flags");
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        Log.d("JKS","getsupport action bar");
         getSupportActionBar().hide();
+        Log.d("JKS","set content view");
         setContentView(R.layout.activity_aarpo_blast);
         donotplay = false;
         txtCountDown = (TextView)findViewById(R.id.txt_counter_cheer);
