@@ -144,7 +144,7 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
                 {
 
                 }
-                int img = R.drawable.ic_menu_camera;
+                int img = R.mipmap.ic_football;
                 MatchList p1 = new MatchList();
                 p1.setName(dateTime);
                 p1.setTeam1(getTeamName(c.getInt(3)));
