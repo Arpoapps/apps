@@ -1,20 +1,28 @@
 package com.appstory.aarppo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 public class AarpoBlast extends AppCompatActivity {
-    int timeLeft;
+    long timeLeft;
     TextView txtCountDown;// = (TextView)findViewById(R.id.txt_counter_cheer);
 
     Handler handler2;
@@ -22,18 +30,45 @@ public class AarpoBlast extends AppCompatActivity {
     Handler handler,dhandler;
     Runnable runnable;
     MediaPlayer mp;
+    long matchTime;
     boolean donotplay = false;
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    private Date getDateNow()
+    {
+        Date today = new Date();
+        try {
+            if( isNetworkAvailable()) {
+                today = ISLMatchPage.getNetworkTime();
+            }
+            else {
+                Log.d("JKS","No internet connection using local time");
+                today = new Date();
+            }
+        }
+        catch(IOException ex)
+        {
+        }
+        return today;
+    }
 
     public Runnable updateTimer = new Runnable() {
         public void run() {
 
             timeLeft--;
             txtCountDown.setText(""+timeLeft);
+
             handler2.postDelayed(this, 1000);
 
             if(timeLeft == 0 && donotplay == false)
             {
                 handler2.removeCallbacks(updateTimer);
+                txtCountDown.setVisibility(View.GONE);
 
                 dhandler= new Handler();
                 dhandler.postDelayed(new Runnable() {
@@ -42,47 +77,43 @@ public class AarpoBlast extends AppCompatActivity {
                         Initial();
                     }
                 },0);
-                /*try{
-                    //you can change the path, here path is external directory(e.g. sdcard) /Music/maine.mp3
 
-                    mP.setDataSource(Environment.getExternalStorageDirectory().getPath()+"/music/Jiya_Jale-VmusiQ.Com.mp3");
-
-
-                   // mP= MediaPlayer.create(this, R.raw.ccc);
-                    mP.prepare();
-                    mP.start();
-                    Toast.makeText(getApplicationContext(), "playing", Toast.LENGTH_SHORT).show();
-
-                    mP.prepare();
-                }catch(Exception e){
-
-                    e.printStackTrace();}*/
             }
+
+
         }};
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-        Log.d("JKS","request feature");
+
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        Log.d("JKS","request set flags");
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Log.d("JKS","getsupport action bar");
+
         getSupportActionBar().hide();
-        Log.d("JKS","set content view");
+
         setContentView(R.layout.activity_aarpo_blast);
         donotplay = false;
         txtCountDown = (TextView)findViewById(R.id.txt_counter_cheer);
 
+
+        matchTime = getIntent().getLongExtra("todaysGameTime",0);
+        Date dt= getDateNow();
+
+        long diffTime_Match = matchTime - dt.getTime();
+        long secs = TimeUnit.MILLISECONDS.toSeconds(diffTime_Match) % 60;
+
        // mP=new MediaPlayer();
 
       //  timeLeft = getIntent().getIntExtra("timeLeft",0);
-        timeLeft =15;
+        timeLeft =secs;
         handler2 = new Handler();
-        handler2.postDelayed(updateTimer, 0);
+        handler2.postDelayed(updateTimer, 1000);
         //*********SCREEN WAKE CODE *******
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }

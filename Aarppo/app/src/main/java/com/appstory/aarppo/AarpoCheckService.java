@@ -155,6 +155,8 @@ public class AarpoCheckService extends Service {
                                     Intent i = new Intent(AarpoCheckService.this, AarpoBlast.class);
                                     i.putExtra("timeLeft", diffTime);
                                     i.putExtra("gameId", todaysGameId);
+                                    i.putExtra("todaysGameTime",syncTime);
+
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(i);
                                     intentCalled = true;
@@ -185,6 +187,8 @@ public class AarpoCheckService extends Service {
                                     Intent i = new Intent(AarpoCheckService.this, AarpoBlast.class);
                                     i.putExtra("timeLeft", diffTime);
                                     i.putExtra("gameId", todaysGameId);
+                                    i.putExtra("todaysGameTime",todaysMatchTime.getTime());
+
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(i);
                                     intentCalled = true;
