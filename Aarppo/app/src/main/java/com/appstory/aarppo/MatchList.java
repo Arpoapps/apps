@@ -13,7 +13,9 @@ public class MatchList {
 
     String name,id;
     String date, team1, team2;
+    String time;
     String place;
+    String month;
 
 
     String description;
@@ -33,7 +35,20 @@ public class MatchList {
 
 
     }
+    public  void setTime(String time){
+        this.time=time;
+    }
+    public String getTime(){
+        return time;
 
+    }
+    public  void setMonth(String mnth){
+        this.month=mnth;
+    }
+    public String getMonth(){
+        return month;
+
+    }
 
     public  void setDescription(String description)
     {

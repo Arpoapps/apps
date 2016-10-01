@@ -159,12 +159,18 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
                 //Log.d("JKS","result "+c.getString(0)+" =  "+c.getString(1) + "team1 = "+getTeamName(c.getInt(3))+" team2="+getTeamName(c.getInt(4))) ;
                 String dateTime = c.getString(1);
                 String format = c.getString(2);
+                String time = "dontcare";
+                String mnth  = "test";
                 try {
                     SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date newDate = dateformat.parse(c.getString(1));
 
-                    dateformat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                    dateformat = new SimpleDateFormat("dd");
                     dateTime = dateformat.format(newDate);
+                    dateformat = new SimpleDateFormat("h:mm a");
+                    time = dateformat.format(newDate);
+                    dateformat = new SimpleDateFormat("MMM");
+                    mnth = dateformat.format(newDate);
                    // Log.d("JKS","Date="+dateTime);
                 }
                 catch (ParseException ex)
@@ -177,6 +183,8 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
                 p1.setTeam1(getTeamName(c.getInt(3)));
                 p1.setTeam2(getTeamName(c.getInt(4)));
                 p1.setId(c.getString(0));
+                p1.setTime(time);
+                p1.setMonth(mnth);
                 p1.setLocation(getHomeGround(c.getInt(3)));
                 p1.setImg(img);
                 list1.add(p1);

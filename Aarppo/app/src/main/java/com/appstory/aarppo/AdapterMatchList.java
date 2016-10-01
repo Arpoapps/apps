@@ -50,14 +50,18 @@ public class AdapterMatchList extends BaseAdapter {
             viewHolder=new ViewHolder();
             convertView= LayoutInflater.from(context).inflate(R.layout.custom_list_match_schedule, null, false);
             viewHolder.tv1=(TextView)convertView.findViewById(R.id.tv_name);
-            viewHolder.img=(ImageView)convertView.findViewById(R.id.img);
+            //viewHolder.img=(ImageView)convertView.findViewById(R.id.img);
             viewHolder.team1=(TextView)convertView.findViewById(R.id.team1);
             viewHolder.team2=(TextView) convertView.findViewById(R.id.team2);
             viewHolder.place=(TextView) convertView.findViewById(R.id.txt_ground);
+            viewHolder.time=(TextView) convertView.findViewById(R.id.txt_time);
+            viewHolder.month=(TextView) convertView.findViewById(R.id.txt_mnth);
 
             viewHolder.team1.setText(list1.get(position).getTeam1());
             viewHolder.team2.setText(list1.get(position).getTeam2());
             viewHolder.place.setText(list1.get(position).getLocation());
+            viewHolder.time.setText(list1.get(position).getTime());
+            viewHolder.month.setText(list1.get(position).getMonth());
 
             convertView.setTag(viewHolder);
 
@@ -66,20 +70,24 @@ public class AdapterMatchList extends BaseAdapter {
             viewHolder=(ViewHolder)convertView.getTag();
         }
 
-        viewHolder.img.setImageResource(list1.get(position).getImg());
+        //viewHolder.img.setImageResource(list1.get(position).getImg());
         viewHolder.tv1.setText(list1.get(position).getName());
         viewHolder.team1.setText(list1.get(position).getTeam1());
         viewHolder.team2.setText(list1.get(position).getTeam2());
         viewHolder.place.setText(list1.get(position).getLocation());
+        viewHolder.time.setText(list1.get(position).getTime());
+        viewHolder.month.setText(list1.get(position).getMonth());
         return convertView;
     }
 
     class  ViewHolder{
-        ImageView img;
+    //    ImageView img;
         TextView tv1;
         TextView team1;
         TextView team2;
         TextView place;
+        TextView time;
+        TextView month;
     }
 
 }
