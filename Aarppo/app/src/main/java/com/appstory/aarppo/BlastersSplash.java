@@ -11,6 +11,7 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Date;
@@ -106,6 +107,17 @@ public class BlastersSplash extends AppCompatActivity {
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(i);
+                    if( android.provider.Settings.Global.getInt(getContentResolver(), android.provider.Settings.Global.AUTO_TIME, 0)== 1)
+                    {
+                        Log.d("JKS","Auto update time is on");
+                    }
+                    else
+                    {
+                        Log.d("JKS","Auto update time is off");
+                        int requestCode = 99;
+                        startActivityForResult(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS), requestCode) ;
+
+                    }
 
                 }
             }, 2000);

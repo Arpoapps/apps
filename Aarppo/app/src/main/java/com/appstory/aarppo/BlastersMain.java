@@ -1,11 +1,14 @@
 package com.appstory.aarppo;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,6 +30,24 @@ public class BlastersMain extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blasters_main);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if( android.provider.Settings.Global.getInt(getContentResolver(), android.provider.Settings.Global.AUTO_TIME, 0)== 1)
+                {
+                    Log.d("JKS","Auto update time is on");
+                }
+                else
+                {
+                    Log.d("JKS","Auto update time is off");
+                    int requestCode = 99;
+                    startActivityForResult(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS), requestCode) ;
+
+                }
+
+            }
+        }, 2000);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
