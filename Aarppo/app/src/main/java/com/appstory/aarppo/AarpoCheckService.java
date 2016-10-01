@@ -79,7 +79,8 @@ public class AarpoCheckService extends Service {
     {
         Date today = new Date();
 
-        try {
+        //Disabling network time
+        /*try {
             if( isNetworkAvailable()) {
 
 
@@ -95,7 +96,7 @@ public class AarpoCheckService extends Service {
         catch(IOException ex)
         {
 
-        }
+        }*/
 
         return today;
     }

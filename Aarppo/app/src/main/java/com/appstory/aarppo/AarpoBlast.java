@@ -42,6 +42,8 @@ public class AarpoBlast extends AppCompatActivity {
     private Date getDateNow()
     {
         Date today = new Date();
+        //disabling time from network
+        /*
         try {
             if( isNetworkAvailable()) {
                 today = ISLMatchPage.getNetworkTime();
@@ -53,7 +55,7 @@ public class AarpoBlast extends AppCompatActivity {
         }
         catch(IOException ex)
         {
-        }
+        }*/
         return today;
     }
 
