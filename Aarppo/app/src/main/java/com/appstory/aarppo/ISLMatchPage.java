@@ -117,7 +117,7 @@ Date matchDate;
             handler.postDelayed(this, 500);
         }};
 
-    public static final String TIME_SERVER = "time-a.nist.gov";
+    public static final String TIME_SERVER = "pool.ntp.org";
 
     public static Date getNetworkTime() throws IOException {
         NTPUDPClient timeClient = new NTPUDPClient();
