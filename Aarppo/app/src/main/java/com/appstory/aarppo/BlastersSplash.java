@@ -2,6 +2,8 @@ package com.appstory.aarppo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -33,7 +35,7 @@ public class BlastersSplash extends AppCompatActivity {
 
         startService(service);
         ClockdriftTime = 0;
-
+/*
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -63,24 +65,52 @@ public class BlastersSplash extends AppCompatActivity {
             }
         };
 
-        thread.start();
+        thread.start();*/
 
 
-       Log.d("JKS", "Get network time exits");
+        Log.d("JKS", "Get network time exits");
+        SQLiteDatabase mdb = openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
+        String query = "CREATE TABLE IF NOT EXISTS tbl_firstTime(started INTEGER)";
+        mdb.execSQL(query);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        query = "select * from tbl_firstTime";
+        Cursor c = mdb.rawQuery(query,null);
+        if(c.getCount() == 0)
+        {
+            Log.d("JKS", "This is first time start");
+            query = "insert into tbl_firstTime (started) values(1)";
+            mdb.execSQL(query);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
 
-                Intent i = new Intent(BlastersSplash.this, BlastersMain.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(i);
+                    Intent i = new Intent(BlastersSplash.this, PreviewActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(i);
 
-            }
-        }, 2000);
+                }
+            }, 2000);
+        }
+        else {
+            Log.d("JKS", "This is not the first that the application is runnnig");
 
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Intent i = new Intent(BlastersSplash.this, BlastersMain.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(i);
+
+                }
+            }, 2000);
+        }
+        mdb.close();
 
     }
     private boolean isNetworkAvailable() {

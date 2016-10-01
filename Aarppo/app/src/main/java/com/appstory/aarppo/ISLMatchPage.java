@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -63,6 +64,7 @@ public class ISLMatchPage extends Fragment {
     Handler handler = new Handler();
     long driftTime = 0L;
 
+    SQLiteDatabase mdb;
 Date matchDate;
     private OnFragmentInteractionListener mListener;
 
@@ -267,9 +269,25 @@ Date matchDate;
         CheckBox chk8 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo8);
 
         query = "Select * from tbl_AARPO WHERE sched_id="+mId;
-        Cursor aarpo =  db.selectData(query);
+        //
+      //  Cursor aarpo =  getChecklistDate(getActivity(),mId);
+
+        getChecklistDate(getActivity(),mId);
+        Cursor aarpo  = mdb.rawQuery(query,null);
+
+
+Log.d("JKS","Set check box");
+
         if (aarpo != null) {
             while (aarpo.moveToNext()) {
+                Log.d("JKS","id:"+ aarpo.getString(0)+
+                        " data: "+ aarpo.getString(1)+
+                        " data: "+ aarpo.getString(2)+
+                        " data: "+ aarpo.getString(3)+
+                        " data: "+ aarpo.getString(4)+
+                        " data: "+ aarpo.getString(5)+
+                        " data: "+ aarpo.getString(6)+
+                        " data: "+ aarpo.getString(7));
                 if(aarpo.getInt(1) == 1)
                     chk1.setChecked(true);
                 else
@@ -305,7 +323,8 @@ Date matchDate;
             }
 
         }
-
+        else
+Log.d("JKS", "Cursor came as null");
         db.closeConnection();
 
 
@@ -314,9 +333,6 @@ Date matchDate;
             @Override
             public void onClick(View v) {
                 String query;
-                AarpoDb db = new AarpoDb();
-                db.openConnection();
-
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
                     Log.d("JKS","Checked");
@@ -327,8 +343,7 @@ Date matchDate;
                     query = "UPDATE tbl_AARPO SET aarpo1=0 WHERE sched_id="+mId;
                 }
                 Log.d("JKS","query="+query);
-                db.insertData(query);
-                db.closeConnection();
+                updateCheckListData(getActivity(), query,mId);
             }
         });
         chk2.setOnClickListener(new View.OnClickListener() {
@@ -336,9 +351,6 @@ Date matchDate;
             @Override
             public void onClick(View v) {
                 String query;
-                AarpoDb db = new AarpoDb();
-                db.openConnection();
-
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
                     Log.d("JKS","Checked");
@@ -349,8 +361,7 @@ Date matchDate;
                     query = "UPDATE tbl_AARPO SET aarpo2=0 WHERE sched_id="+mId;
                 }
                 Log.d("JKS","query="+query);
-                db.insertData(query);
-                db.closeConnection();
+                updateCheckListData(getActivity(), query,mId);
             }
         });
         chk3.setOnClickListener(new View.OnClickListener() {
@@ -358,9 +369,6 @@ Date matchDate;
             @Override
             public void onClick(View v) {
                 String query;
-                AarpoDb db = new AarpoDb();
-                db.openConnection();
-
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
                     Log.d("JKS","Checked");
@@ -371,8 +379,7 @@ Date matchDate;
                     query = "UPDATE tbl_AARPO SET aarpo3=0 WHERE sched_id="+mId;
                 }
                 Log.d("JKS","query="+query);
-                db.insertData(query);
-                db.closeConnection();
+                updateCheckListData(getActivity(), query,mId);
             }
         });
         chk4.setOnClickListener(new View.OnClickListener() {
@@ -380,9 +387,6 @@ Date matchDate;
             @Override
             public void onClick(View v) {
                 String query;
-                AarpoDb db = new AarpoDb();
-                db.openConnection();
-
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
                     Log.d("JKS","Checked");
@@ -393,8 +397,7 @@ Date matchDate;
                     query = "UPDATE tbl_AARPO SET aarpo4=0 WHERE sched_id="+mId;
                 }
                 Log.d("JKS","query="+query);
-                db.insertData(query);
-                db.closeConnection();
+                updateCheckListData(getActivity(), query,mId);
             }
         });
         chk5.setOnClickListener(new View.OnClickListener() {
@@ -402,9 +405,6 @@ Date matchDate;
             @Override
             public void onClick(View v) {
                 String query;
-                AarpoDb db = new AarpoDb();
-                db.openConnection();
-
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
                     Log.d("JKS","Checked");
@@ -415,8 +415,7 @@ Date matchDate;
                     query = "UPDATE tbl_AARPO SET aarpo5=0 WHERE sched_id="+mId;
                 }
                 Log.d("JKS","query="+query);
-                db.insertData(query);
-                db.closeConnection();
+                updateCheckListData(getActivity(), query,mId);
             }
         });
         chk6.setOnClickListener(new View.OnClickListener() {
@@ -424,9 +423,6 @@ Date matchDate;
             @Override
             public void onClick(View v) {
                 String query;
-                AarpoDb db = new AarpoDb();
-                db.openConnection();
-
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
                     Log.d("JKS","Checked");
@@ -437,8 +433,7 @@ Date matchDate;
                     query = "UPDATE tbl_AARPO SET aarpo6=0 WHERE sched_id="+mId;
                 }
                 Log.d("JKS","query="+query);
-                db.insertData(query);
-                db.closeConnection();
+                updateCheckListData(getActivity(), query,mId);
             }
         });
         chk7.setOnClickListener(new View.OnClickListener() {
@@ -446,9 +441,6 @@ Date matchDate;
             @Override
             public void onClick(View v) {
                 String query;
-                AarpoDb db = new AarpoDb();
-                db.openConnection();
-
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
                     Log.d("JKS","Checked");
@@ -459,8 +451,7 @@ Date matchDate;
                     query = "UPDATE tbl_AARPO SET aarpo7=0 WHERE sched_id="+mId;
                 }
                 Log.d("JKS","query="+query);
-                db.insertData(query);
-                db.closeConnection();
+                updateCheckListData(getActivity(), query,mId);
             }
         });
         chk8.setOnClickListener(new View.OnClickListener() {
@@ -468,9 +459,6 @@ Date matchDate;
             @Override
             public void onClick(View v) {
                 String query;
-                AarpoDb db = new AarpoDb();
-                db.openConnection();
-
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
                     Log.d("JKS","Checked");
@@ -481,14 +469,85 @@ Date matchDate;
                     query = "UPDATE tbl_AARPO SET aarpo8=0 WHERE sched_id="+mId;
                 }
                 Log.d("JKS","query="+query);
-                db.insertData(query);
-                db.closeConnection();
+                updateCheckListData(getActivity(), query,mId);
             }
         });
 
         return rootView;
     }
 
+    public Cursor  getChecklistDate(Context Ctx, String id)
+    {
+        Log.d("JKS","open or create databse");
+         mdb = Ctx.openOrCreateDatabase("menZworldDB", Context.MODE_PRIVATE, null);
+        mdb.execSQL("CREATE TABLE IF NOT EXISTS tbl_AARPO(sched_id INTEGER, "+
+                " aarpo1 INTEGER NOT NULL ,"+
+                " aarpo2 INTEGER NOT NULL," +
+                " aarpo3 INTEGER NOT NULL," +
+                " aarpo4 INTEGER NOT NULL," +
+                " aarpo5 INTEGER NOT NULL," +
+                " aarpo6 INTEGER NOT NULL," +
+                " aarpo7 INTEGER NOT NULL," +
+                " aarpo8 INTEGER NOT NULL)");
+        Cursor c3 = mdb.rawQuery("SELECT * FROM tbl_AARPO", null);
+        if(c3.getCount() == 0) {
+            Log.d("JKS ", "table is empty fill data first");
+            AarpoDb db =new AarpoDb();
+            db.openConnection();
+
+            String query = "SELECT sched_id FROM tbl_schedule";
+            Cursor c = db.selectData(query);
+            for(int i = 0; i <= c.getCount();i++) {
+                query = "INSERT INTO tbl_AARPO (sched_id,aarpo1,aarpo2,aarpo3,aarpo4,aarpo5,aarpo6,aarpo7,aarpo8) values("+i+",1,1,1,1,1,1,1,1)";
+                mdb.execSQL(query);
+            }
+            db.closeConnection();
+        }
+        else Log.d("JKS","data exits");
+        String query = "Select * from tbl_AARPO WHERE sched_id="+mId;
+        Cursor c2 = mdb.rawQuery(query,null);
+
+        Log.d("JKS","Cursor size=0"+c2.getCount());
+        if(c2 != null)
+        {
+
+            Log.d("JKS","Cursor size=0"+c2.getCount());
+            while(c2.moveToNext())
+            {
+                Log.d("JKS","id:"+ c2.getString(0)+
+                        " data: "+ c2.getString(1)+
+                        " data: "+ c2.getString(2)+
+                        " data: "+ c2.getString(3)+
+                        " data: "+ c2.getString(4)+
+                        " data: "+ c2.getString(5)+
+                        " data: "+ c2.getString(6)+
+                        " data: "+ c2.getString(7));
+            }
+        }
+        else Log.d("JKS","Cursor came as null");
+        return  c2;
+    }
+    void updateCheckListData(Context Ctx, String query ,String id)
+    {
+         mdb = Ctx.openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
+        mdb.execSQL(query);
+        String query2 = "Select * from tbl_AARPO WHERE sched_id="+id;
+        Cursor c2 = mdb.rawQuery(query2,null);
+        if(c2 != null)
+        {
+            while(c2.moveToNext())
+            {
+                Log.d("JKS","AFTER UPDATE id:"+ c2.getString(0)+
+                        " data: "+ c2.getString(1)+
+                        " data: "+ c2.getString(2)+
+                        " data: "+ c2.getString(3)+
+                        " data: "+ c2.getString(4)+
+                        " data: "+ c2.getString(5)+
+                        " data: "+ c2.getString(6)+
+                        " data: "+ c2.getString(7));
+            }
+        }
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
