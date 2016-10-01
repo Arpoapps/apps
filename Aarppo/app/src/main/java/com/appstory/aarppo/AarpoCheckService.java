@@ -151,7 +151,7 @@ public class AarpoCheckService extends Service {
                             long mins = TimeUnit.MILLISECONDS.toMinutes(diffTime_Match) % 60;
                             long secs = TimeUnit.MILLISECONDS.toSeconds(diffTime_Match) % 60;
                             Log.d("JKS", days + "days =" + hours + " hours = " + mins + "mins = " + secs+ "seconds to sync" );
-                            if (days == 0 && hours == 0 && mins == 0 && secs <= 25) {
+                            if (days == 0 && hours == 0 && mins == 0 && secs <= 15) {
                                 if(intentCalled == false) {
                                     Intent i = new Intent(AarpoCheckService.this, AarpoBlast.class);
                                     i.putExtra("timeLeft", diffTime);
@@ -183,7 +183,7 @@ public class AarpoCheckService extends Service {
                             long mins = TimeUnit.MILLISECONDS.toMinutes(diffTime_Match) % 60;
                             long secs = TimeUnit.MILLISECONDS.toSeconds(diffTime_Match) % 60;
                             Log.d("JKS", days + "days =" + hours + " hours = " + mins + "mins = " + secs+ "seconds=" );
-                            if (days == 0 && hours == 0 && mins == 0 && secs <= 25) {
+                            if (days == 0 && hours == 0 && mins == 0 && secs <= 15) {
                                 if(intentCalled == false) {
                                     Intent i = new Intent(AarpoCheckService.this, AarpoBlast.class);
                                     i.putExtra("timeLeft", diffTime);
