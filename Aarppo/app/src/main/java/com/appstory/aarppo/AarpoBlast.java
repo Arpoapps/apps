@@ -123,6 +123,15 @@ public class AarpoBlast extends AppCompatActivity {
     private void Initial()
     {
         mp = MediaPlayer.create(this, R.raw.song);
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
+        public void onCompletion(MediaPlayer mp)
+        {
+            Log.d("JKS","Exit mediaplayer");
+            mp.stop();
+            handler.removeCallbacks(runnable);
+            finish();
+        }
+    });
         handler = new Handler();
         runnable=new Runnable() {
             @Override
