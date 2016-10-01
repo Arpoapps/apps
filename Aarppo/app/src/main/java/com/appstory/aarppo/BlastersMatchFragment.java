@@ -73,6 +73,30 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    boolean isMatchOver(String id)
+    {
+        String query = "select date_time from tbl_schedule WHERE sched_id="+id;
+        //Log.d("JKS", "querry  =" +query);
+        Date matchDate = new Date();
+        AarpoDb db = new AarpoDb();
+        db.openConnection();
+        Cursor crsor = db.selectData(query);
+        while (crsor.moveToNext())
+        {
+            try {
+                SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                matchDate = dateformat.parse(crsor.getString(0));
+            } catch (ParseException ex) {
+
+            }
+        }
+        Date dt = new Date();
+
+        long diffTime_Match = matchDate.getTime() - dt.getTime();
+        if(diffTime_Match < 0)
+           return  true;
+        else return  false;
+    }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String fid = list1.get(position).getId();
@@ -81,18 +105,21 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
 
         Fragment fragment = null;
 
-        try {
-            Bundle bundle = new Bundle();
-            bundle.putString("id", fid);
-            fragment = (Fragment) fragmentClass.newInstance();
-            fragment.setArguments(bundle);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(!isMatchOver(fid)) {
+
+            try {
+                Bundle bundle = new Bundle();
+                bundle.putString("id", fid);
+                fragment = (Fragment) fragmentClass.newInstance();
+                fragment.setArguments(bundle);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.flContent, fragment, "NewFragmentTag");
+            ft.addToBackStack(null);
+            ft.commit();
         }
-        final FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.flContent, fragment, "NewFragmentTag");
-        ft.addToBackStack(null);
-        ft.commit();
 
     }
         private  String getTeamName(int teamId)
