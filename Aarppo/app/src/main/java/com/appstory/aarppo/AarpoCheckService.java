@@ -313,7 +313,7 @@ public class AarpoCheckService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+
 
         Log.d("JKS","Start Service");
         // For each start request, send a message to start a job and deliver the
@@ -335,6 +335,6 @@ public class AarpoCheckService extends Service {
     @Override
     public void onDestroy() {
         Log.d("JKS","Service stopned");
-        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
+
     }
 }
