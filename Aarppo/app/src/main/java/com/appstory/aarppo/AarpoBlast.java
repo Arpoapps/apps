@@ -34,6 +34,8 @@ public class AarpoBlast extends AppCompatActivity {
     long matchTime;
     boolean donotplay = false;
 
+    int vibrateLoop = 5;
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -101,7 +103,17 @@ public class AarpoBlast extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+
+
+        final Window win= getWindow();
+        win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED,WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD,WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         setContentView(R.layout.activity_aarpo_blast);
+
         donotplay = false;
         txtCountDown = (TextView)findViewById(R.id.txt_counter_cheer);
         txtarpo= (TextView) findViewById(R.id.textarpo);
@@ -121,7 +133,7 @@ public class AarpoBlast extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                int vibrateLoop = 5;
+                 vibrateLoop = 5;
                 int vibrateDuration = 1000;
                 for(int i = 0; i < vibrateLoop ; i++)
                 {
@@ -182,6 +194,7 @@ public class AarpoBlast extends AppCompatActivity {
             mp.stop();
             handler.removeCallbacks(runnable);
         }
+        vibrateLoop = 0;
     }
 
     public void changeColor() {
