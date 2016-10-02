@@ -1,5 +1,6 @@
 package com.appstory.aarppo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,6 +25,19 @@ public class PreviewActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent i = new Intent(PreviewActivity.this, BlastersMain.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(i);
+        // code here to show dialog
+        super.onBackPressed();  // optional depending on your needs
+
     }
 
 }
