@@ -5,7 +5,7 @@
         <item
             android:id="@+id/nav_match_blasters"
             android:icon="@drawable/ic_star"
-            android:title="Blasters' Match" />
+            android:title="Blasters' Schedule" />
         <item
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_assignment"
@@ -29,7 +29,7 @@
             <item
                 android:id="@+id/nav_contact"
                 android:icon="@drawable/ic_business"
-                android:title="Contact Us" />
+                android:title="Developers" />
             <item
                 android:id="@+id/nav_credit"
                 android:icon="@drawable/ic_assignment"
