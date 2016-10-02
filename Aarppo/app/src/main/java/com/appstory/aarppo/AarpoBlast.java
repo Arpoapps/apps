@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -117,6 +118,32 @@ public class AarpoBlast extends AppCompatActivity {
         timeLeft =secs;
         handler2 = new Handler();
         handler2.postDelayed(updateTimer, 1000);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int vibrateLoop = 5;
+                int vibrateDuration = 1000;
+                for(int i = 0; i < vibrateLoop ; i++)
+                {
+                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    // Vibrate for 500 milliseconds
+                    v.vibrate(vibrateDuration);
+                    try {
+                        Thread.sleep(2000);
+                    }
+                    catch (InterruptedException ex)
+                    {
+
+                    }
+
+                }
+
+
+            }
+        });
+
+        thread.start();
+
         //*********SCREEN WAKE CODE *******
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }

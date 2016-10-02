@@ -1,8 +1,10 @@
 package com.appstory.aarppo;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -46,6 +48,7 @@ public class FlashScreen extends AppCompatActivity {
     private void Initial()
     {
         mp = MediaPlayer.create(this, R.raw.song);
+        strted = true;
         handler = new Handler();
         runnable=new Runnable() {
             @Override
