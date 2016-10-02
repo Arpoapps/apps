@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AarpoBlast extends AppCompatActivity {
     long timeLeft;
-    TextView txtCountDown;// = (TextView)findViewById(R.id.txt_counter_cheer);
+    TextView txtCountDown,txtarpo;// = (TextView)findViewById(R.id.txt_counter_cheer);
 
     Handler handler2;
     Boolean bool = false;
@@ -71,6 +71,7 @@ public class AarpoBlast extends AppCompatActivity {
             {
                 handler2.removeCallbacks(updateTimer);
                 txtCountDown.setVisibility(View.GONE);
+                txtarpo.setVisibility(View.GONE);
 
                 dhandler= new Handler();
                 dhandler.postDelayed(new Runnable() {
@@ -102,7 +103,7 @@ public class AarpoBlast extends AppCompatActivity {
         setContentView(R.layout.activity_aarpo_blast);
         donotplay = false;
         txtCountDown = (TextView)findViewById(R.id.txt_counter_cheer);
-
+        txtarpo= (TextView) findViewById(R.id.textarpo);
 
         matchTime = getIntent().getLongExtra("todaysGameTime",0);
         Date dt= getDateNow();
@@ -110,9 +111,9 @@ public class AarpoBlast extends AppCompatActivity {
         long diffTime_Match = matchTime - dt.getTime();
         long secs = TimeUnit.MILLISECONDS.toSeconds(diffTime_Match) % 60;
 
-       // mP=new MediaPlayer();
+        // mP=new MediaPlayer();
 
-      //  timeLeft = getIntent().getIntExtra("timeLeft",0);
+        //  timeLeft = getIntent().getIntExtra("timeLeft",0);
         timeLeft =secs;
         handler2 = new Handler();
         handler2.postDelayed(updateTimer, 1000);
@@ -124,14 +125,14 @@ public class AarpoBlast extends AppCompatActivity {
     {
         mp = MediaPlayer.create(this, R.raw.song);
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
-        public void onCompletion(MediaPlayer mp)
-        {
-            Log.d("JKS","Exit mediaplayer");
-            mp.stop();
-            handler.removeCallbacks(runnable);
-            finish();
-        }
-    });
+            public void onCompletion(MediaPlayer mp)
+            {
+                Log.d("JKS","Exit mediaplayer");
+                mp.stop();
+                handler.removeCallbacks(runnable);
+                finish();
+            }
+        });
         handler = new Handler();
         runnable=new Runnable() {
             @Override

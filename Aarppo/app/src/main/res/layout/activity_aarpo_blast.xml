@@ -9,14 +9,27 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:id="@+id/flashscreen"
     tools:context="com.appstory.aarppo.AarpoBlast">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ARPO COUNT DOWN"
+        android:textSize="25sp"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/textarpo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="95dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
         android:id="@+id/txt_counter_cheer"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="106dp"
-        android:textSize="40sp" />
+        android:textSize="70sp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+
 </RelativeLayout>

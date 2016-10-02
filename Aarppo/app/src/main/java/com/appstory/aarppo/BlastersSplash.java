@@ -20,6 +20,8 @@ import java.util.concurrent.TimeUnit;
 public class BlastersSplash extends AppCompatActivity {
 
     public static long ClockdriftTime = 0;
+    Handler handler;
+    Runnable runnable;
     public static long getTimeDelay()
     {
         return ClockdriftTime;
@@ -81,7 +83,8 @@ public class BlastersSplash extends AppCompatActivity {
             Log.d("JKS", "This is first time start");
             query = "insert into tbl_firstTime (started) values(1)";
             mdb.execSQL(query);
-            new Handler().postDelayed(new Runnable() {
+            handler = new Handler();
+           runnable = new Runnable() {
                 @Override
                 public void run() {
 
@@ -92,13 +95,14 @@ public class BlastersSplash extends AppCompatActivity {
                     startActivity(i);
 
                 }
-            }, 2000);
+            };
+            handler.postDelayed(runnable,2000);
         }
         else {
             Log.d("JKS", "This is not the first that the application is runnnig");
 
-
-            new Handler().postDelayed(new Runnable() {
+            handler=new Handler();
+            runnable=new Runnable() {
                 @Override
                 public void run() {
 
@@ -120,11 +124,17 @@ public class BlastersSplash extends AppCompatActivity {
                     }
 
                 }
-            }, 2000);
+            };
+            handler.postDelayed(runnable,2000);
         }
         mdb.close();
 
     }
+    public void onBackPressed() {
+        super.onBackPressed();
+        handler.removeCallbacks(runnable);
+    }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);

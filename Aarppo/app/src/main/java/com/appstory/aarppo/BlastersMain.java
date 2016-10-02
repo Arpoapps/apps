@@ -1,5 +1,6 @@
 package com.appstory.aarppo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -77,16 +79,6 @@ public class BlastersMain extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.blasters_main, menu);
@@ -153,4 +145,45 @@ public class BlastersMain extends AppCompatActivity
         //you can leave it empty
     }
 
+
+    //**********LOGOUT CODE***********
+
+
+
+    public void logout() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        BlastersMain.this.finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+
+    }
+
+
+    //******* BACK KEY PRESS CODE*********
+
+
+    @Override
+    public void onBackPressed() {
+        Fragment ft= getSupportFragmentManager().findFragmentById(R.id.flContent);
+        if(ft instanceof BlastersMatchFragment)
+        {    if(drawer.isDrawerOpen(GravityCompat.START))
+        { drawer.closeDrawers();}
+        else{  logout();}
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
 }
