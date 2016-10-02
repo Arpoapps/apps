@@ -49,7 +49,12 @@
         <activity
             android:name=".PreviewActivity"
             android:label="@string/title_activity_preview"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".FlashScreen"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

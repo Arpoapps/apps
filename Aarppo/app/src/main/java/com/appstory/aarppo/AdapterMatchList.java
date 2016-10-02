@@ -2,6 +2,7 @@ package com.appstory.aarppo;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,14 @@ public class AdapterMatchList extends BaseAdapter {
     Context context;
     List<MatchList> list1;
     //List<Integer> img;
+    Typeface mTypeFace;
 
     public AdapterMatchList(Context context, List<MatchList> list1){
         this.context=context;
         this.list1=list1;
         //this.list1=list1;
         //this.img=img;
+        mTypeFace =  Typeface.createFromAsset(context.getAssets(), "fonts/century-gothic.ttf");
     }
 
 
@@ -123,6 +126,7 @@ public class AdapterMatchList extends BaseAdapter {
             viewHolder=new ViewHolder();
             convertView= LayoutInflater.from(context).inflate(R.layout.custom_list_match_schedule, null, false);
             viewHolder.tv1=(TextView)convertView.findViewById(R.id.tv_name);
+
             //viewHolder.img=(ImageView)convertView.findViewById(R.id.img);
             viewHolder.team1=(TextView)convertView.findViewById(R.id.team1);
             viewHolder.team2=(TextView) convertView.findViewById(R.id.team2);
@@ -131,6 +135,14 @@ public class AdapterMatchList extends BaseAdapter {
             viewHolder.month=(TextView) convertView.findViewById(R.id.txt_mnth);
             viewHolder.img_team1=(ImageView) convertView.findViewById(R.id.img_team1);
             viewHolder.img_team2=(ImageView) convertView.findViewById(R.id.img_team2);
+
+            viewHolder.tv1.setTypeface(mTypeFace);
+            viewHolder.team1.setTypeface(mTypeFace);
+            viewHolder.team2.setTypeface(mTypeFace);
+            viewHolder.place.setTypeface(mTypeFace);
+            viewHolder.time.setTypeface(mTypeFace);
+            viewHolder.month.setTypeface(mTypeFace);
+
 
             viewHolder.team1.setText(list1.get(position).getTeam1());
             viewHolder.team2.setText(list1.get(position).getTeam2());
@@ -149,6 +161,13 @@ public class AdapterMatchList extends BaseAdapter {
         }
 
         //viewHolder.img.setImageResource(list1.get(position).getImg());
+        viewHolder.tv1.setTypeface(mTypeFace);
+        viewHolder.team1.setTypeface(mTypeFace);
+        viewHolder.team2.setTypeface(mTypeFace);
+        viewHolder.place.setTypeface(mTypeFace);
+        viewHolder.time.setTypeface(mTypeFace);
+        viewHolder.month.setTypeface(mTypeFace);
+
         viewHolder.tv1.setText(list1.get(position).getName());
         viewHolder.team1.setText(list1.get(position).getTeam1());
         viewHolder.team2.setText(list1.get(position).getTeam2());
