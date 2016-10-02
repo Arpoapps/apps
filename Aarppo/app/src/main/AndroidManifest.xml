@@ -44,7 +44,8 @@
         <activity
             android:name=".PreviewActivity"
             android:label="@string/title_activity_preview"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".FlashScreen"></activity>
     </application>
 
 </manifest>

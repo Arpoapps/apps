@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.os.SystemClock;
 import android.provider.Settings;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -472,7 +473,13 @@ Log.d("JKS", "Cursor came as null");
                 updateCheckListData(getActivity(), query,mId);
             }
         });
-
+        FloatingActionButton myFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), FlashScreen.class);
+                getActivity().startActivity(i);
+            }
+        });
         return rootView;
     }
 
