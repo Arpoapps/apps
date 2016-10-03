@@ -49,7 +49,8 @@
             android:name=".FlashScreen"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
-        <activity android:name=".flash_only_screen"></activity>
+        <activity android:name=".flash_only_screen"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

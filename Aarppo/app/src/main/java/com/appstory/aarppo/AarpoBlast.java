@@ -19,6 +19,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -70,10 +72,19 @@ public class AarpoBlast extends AppCompatActivity {
 
             handler2.postDelayed(this, 1000);
 
+            if(timeLeft<0)
+            {
+                handler2.removeCallbacks(updateTimer);
+                txtCountDown.setVisibility(View.GONE);
+                finish();
+            }
+
             if(timeLeft == 0 && donotplay == false)
             {
                 handler2.removeCallbacks(updateTimer);
                 txtCountDown.setVisibility(View.GONE);
+                TextView seconds = (TextView)findViewById(R.id.textView2);
+                seconds.setVisibility(View.GONE);
                 txtarpo.setVisibility(View.GONE);
 
                 dhandler= new Handler();
@@ -83,6 +94,7 @@ public class AarpoBlast extends AppCompatActivity {
                         Initial();
                     }
                 },0);
+
 
             }
 

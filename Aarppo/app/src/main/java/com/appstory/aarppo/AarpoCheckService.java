@@ -41,8 +41,8 @@ public class AarpoCheckService extends Service {
     boolean intentCalled;
 
     int syncIndex;
-    int syncArray[]= {10, 20, 30, 45, 60, 75, 80, 85, 90};
-    int MAX_SIZE = 9;
+    int syncArray[]= {20, 30, 45, 65, 90};
+    int MAX_SIZE = 5;
 
 
     private ServiceHandler mServiceHandler;
@@ -121,37 +121,24 @@ public class AarpoCheckService extends Service {
                         {
                             Log.d("JKS ","Match is going on :: lets sync");
 
+                            createDbIfnotExists();
                             SQLiteDatabase mdb = openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
-                            mdb.execSQL("CREATE TABLE IF NOT EXISTS tbl_AARPO(sched_id INTEGER, "+
-                                    " aarpo1 INTEGER NOT NULL ,"+
-                                    " aarpo2 INTEGER NOT NULL," +
-                                    " aarpo3 INTEGER NOT NULL," +
-                                    " aarpo4 INTEGER NOT NULL," +
-                                    " aarpo5 INTEGER NOT NULL," +
-                                    " aarpo6 INTEGER NOT NULL," +
-                                    " aarpo7 INTEGER NOT NULL," +
-                                    " aarpo8 INTEGER NOT NULL)");
+
                             Cursor c3 = mdb.rawQuery("SELECT * FROM tbl_AARPO WHERE sched_id="+todaysGameId, null);
                             int arpo1 = 0;
                             int arpo2 = 0;
                             int arpo3 = 0;
                             int arpo4 = 0;
                             int arpo5 = 0;
-                            int arpo6 = 0;
-                            int arpo7 = 0;
-                            int arpo8 = 0;
                             if (c3!= null)
                             {
                                 while (c3.moveToNext())
                                 {
-                                    arpo1 = c3.getInt(1);
-                                    arpo2 = c3.getInt(2);
-                                    arpo3 = c3.getInt(3);
-                                    arpo4 = c3.getInt(4);
-                                    arpo5 = c3.getInt(5);
-                                    arpo6 = c3.getInt(6);
-                                    arpo7 = c3.getInt(7);
-                                    arpo8 = c3.getInt(8);
+                                    arpo1 = c3.getInt(2);
+                                    arpo2 = c3.getInt(3);
+                                    arpo3 = c3.getInt(4);
+                                    arpo4 = c3.getInt(5);
+                                    arpo5 = c3.getInt(6);
                                 }
                             }
                             mdb.close();
@@ -177,7 +164,7 @@ public class AarpoCheckService extends Service {
 
                             }
 
-                            Log.d("JKS","Syncsettings "+arpo1+":"+arpo2+":"+arpo3+":"+arpo4+":"+arpo5+":"+arpo6+":"+arpo7+":"+arpo8+":");
+                            Log.d("JKS","Syncsettings "+arpo1+":"+arpo2+":"+arpo3+":"+arpo4+":"+arpo5);
                             if(syncIndex == 0 && arpo1 ==0)
                             {
                                 syncIndex++;
@@ -195,18 +182,6 @@ public class AarpoCheckService extends Service {
                                 syncIndex++;
                             }
                             else if(syncIndex == 4 && arpo5 ==0)
-                            {
-                                syncIndex++;
-                            }
-                            else if(syncIndex == 5 && arpo6 ==0)
-                            {
-                                syncIndex++;
-                            }
-                            else if(syncIndex == 6 && arpo7 ==0)
-                            {
-                                syncIndex++;
-                            }
-                            else if(syncIndex == 7 && arpo8 ==0)
                             {
                                 syncIndex++;
                             }
@@ -241,7 +216,9 @@ public class AarpoCheckService extends Service {
                         {
                             Log.d("JKS","Blasters match is over WAIT TILL next match");
                         }
-                        else {
+                        else if(whisleTimeEnabled())
+                        {
+
                             Date netWorkTime = getDateNow();
                             SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                             Log.d("JKS", "Today " + df.format(todaysMatchTime) + " now = " + df.format(netWorkTime));
@@ -276,6 +253,8 @@ public class AarpoCheckService extends Service {
                             }
                             else intentCalled = false;
                         }
+                        else
+                            Log.d("JKS","Blasters playing today, but not syncing at whislet time");
                     }
                     else Log.d("JKS","Blasters not playing today");
 
@@ -291,6 +270,53 @@ public class AarpoCheckService extends Service {
             }//stopSelf(msg.arg1);
 
         }
+    }
+
+    private void createDbIfnotExists()
+    {
+        SQLiteDatabase mdb = openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
+        mdb.execSQL("CREATE TABLE IF NOT EXISTS tbl_AARPO(sched_id INTEGER, "+
+                " aarpo1 INTEGER NOT NULL ,"+
+                " aarpo2 INTEGER NOT NULL," +
+                " aarpo3 INTEGER NOT NULL," +
+                " aarpo4 INTEGER NOT NULL," +
+                " aarpo5 INTEGER NOT NULL," +
+                " aarpo6 INTEGER NOT NULL)");
+        Cursor c4 = mdb.rawQuery("SELECT * FROM tbl_AARPO", null);
+        if(c4.getCount() == 0) {
+            Log.d("JKS ", "table is empty fill data first");
+            AarpoDb db =new AarpoDb();
+            db.openConnection();
+
+            String query = "SELECT sched_id FROM tbl_schedule";
+            Cursor c = db.selectData(query);
+            for(int i = 0; i <= c.getCount();i++) {
+                query = "INSERT INTO tbl_AARPO (sched_id,aarpo1,aarpo2,aarpo3,aarpo4,aarpo5,aarpo6) values("+i+",1,1,1,1,1,1)";
+                mdb.execSQL(query);
+            }
+            db.closeConnection();
+        }
+        mdb.close();
+    }
+    private  boolean whisleTimeEnabled()
+    {
+        createDbIfnotExists();
+        SQLiteDatabase mdb = openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
+
+        Cursor c3 = mdb.rawQuery("SELECT * FROM tbl_AARPO WHERE sched_id="+todaysGameId, null);
+        int arpo1 = 0;
+
+        if (c3!= null)
+        {
+            while (c3.moveToNext())
+            {
+                arpo1 = c3.getInt(1);
+            }
+        }
+
+        mdb.close();
+        if(arpo1 == 1) return true;
+        else return  false;
     }
 
     private  boolean matchGoingOn()

@@ -98,7 +98,7 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="6:58 PM"
+            android:text="whistle time"
             android:id="@+id/chk_Aarpo1"
             android:checked="false"
             android:textColor="#ffffff"

@@ -345,9 +345,7 @@ Log.d("JKS","Set check box");
                         " data: "+ aarpo.getString(2)+
                         " data: "+ aarpo.getString(3)+
                         " data: "+ aarpo.getString(4)+
-                        " data: "+ aarpo.getString(5)+
-                        " data: "+ aarpo.getString(6)+
-                        " data: "+ aarpo.getString(7));
+                        " data: "+ aarpo.getString(5));
                 if(aarpo.getInt(1) == 1)
                     chk1.setChecked(true);
                 else
@@ -372,7 +370,7 @@ Log.d("JKS","Set check box");
                     chk6.setChecked(true);
                 else
                     chk6.setChecked(false);*/
-                if(aarpo.getInt(7) == 1)
+                if(aarpo.getInt(6) == 1)
                     chk7.setChecked(true);
                 else
                     chk7.setChecked(false);
@@ -504,11 +502,11 @@ Log.d("JKS", "Cursor came as null");
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
                     Log.d("JKS","Checked");
-                    query = "UPDATE tbl_AARPO SET aarpo7=1 WHERE sched_id="+mId;
+                    query = "UPDATE tbl_AARPO SET aarpo6=1 WHERE sched_id="+mId;
                 }
                 else
                 {
-                    query = "UPDATE tbl_AARPO SET aarpo7=0 WHERE sched_id="+mId;
+                    query = "UPDATE tbl_AARPO SET aarpo6=0 WHERE sched_id="+mId;
                 }
                 Log.d("JKS","query="+query);
                 updateCheckListData(getActivity(), query,mId);
@@ -552,9 +550,7 @@ Log.d("JKS", "Cursor came as null");
                 " aarpo3 INTEGER NOT NULL," +
                 " aarpo4 INTEGER NOT NULL," +
                 " aarpo5 INTEGER NOT NULL," +
-                " aarpo6 INTEGER NOT NULL," +
-                " aarpo7 INTEGER NOT NULL," +
-                " aarpo8 INTEGER NOT NULL)");
+                " aarpo6 INTEGER NOT NULL)");
         Cursor c3 = mdb.rawQuery("SELECT * FROM tbl_AARPO", null);
         if(c3.getCount() == 0) {
             Log.d("JKS ", "table is empty fill data first");
@@ -564,7 +560,7 @@ Log.d("JKS", "Cursor came as null");
             String query = "SELECT sched_id FROM tbl_schedule";
             Cursor c = db.selectData(query);
             for(int i = 0; i <= c.getCount();i++) {
-                query = "INSERT INTO tbl_AARPO (sched_id,aarpo1,aarpo2,aarpo3,aarpo4,aarpo5,aarpo6,aarpo7,aarpo8) values("+i+",1,1,1,1,1,1,1,1)";
+                query = "INSERT INTO tbl_AARPO (sched_id,aarpo1,aarpo2,aarpo3,aarpo4,aarpo5,aarpo6) values("+i+",1,1,1,1,1,1)";
                 mdb.execSQL(query);
             }
             db.closeConnection();
@@ -585,9 +581,7 @@ Log.d("JKS", "Cursor came as null");
                         " data: "+ c2.getString(2)+
                         " data: "+ c2.getString(3)+
                         " data: "+ c2.getString(4)+
-                        " data: "+ c2.getString(5)+
-                        " data: "+ c2.getString(6)+
-                        " data: "+ c2.getString(7));
+                        " data: "+ c2.getString(5));
             }
         }
         else Log.d("JKS","Cursor came as null");
@@ -610,9 +604,7 @@ Log.d("JKS", "Cursor came as null");
                         " data: "+ c2.getString(2)+
                         " data: "+ c2.getString(3)+
                         " data: "+ c2.getString(4)+
-                        " data: "+ c2.getString(5)+
-                        " data: "+ c2.getString(6)+
-                        " data: "+ c2.getString(7));
+                        " data: "+ c2.getString(5));
             }
         }
         mdb.close();

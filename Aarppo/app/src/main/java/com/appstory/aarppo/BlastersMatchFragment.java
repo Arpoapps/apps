@@ -156,10 +156,13 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
        // convert todays date to string
         //Date
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date dt = new Date();
+        Date now = new Date();
+        long time_diff = now.getTime() - 100 * 60 *1000;
+        Date dt = new Date(time_diff);
         String sysdate = formatter.format(dt);
-        String se = "select * from tbl_schedule WHERE team1=2 or team2=2 and date_time>="+"'"+sysdate+"'";
 
+        String se = "select * from tbl_schedule WHERE team1=2 or team2=2 and date_time>="+"'"+sysdate+"'";
+        Log.d("JKS","query ="+se);
         Log.d("JKS","sql query = "+se);
         Cursor c = db.selectData(se);
         if (c != null) {
