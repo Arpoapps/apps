@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 public class flash_only_screen extends AppCompatActivity {
 
@@ -17,6 +18,8 @@ public class flash_only_screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_flash_only_screen);
 
         dhandler= new Handler();
@@ -26,7 +29,8 @@ public class flash_only_screen extends AppCompatActivity {
                 Initial();
             }
         },1000);
-
+        //*********SCREEN WAKE CODE *******
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
     /*
