@@ -70,10 +70,7 @@ public class ISLMatchPage extends Fragment {
     SQLiteDatabase mdb;
 Date matchDate;
 
-    TextView hours;
-    TextView days ;
-    TextView mins;
-    TextView sec;
+
     TextView battle;
     TextView vs;
     TextView cheering_time;
@@ -132,10 +129,7 @@ Date matchDate;
             {
                 countDown.setTextSize(26);
                 countDown.setText("Let's cheer for Blasters");
-                hours.setText("     ");
-                days.setText("    ");
-                mins.setText("        ");
-                sec.setText("       ");
+
                 battle.setText("              ");
                 handler.removeCallbacks(updateTimer);
             }
