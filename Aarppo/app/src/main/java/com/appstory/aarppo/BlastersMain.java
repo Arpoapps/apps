@@ -23,7 +23,7 @@ import android.view.MenuItem;
 
 public class BlastersMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener , BlastersMatchFragment.OnFragmentInteractionListener,
-        SettingsPage.OnFragmentInteractionListener,MatchSchedule.OnFragmentInteractionListener, ISLMatchPage.OnFragmentInteractionListener, ContactUs.OnFragmentInteractionListener
+        SettingsPage.OnFragmentInteractionListener,MatchSchedule.OnFragmentInteractionListener, ISLMatchPage.OnFragmentInteractionListener, ContactUs.OnFragmentInteractionListener, HowToUse.OnFragmentInteractionListener
 {
 
     DrawerLayout drawer;
@@ -120,6 +120,9 @@ public class BlastersMain extends AppCompatActivity
             case R.id.nav_contact:
                 fragmentClass = ContactUs.class;
                 Log.d("JKS","Clicked on contact us");
+                break;
+            case R.id.nav_howtouse:
+                fragmentClass = HowToUse.class;
                 break;
 
             default:

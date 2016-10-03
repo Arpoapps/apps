@@ -1,0 +1,74 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="60sp"
+
+    android:layout_marginLeft="10sp"
+
+    android:layout_marginRight="10sp"
+    tools:context="com.appstory.aarppo.HowToUse">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|top">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select the arpo timings you want."
+            android:id="@+id/line1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="29dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The flash screen will be played with Arpo Blasters song automatically at the arpo timings you selected ."
+            android:id="@+id/line2"
+            android:layout_below="@+id/line1"
+            android:layout_alignStart="@+id/line1"
+            android:layout_marginTop="22dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You will be notified 10 seconds before every arpo with a countdown and vibration."
+            android:id="@+id/line3"
+            android:layout_below="@+id/line2"
+            android:layout_alignStart="@+id/line2"
+            android:layout_marginTop="26dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Then starts the drum roll..."
+            android:id="@+id/line4"
+            android:layout_below="@+id/line3"
+            android:layout_alignStart="@+id/line3"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="As simple as that! "
+            android:id="@+id/line5"
+            android:layout_below="@+id/line4"
+            android:layout_alignStart="@+id/line4"
+            android:layout_marginTop="28dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Just imagine, a gallery full of blasters fans waving their mobile screens bleeding Yellow and Blue! That too with a blasters arpo song! Wouldn’t that be awesome… or inspiring… or… mmm… awespiring?!"
+            android:id="@+id/line6"
+            android:layout_marginTop="39dp"
+            android:layout_below="@+id/line5"
+            android:layout_alignStart="@+id/line5" />
+    </RelativeLayout>
+</FrameLayout>
