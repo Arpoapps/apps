@@ -110,12 +110,15 @@ public class BlastersMain extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.nav_match_blasters:
                 fragmentClass = BlastersMatchFragment.class;
+                menuItem.setChecked(true);
                 break;
             case R.id.nav_schedule:
                 fragmentClass = MatchSchedule.class;
+                menuItem.setChecked(true);
                 break;
             case R.id.nav_settings:
                 fragmentClass = SettingsPage.class;
+                menuItem.setChecked(true);
                 break;
             case R.id.nav_contact:
                 fragmentClass = ContactUs.class;
@@ -123,6 +126,30 @@ public class BlastersMain extends AppCompatActivity
                 break;
             case R.id.nav_howtouse:
                 fragmentClass = HowToUse.class;
+                menuItem.setChecked(true);
+                break;
+            case R.id.nav_rateus:
+                fragmentClass = BlastersMatchFragment.class;
+                Log.d("JKS","package name = "+this.getPackageName());
+                Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + this.getPackageName()));
+                startActivity(rateIntent);
+                break;
+            case R.id.nav_share:
+                fragmentClass = BlastersMatchFragment.class;
+                try
+                {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Aarpo Kerala Blasters' App");
+                    String sAux = "\nI am cheering for Kerala Blasters team in ISL with\n\n";
+                    sAux = sAux + " "+ "https://play.google.com/store/apps/details?id="+getPackageName();
+                    sAux = sAux + "\n\n Join me to cheer for our Blasters.";
+                    i.putExtra(Intent.EXTRA_TEXT, sAux);
+                    startActivity(Intent.createChooser(i, "choose one"));
+
+                }catch(Exception e){
+                    //e.toString();
+                }
                 break;
 
             default:
@@ -139,7 +166,7 @@ public class BlastersMain extends AppCompatActivity
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
         // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
+
         // Set action bar title
         setTitle(menuItem.getTitle());
         // Close the navigation drawer
