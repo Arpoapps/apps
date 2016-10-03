@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -64,9 +65,18 @@ public class ISLMatchPage extends Fragment {
     TextView countDown;
     Handler handler = new Handler();
     long driftTime = 0L;
+    Typeface mTypeFace;
 
     SQLiteDatabase mdb;
 Date matchDate;
+
+    TextView hours;
+    TextView days ;
+    TextView mins;
+    TextView sec;
+    TextView battle;
+    TextView vs;
+    TextView cheering_time;
     private OnFragmentInteractionListener mListener;
 
     public ISLMatchPage() {
@@ -111,11 +121,24 @@ Date matchDate;
             diffTime = diffTime +driftTime;
             long secs = TimeUnit.MILLISECONDS.toSeconds(diffTime) %60;
             long minutes = TimeUnit.MILLISECONDS.toMinutes(diffTime) %60;
-            long hours = TimeUnit.MILLISECONDS.toHours(diffTime)%24;
-            long days = TimeUnit.MILLISECONDS.toDays(diffTime);
+            long hours_ = TimeUnit.MILLISECONDS.toHours(diffTime)%24;
+            long days_ = TimeUnit.MILLISECONDS.toDays(diffTime);
 
-            countDown.setText("" + String.format("%02d", days )+ ":" + String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":"
+            countDown.setText("" + String.format("%02d", days_ )+ ":" + String.format("%02d", hours_) + ":" + String.format("%02d", minutes) + ":"
                     + String.format("%02d", secs));
+
+
+            if(diffTime < 0)
+            {
+                countDown.setTextSize(26);
+                countDown.setText("Let's cheer for Blasters");
+                hours.setText("     ");
+                days.setText("    ");
+                mins.setText("        ");
+                sec.setText("       ");
+                battle.setText("              ");
+                handler.removeCallbacks(updateTimer);
+            }
 
             handler.postDelayed(this, 500);
         }};
@@ -174,10 +197,11 @@ Date matchDate;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         driftTime = 0;
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         View rootView = inflater.inflate(R.layout.fragment_islmatch_page, container, false);
-
+        mTypeFace =  Typeface.createFromAsset(rootView.getContext().getAssets(), "fonts/century-gothic.ttf");
         Log.d("JKS","==================================");
         if(isNetworkAvailable()) {
             Log.d("JKS","Internet connection is available");
@@ -235,6 +259,9 @@ Date matchDate;
         TextView team1 = (TextView) rootView.findViewById(R.id.isl_team1);
         TextView team2 = (TextView) rootView.findViewById(R.id.isl_team2);
         TextView ground = (TextView) rootView.findViewById(R.id.isl_ground);
+        team1.setTypeface(mTypeFace);
+        team2.setTypeface(mTypeFace);
+        ground.setTypeface(mTypeFace);
 
         if (crsor != null) {
             while (crsor.moveToNext()) {
@@ -259,6 +286,25 @@ Date matchDate;
         handler.postDelayed(updateTimer, 0);
         countDown= (TextView) rootView.findViewById(R.id.txt_countDown);
         countDown.setText("");
+        countDown.setTypeface(mTypeFace);
+
+        hours = (TextView) rootView.findViewById(R.id.textView4);;
+        days = (TextView) rootView.findViewById(R.id.textView5);;
+        mins = (TextView) rootView.findViewById(R.id.textView6);
+        sec= (TextView) rootView.findViewById(R.id.textView7);;
+        battle= (TextView) rootView.findViewById(R.id.textView);;
+        vs= (TextView) rootView.findViewById(R.id.textView8);;
+        cheering_time= (TextView) rootView.findViewById(R.id.textView9);;
+        hours.setTypeface(mTypeFace);
+        days.setTypeface(mTypeFace);
+        mins.setTypeface(mTypeFace);
+        sec.setTypeface(mTypeFace);
+        battle.setTypeface(mTypeFace);
+        vs.setTypeface(mTypeFace);
+        countDown.setTypeface(mTypeFace);
+
+
+
 
         CheckBox chk1 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo1);
         CheckBox chk2 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo2);
@@ -268,6 +314,16 @@ Date matchDate;
         CheckBox chk6 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo6);
         CheckBox chk7 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo7);
         CheckBox chk8 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo8);
+
+        chk1.setTypeface(mTypeFace);
+        chk2.setTypeface(mTypeFace);
+        chk3.setTypeface(mTypeFace);
+        chk4.setTypeface(mTypeFace);
+        chk5.setTypeface(mTypeFace);
+        chk6.setTypeface(mTypeFace);
+        chk7.setTypeface(mTypeFace);
+        chk8.setTypeface(mTypeFace);
+
 
         query = "Select * from tbl_AARPO WHERE sched_id="+mId;
         //

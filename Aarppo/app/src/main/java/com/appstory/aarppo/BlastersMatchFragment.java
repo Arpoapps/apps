@@ -93,6 +93,7 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
         Date dt = new Date();
 
         long diffTime_Match = matchDate.getTime() - dt.getTime();
+        diffTime_Match += 7200000;
         if(diffTime_Match < 0)
            return  true;
         else return  false;

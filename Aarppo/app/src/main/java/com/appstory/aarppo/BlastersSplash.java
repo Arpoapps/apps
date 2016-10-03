@@ -22,6 +22,7 @@ public class BlastersSplash extends AppCompatActivity {
     public static long ClockdriftTime = 0;
     Handler handler;
     Runnable runnable;
+    boolean nopreview = false;
     public static long getTimeDelay()
     {
         return ClockdriftTime;
@@ -88,11 +89,20 @@ public class BlastersSplash extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    Intent i = new Intent(BlastersSplash.this, PreviewActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(i);
+                    if(nopreview) {
+                        Intent i = new Intent(BlastersSplash.this, PreviewActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(i);
+                    }else {
+
+                        Intent i = new Intent(BlastersSplash.this, BlastersMain.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(i);
+                    }
 
                 }
             };
