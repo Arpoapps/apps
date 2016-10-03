@@ -1,9 +1,11 @@
 package com.appstory.aarppo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -151,7 +153,12 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
     }
     private void getListBlastersSchedules() {
 
-        String se = "select * from tbl_schedule WHERE team1=2 or team2=2";
+       // convert todays date to string
+        //Date
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date dt = new Date();
+        String sysdate = formatter.format(dt);
+        String se = "select * from tbl_schedule WHERE team1=2 or team2=2 and date_time>="+"'"+sysdate+"'";
 
         Log.d("JKS","sql query = "+se);
         Cursor c = db.selectData(se);
@@ -206,7 +213,13 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
         db.openConnection();
         lv_pushup = (ListView) rootView.findViewById(R.id.lv_BlastersmatchList);
         list1 = new ArrayList<>();
-
+        FloatingActionButton myFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), flash_only_screen.class);
+               getActivity().startActivity(i);
+            }
+        });
         getListBlastersSchedules();
 
         db.closeConnection();

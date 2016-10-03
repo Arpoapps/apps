@@ -67,19 +67,19 @@ public class AarpoDb  extends SQLiteOpenHelper{
 
         String query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('North East United FC',1, 'Indira Gandhi Athletic Stadium, Guwahati')";
         db.execSQL(query);
-        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('Kerala Blasters FC  ',2,'Jawaharlal Nehru Stadium, Kochi')";
+        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('Kerala Blasters FC',2,'Jawaharlal Nehru Stadium, Kochi')";
         db.execSQL(query);
-        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('Atlético de Kolkata ',3, 'Rabindra Sarobar Stadium, Kolkata')";
+        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('Atlético de Kolkata',3, 'Rabindra Sarobar Stadium, Kolkata')";
         db.execSQL(query);
-        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('FC Pune City        ',4,'Balewadi Stadium, Pune')";
+        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('FC Pune City',4,'Balewadi Stadium, Pune')";
         db.execSQL(query);
-        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('Mumbai City FC      ',5,'Mumbai Football Arena, Mumbai')";
+        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('Mumbai City FC',5,'Mumbai Football Arena, Mumbai')";
         db.execSQL(query);
-        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('Chennaiyin FC       ',6,'Jawaharlal Nehru Stadium, Chennai')";
+        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('Chennaiyin FC',6,'Jawaharlal Nehru Stadium, Chennai')";
         db.execSQL(query);
-        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('FC Goa              ',7,'Jawaharlal Nehru Stadium, Fatorda')";
+        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('FC Goa',7,'Jawaharlal Nehru Stadium, Fatorda')";
         db.execSQL(query);
-        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('Delhi Dynamos FC    ',8,'Jawaharlal Nehru Stadium, Delhi')";
+        query = "INSERT INTO tbl_teamName (teamName,teamId,homeGround) values('Delhi Dynamos FC',8,'Jawaharlal Nehru Stadium, Delhi')";
         db.execSQL(query);
 
 

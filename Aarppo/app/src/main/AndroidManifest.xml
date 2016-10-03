@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
@@ -43,18 +43,13 @@
         <activity
             android:name=".AarpoBlast"
             android:configChanges="orientation"
-
-            android:showOnLockScreen="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".PreviewActivity"
-            android:label="@string/title_activity_preview"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:showOnLockScreen="true" />
         <activity
             android:name=".FlashScreen"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
+        <activity android:name=".flash_only_screen"></activity>
     </application>
 
 </manifest>

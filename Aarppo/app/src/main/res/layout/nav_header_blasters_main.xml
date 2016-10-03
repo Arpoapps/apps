@@ -18,21 +18,38 @@
         android:paddingTop="25dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/logoicon"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true" />
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:textStyle="bold"
+        android:fontFamily="assets/fonts/GOTHICB"
+        android:text="ARPO"
+        android:textSize="56dp"
+        android:gravity="right"
+        android:textColor="@color/colorPrimary"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_above="@+id/textView11"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/textView21" />
+
 
     <TextView
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:textStyle="bold"
-        android:text="ARPO KERALA BLASTERS"
-        android:textSize="20dp"
+        android:fontFamily="assets/fonts/GOTHICB"
+        android:text="KERALA BLASTERS"
+        android:textSize="16dp"
+        android:gravity="right"
         android:textColor="@color/colorPrimary"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/textView11"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="150dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_alignStart="@+id/textView21" />
 
 </RelativeLayout>

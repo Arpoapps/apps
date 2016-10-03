@@ -10,10 +10,12 @@
     android:id="@+id/flashscreen"
     tools:context="com.appstory.aarppo.AarpoBlast">
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ARPO COUNT DOWN"
+        android:text="ARPO STARTS IN"
+        android:gravity="center"
         android:textSize="25sp"
+        android:textStyle="italic|bold"
         android:textColor="@color/colorPrimary"
         android:id="@+id/textarpo"
         android:layout_alignParentTop="true"
@@ -21,14 +23,27 @@
         android:layout_marginTop="95dp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0"
-        android:textStyle="bold"
+        android:text="9"
+        android:gravity="center"
+        android:textStyle="bold|italic"
         android:textColor="@color/colorPrimary"
         android:id="@+id/txt_counter_cheer"
-        android:textSize="70sp"
+        android:textSize="200sp"
         android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SECONDS"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textStyle="italic|bold"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/txt_counter_cheer"
         android:layout_centerHorizontal="true" />
 
 

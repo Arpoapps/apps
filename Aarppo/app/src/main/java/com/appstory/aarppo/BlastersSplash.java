@@ -72,7 +72,7 @@ public class BlastersSplash extends AppCompatActivity {
         thread.start();*/
 
 
-        Log.d("JKS", "Get network time exits");
+     /*   Log.d("JKS", "Get network time exits");
         SQLiteDatabase mdb = openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
         String query = "CREATE TABLE IF NOT EXISTS tbl_firstTime(started INTEGER)";
         mdb.execSQL(query);
@@ -109,7 +109,7 @@ public class BlastersSplash extends AppCompatActivity {
             handler.postDelayed(runnable,2000);
         }
         else {
-            Log.d("JKS", "This is not the first that the application is runnnig");
+            Log.d("JKS", "This is not the first that the application is runnnig");*/
 
             handler=new Handler();
             runnable=new Runnable() {
@@ -137,9 +137,8 @@ public class BlastersSplash extends AppCompatActivity {
             };
             handler.postDelayed(runnable,2000);
         }
-        mdb.close();
+        /*mdb.close();*/
 
-    }
     public void onBackPressed() {
         super.onBackPressed();
         handler.removeCallbacks(runnable);

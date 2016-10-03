@@ -258,16 +258,16 @@ Date matchDate;
         Cursor crsor = db.selectData(query);
         TextView team1 = (TextView) rootView.findViewById(R.id.isl_team1);
         TextView team2 = (TextView) rootView.findViewById(R.id.isl_team2);
-        TextView ground = (TextView) rootView.findViewById(R.id.isl_ground);
+       // TextView ground = (TextView) rootView.findViewById(R.id.isl_ground);
         team1.setTypeface(mTypeFace);
         team2.setTypeface(mTypeFace);
-        ground.setTypeface(mTypeFace);
+       // ground.setTypeface(mTypeFace);
 
         if (crsor != null) {
             while (crsor.moveToNext()) {
                 team1.setText(getTeamName(crsor.getInt(1)));
                 team2.setText(getTeamName(crsor.getInt(2)));
-                ground.setText(getHomeGround(crsor.getInt(1)));
+              //  ground.setText(getHomeGround(crsor.getInt(1)));
                 //Log.d("JKS","result "+c.getString(0)+" =  "+c.getString(1) + "team1 = "+getTeamName(c.getInt(3))+" team2="+getTeamName(c.getInt(4))) ;
                 try
                 {
@@ -288,17 +288,18 @@ Date matchDate;
         countDown.setText("");
         countDown.setTypeface(mTypeFace);
 
-        hours = (TextView) rootView.findViewById(R.id.textView4);;
-        days = (TextView) rootView.findViewById(R.id.textView5);;
-        mins = (TextView) rootView.findViewById(R.id.textView6);
-        sec= (TextView) rootView.findViewById(R.id.textView7);;
+       // hours = (TextView) rootView.findViewById(R.id.textView4);;
+      //  days = (TextView) rootView.findViewById(R.id.textView5);;
+      //  mins = (TextView) rootView.findViewById(R.id.textView6);
+     //   sec= (TextView) rootView.findViewById(R.id.textView7);;
         battle= (TextView) rootView.findViewById(R.id.textView);;
         vs= (TextView) rootView.findViewById(R.id.textView8);;
         cheering_time= (TextView) rootView.findViewById(R.id.textView9);;
-        hours.setTypeface(mTypeFace);
-        days.setTypeface(mTypeFace);
-        mins.setTypeface(mTypeFace);
-        sec.setTypeface(mTypeFace);
+      //  hours.setTypeface(mTypeFace);
+      //  days.setTypeface(mTypeFace);
+      //  mins.setTypeface(mTypeFace);
+      //  sec.setTypeface(mTypeFace);
+        cheering_time.setTypeface(mTypeFace);
         battle.setTypeface(mTypeFace);
         vs.setTypeface(mTypeFace);
         countDown.setTypeface(mTypeFace);
@@ -311,18 +312,18 @@ Date matchDate;
         CheckBox chk3 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo3);
         CheckBox chk4 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo4);
         CheckBox chk5 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo5);
-        CheckBox chk6 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo6);
+       // CheckBox chk6 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo6);
         CheckBox chk7 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo7);
-        CheckBox chk8 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo8);
+       // CheckBox chk8 = (CheckBox)rootView.findViewById(R.id.chk_Aarpo8);
 
         chk1.setTypeface(mTypeFace);
         chk2.setTypeface(mTypeFace);
         chk3.setTypeface(mTypeFace);
         chk4.setTypeface(mTypeFace);
         chk5.setTypeface(mTypeFace);
-        chk6.setTypeface(mTypeFace);
+       // chk6.setTypeface(mTypeFace);
         chk7.setTypeface(mTypeFace);
-        chk8.setTypeface(mTypeFace);
+       // chk8.setTypeface(mTypeFace);
 
 
         query = "Select * from tbl_AARPO WHERE sched_id="+mId;
@@ -367,18 +368,18 @@ Log.d("JKS","Set check box");
                     chk5.setChecked(true);
                 else
                     chk5.setChecked(false);
-                if(aarpo.getInt(6) == 1)
+               /* if(aarpo.getInt(6) == 1)
                     chk6.setChecked(true);
                 else
-                    chk6.setChecked(false);
+                    chk6.setChecked(false);*/
                 if(aarpo.getInt(7) == 1)
                     chk7.setChecked(true);
                 else
                     chk7.setChecked(false);
-                if(aarpo.getInt(8) == 1)
+               /* if(aarpo.getInt(8) == 1)
                     chk8.setChecked(true);
                 else
-                    chk8.setChecked(false);
+                    chk8.setChecked(false);*/
             }
 
         }
@@ -477,7 +478,7 @@ Log.d("JKS", "Cursor came as null");
                 updateCheckListData(getActivity(), query,mId);
             }
         });
-        chk6.setOnClickListener(new View.OnClickListener() {
+      /*  chk6.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -494,7 +495,7 @@ Log.d("JKS", "Cursor came as null");
                 Log.d("JKS","query="+query);
                 updateCheckListData(getActivity(), query,mId);
             }
-        });
+        });*/
         chk7.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -513,7 +514,7 @@ Log.d("JKS", "Cursor came as null");
                 updateCheckListData(getActivity(), query,mId);
             }
         });
-        chk8.setOnClickListener(new View.OnClickListener() {
+      /*  chk8.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -530,7 +531,7 @@ Log.d("JKS", "Cursor came as null");
                 Log.d("JKS","query="+query);
                 updateCheckListData(getActivity(), query,mId);
             }
-        });
+        });*/
         FloatingActionButton myFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

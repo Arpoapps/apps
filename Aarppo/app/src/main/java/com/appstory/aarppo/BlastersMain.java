@@ -23,7 +23,7 @@ import android.view.MenuItem;
 
 public class BlastersMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener , BlastersMatchFragment.OnFragmentInteractionListener,
-        SettingsPage.OnFragmentInteractionListener,MatchSchedule.OnFragmentInteractionListener, ISLMatchPage.OnFragmentInteractionListener, ContactUs.OnFragmentInteractionListener, Credits.OnFragmentInteractionListener
+        SettingsPage.OnFragmentInteractionListener,MatchSchedule.OnFragmentInteractionListener, ISLMatchPage.OnFragmentInteractionListener, ContactUs.OnFragmentInteractionListener
 {
 
     DrawerLayout drawer;
@@ -32,6 +32,7 @@ public class BlastersMain extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blasters_main);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -120,10 +121,7 @@ public class BlastersMain extends AppCompatActivity
                 fragmentClass = ContactUs.class;
                 Log.d("JKS","Clicked on contact us");
                 break;
-            case R.id.nav_credit:
-                fragmentClass = Credits.class;
-                Log.d("JKS","Clicked on Credits");
-                break;
+
             default:
                 fragmentClass = BlastersMatchFragment.class;
         }
@@ -175,8 +173,6 @@ public class BlastersMain extends AppCompatActivity
 
 
     //******* BACK KEY PRESS CODE*********
-
-
     @Override
     public void onBackPressed() {
         Fragment ft= getSupportFragmentManager().findFragmentById(R.id.flContent);

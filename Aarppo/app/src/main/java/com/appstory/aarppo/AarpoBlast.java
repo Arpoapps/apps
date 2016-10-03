@@ -3,6 +3,7 @@ package com.appstory.aarppo;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -25,7 +26,6 @@ import java.util.concurrent.TimeUnit;
 public class AarpoBlast extends AppCompatActivity {
     long timeLeft;
     TextView txtCountDown,txtarpo;// = (TextView)findViewById(R.id.txt_counter_cheer);
-
     Handler handler2;
     Boolean bool = false;
     Handler handler,dhandler;
@@ -193,6 +193,7 @@ public class AarpoBlast extends AppCompatActivity {
         if(timeLeft <=0) {
             mp.stop();
             handler.removeCallbacks(runnable);
+            handler2.removeCallbacks(runnable);
         }
         vibrateLoop = 0;
     }
