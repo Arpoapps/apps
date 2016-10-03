@@ -246,6 +246,7 @@ public class AarpoCheckService extends Service {
                             SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                             Log.d("JKS", "Today " + df.format(todaysMatchTime) + " now = " + df.format(netWorkTime));
                             long diffTime_Match = todaysMatchTime.getTime() - netWorkTime.getTime();
+                            diffTime_Match = diffTime_Match - (2*60*1000);
                             long hours = TimeUnit.MILLISECONDS.toHours(diffTime_Match) % 24;
                             long days = TimeUnit.MILLISECONDS.toDays(diffTime_Match);
                             long mins = TimeUnit.MILLISECONDS.toMinutes(diffTime_Match) % 60;
@@ -296,7 +297,9 @@ public class AarpoCheckService extends Service {
     {
         Date today = getDateNow();
         long timeDifference = today.getTime() - todaysMatchTime.getTime();
-        if( timeDifference > 0 && timeDifference < 5400000)
+       // timeDifference = timeDifference - (2*60*1000);
+
+        if( timeDifference > -(2*60*1000) && timeDifference < 5400000)
             return  true;
         else
             return  false;
