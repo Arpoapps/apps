@@ -330,7 +330,9 @@ Date matchDate;
       //  Cursor aarpo =  getChecklistDate(getActivity(),mId);
 
         getChecklistDate(getActivity(),mId);
+        mdb = getActivity().openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
         Cursor aarpo  = mdb.rawQuery(query,null);
+
 
 
 Log.d("JKS","Set check box");
@@ -384,7 +386,7 @@ Log.d("JKS","Set check box");
 Log.d("JKS", "Cursor came as null");
         db.closeConnection();
 
-
+        mdb.close();
         chk1.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -588,6 +590,8 @@ Log.d("JKS", "Cursor came as null");
             }
         }
         else Log.d("JKS","Cursor came as null");
+
+        mdb.close();
         return  c2;
     }
     void updateCheckListData(Context Ctx, String query ,String id)
@@ -610,6 +614,7 @@ Log.d("JKS", "Cursor came as null");
                         " data: "+ c2.getString(7));
             }
         }
+        mdb.close();
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

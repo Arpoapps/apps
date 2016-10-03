@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -110,6 +111,7 @@ public class AarpoCheckService extends Service {
             // Normally we would do some work here, like download a file.
             // For our sample, we just sleep for 5 seconds.
             Log.d("JKS","inside service handler");
+
             while(true) {
                 try {
                     if(isPlayingToday())
@@ -119,7 +121,40 @@ public class AarpoCheckService extends Service {
                         {
                             Log.d("JKS ","Match is going on :: lets sync");
 
-
+                            SQLiteDatabase mdb = openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
+                            mdb.execSQL("CREATE TABLE IF NOT EXISTS tbl_AARPO(sched_id INTEGER, "+
+                                    " aarpo1 INTEGER NOT NULL ,"+
+                                    " aarpo2 INTEGER NOT NULL," +
+                                    " aarpo3 INTEGER NOT NULL," +
+                                    " aarpo4 INTEGER NOT NULL," +
+                                    " aarpo5 INTEGER NOT NULL," +
+                                    " aarpo6 INTEGER NOT NULL," +
+                                    " aarpo7 INTEGER NOT NULL," +
+                                    " aarpo8 INTEGER NOT NULL)");
+                            Cursor c3 = mdb.rawQuery("SELECT * FROM tbl_AARPO WHERE sched_id="+todaysGameId, null);
+                            int arpo1 = 0;
+                            int arpo2 = 0;
+                            int arpo3 = 0;
+                            int arpo4 = 0;
+                            int arpo5 = 0;
+                            int arpo6 = 0;
+                            int arpo7 = 0;
+                            int arpo8 = 0;
+                            if (c3!= null)
+                            {
+                                while (c3.moveToNext())
+                                {
+                                    arpo1 = c3.getInt(1);
+                                    arpo2 = c3.getInt(2);
+                                    arpo3 = c3.getInt(3);
+                                    arpo4 = c3.getInt(4);
+                                    arpo5 = c3.getInt(5);
+                                    arpo6 = c3.getInt(6);
+                                    arpo7 = c3.getInt(7);
+                                    arpo8 = c3.getInt(8);
+                                }
+                            }
+                            mdb.close();
                             Date netWorkTime = getDateNow();
 
                             long elapsedTime =( netWorkTime.getTime() - todaysMatchTime.getTime() ) /(1000*60);
@@ -142,6 +177,39 @@ public class AarpoCheckService extends Service {
 
                             }
 
+                            Log.d("JKS","Syncsettings "+arpo1+":"+arpo2+":"+arpo3+":"+arpo4+":"+arpo5+":"+arpo6+":"+arpo7+":"+arpo8+":");
+                            if(syncIndex == 0 && arpo1 ==0)
+                            {
+                                syncIndex++;
+                            }
+                            else if(syncIndex == 1 && arpo2 ==0)
+                            {
+                                syncIndex++;
+                            }
+                            else if(syncIndex == 2 && arpo3 ==0)
+                            {
+                                syncIndex++;
+                            }
+                            else if(syncIndex == 3 && arpo4 ==0)
+                            {
+                                syncIndex++;
+                            }
+                            else if(syncIndex == 4 && arpo5 ==0)
+                            {
+                                syncIndex++;
+                            }
+                            else if(syncIndex == 5 && arpo6 ==0)
+                            {
+                                syncIndex++;
+                            }
+                            else if(syncIndex == 6 && arpo7 ==0)
+                            {
+                                syncIndex++;
+                            }
+                            else if(syncIndex == 7 && arpo8 ==0)
+                            {
+                                syncIndex++;
+                            }
                             Log.d("JKS","Sync index="+syncIndex + " value = "+syncArray[syncIndex]);
                             long syncTime = todaysMatchTime.getTime() + syncArray[syncIndex] * 60 * 1000;
 
