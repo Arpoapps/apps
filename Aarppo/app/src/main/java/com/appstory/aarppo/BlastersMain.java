@@ -205,11 +205,57 @@ public class BlastersMain extends AppCompatActivity
     //******* BACK KEY PRESS CODE*********
     @Override
     public void onBackPressed() {
+
         Fragment ft= getSupportFragmentManager().findFragmentById(R.id.flContent);
         if(ft instanceof BlastersMatchFragment)
-        {    if(drawer.isDrawerOpen(GravityCompat.START))
-        { drawer.closeDrawers();}
-        else{  logout();}
+        {
+            if(drawer.isDrawerOpen(GravityCompat.START))
+            {
+                drawer.closeDrawers();
+            }
+            else{
+                logout();
+            }
+        }
+        else if(ft instanceof MatchSchedule)
+        {
+            if(drawer.isDrawerOpen(GravityCompat.START))
+            {
+                drawer.closeDrawers();
+            }
+            else{
+                logout();
+            }
+        }
+        else if(ft instanceof HowToUse)
+        {
+            if(drawer.isDrawerOpen(GravityCompat.START))
+            {
+                drawer.closeDrawers();
+            }
+            else{
+                logout();
+            }
+        }
+        else if(ft instanceof SettingsPage)
+        {
+            if(drawer.isDrawerOpen(GravityCompat.START))
+            {
+                drawer.closeDrawers();
+            }
+            else{
+                logout();
+            }
+        }
+        else if(ft instanceof ContactUs)
+        {
+            if(drawer.isDrawerOpen(GravityCompat.START))
+            {
+                drawer.closeDrawers();
+            }
+            else{
+                logout();
+            }
         }
         else {
             super.onBackPressed();
