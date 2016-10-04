@@ -244,13 +244,13 @@ public class AarpoDb  extends SQLiteOpenHelper{
                 " values('2016-12-01 19:00:00','IST',7,6)";
         db.execSQL(query);
         query = "INSERT INTO tbl_schedule (date_time, timeZone, team1, team2) "+
-                " values('2016-12-01 19:00:00','IST',3,4)";
+                " values('2016-12-02 19:00:00','IST',3,4)";
         db.execSQL(query);
         query = "INSERT INTO tbl_schedule (date_time, timeZone, team1, team2) "+
-                " values('2016-12-01 19:00:00','IST',5,8)";
+                " values('2016-12-03 19:00:00','IST',5,8)";
         db.execSQL(query);
         query = "INSERT INTO tbl_schedule (date_time, timeZone, team1, team2) "+
-                " values('2016-12-01 19:00:00','IST',2,1)";
+                " values('2016-12-04 19:00:00','IST',2,1)";
         db.execSQL(query);
 
 
