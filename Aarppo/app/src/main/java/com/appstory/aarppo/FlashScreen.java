@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 public class FlashScreen extends AppCompatActivity {
 
     //int i = 0;
@@ -18,6 +22,7 @@ public class FlashScreen extends AppCompatActivity {
     Runnable runnable;
     MediaPlayer mp;
     boolean strted;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +44,42 @@ public class FlashScreen extends AppCompatActivity {
         },0);
         //*********SCREEN WAKE CODE *******
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        mInterstitialAd = newInterstitialAd();
+        loadInterstitial();
 
     }
+
+    private void loadInterstitial() {
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent("android_studio:ad_template").build();
+        mInterstitialAd.loadAd(adRequest);
+    }
+    private InterstitialAd newInterstitialAd() {
+        InterstitialAd interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+            }
+
+            @Override
+            public void onAdClosed() {
+            }
+        });
+        return interstitialAd;
+    }
+    private void showInterstitial() {
+        // Show the ad if it's ready. Otherwise toast and reload the ad.
+        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+    }
+
     /*
 
         @Override
@@ -60,6 +99,7 @@ public class FlashScreen extends AppCompatActivity {
                 mp.stop();
                 handler.removeCallbacks(runnable);
                 finish();
+                showInterstitial();
             }
         });
         strted = true;
@@ -80,6 +120,7 @@ public class FlashScreen extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        showInterstitial();
         if(strted) {
             mp.stop();
             handler.removeCallbacks(runnable);

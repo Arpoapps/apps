@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="60sp"
     android:layout_marginLeft="10sp"
     android:layout_marginRight="10sp"
@@ -67,6 +68,14 @@
         android:textSize="15dp"
         android:layout_below="@+id/textView7"
         android:layout_alignStart="@+id/textView7" />
-
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id"
+        android:layout_gravity="left|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

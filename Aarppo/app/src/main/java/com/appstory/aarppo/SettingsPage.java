@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,7 +97,10 @@ public class SettingsPage extends Fragment {
         txt10.setTypeface(typeFace);
         txt11.setTypeface(typeFace);
         txt12.setTypeface(typeFace);
-
+        AdView adView = (AdView) rootView.findViewById(R.id.adView5);
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent(getResources().getString(R.string.banner_ad_unit_origin)).build();
+        adView.loadAd(adRequest);
 
         return rootView;
     }

@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -226,6 +229,11 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
         getListBlastersSchedules();
 
         db.closeConnection();
+        // Load an ad into the AdMob banner view.
+        AdView adView = (AdView) rootView.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent(getResources().getString(R.string.banner_ad_unit_origin)).build();
+        adView.loadAd(adRequest);
         return  rootView;
     }
 

@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,7 +87,11 @@ public class HowToUse extends Fragment {
         txt5.setTypeface(typeFace);
         txt6.setTypeface(typeFace);
 
-
+// Load an ad into the AdMob banner view.
+        AdView adView = (AdView) rootView.findViewById(R.id.adView2);
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent(getResources().getString(R.string.banner_ad_unit_origin)).build();
+        adView.loadAd(adRequest);
         return rootView;
     }
 

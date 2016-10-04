@@ -28,6 +28,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
 import org.w3c.dom.Text;
@@ -531,6 +534,11 @@ Log.d("JKS", "Cursor came as null");
                 getActivity().startActivity(i);
             }
         });
+        // Load an ad into the AdMob banner view.
+        AdView adView = (AdView) rootView.findViewById(R.id.adView3);
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent(getResources().getString(R.string.banner_ad_unit_origin)).build();
+        adView.loadAd(adRequest);
         return rootView;
     }
 

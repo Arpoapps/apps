@@ -19,6 +19,10 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import org.w3c.dom.Text;
 
 import java.io.IOException;
@@ -35,6 +39,8 @@ public class AarpoBlast extends AppCompatActivity {
     MediaPlayer mp;
     long matchTime;
     boolean donotplay = false;
+    private InterstitialAd mInterstitialAd;
+
 
     int vibrateLoop = 5;
 
@@ -170,6 +176,39 @@ public class AarpoBlast extends AppCompatActivity {
 
         //*********SCREEN WAKE CODE *******
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        // Create the InterstitialAd and set the adUnitId (defined in values/strings.xml).
+        mInterstitialAd = newInterstitialAd();
+        loadInterstitial();
+    }
+    private void loadInterstitial() {
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent("android_studio:ad_template").build();
+        mInterstitialAd.loadAd(adRequest);
+    }
+    private InterstitialAd newInterstitialAd() {
+        InterstitialAd interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+            }
+
+            @Override
+            public void onAdClosed() {
+            }
+        });
+        return interstitialAd;
+    }
+    private void showInterstitial() {
+        // Show the ad if it's ready. Otherwise toast and reload the ad.
+        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
     }
 
     private void Initial()
@@ -181,6 +220,7 @@ public class AarpoBlast extends AppCompatActivity {
                 Log.d("JKS","Exit mediaplayer");
                 mp.stop();
                 handler.removeCallbacks(runnable);
+                showInterstitial();
                 finish();
             }
         });
@@ -201,6 +241,7 @@ public class AarpoBlast extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        showInterstitial();
         donotplay = true;
         if(timeLeft <=0) {
             mp.stop();

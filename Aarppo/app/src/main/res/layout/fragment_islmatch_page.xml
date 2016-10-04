@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -103,10 +104,9 @@
             android:checked="false"
             android:textColor="#ffffff"
             android:buttonTint="@color/colorPrimaryDark"
-            android:layout_marginStart="44dp"
-            android:layout_marginTop="35dp"
-            android:layout_below="@+id/textView9"
-            android:layout_alignParentStart="true" />
+            android:layout_above="@+id/chk_Aarpo2"
+            android:layout_toStartOf="@+id/fab"
+            android:layout_marginBottom="15dp" />
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -115,9 +115,8 @@
             android:checked="false"
             android:textColor="#ffffff"
             android:buttonTint="@color/colorPrimaryDark"
-            android:layout_below="@+id/chk_Aarpo1"
-            android:layout_alignStart="@+id/chk_Aarpo1"
-            android:layout_marginTop="35dp" />
+            android:layout_centerVertical="true"
+            android:layout_alignStart="@+id/chk_Aarpo1" />
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -126,9 +125,8 @@
             android:checked="false"
             android:textColor="#ffffff"
             android:buttonTint="@color/colorPrimaryDark"
-            android:layout_marginTop="35dp"
-            android:layout_below="@+id/chk_Aarpo2"
-            android:layout_alignStart="@+id/chk_Aarpo2" />
+            android:layout_above="@+id/fab"
+            android:layout_alignStart="@+id/chk_Aarpo1" />
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -171,10 +169,19 @@
             android:tint="@color/colorPrimary"
             android:src="@drawable/ic_play_circle_filled_white"
             app:layout_anchorGravity="bottom|right|end"
-            android:layout_below="@+id/chk_Aarpo7"
+            android:layout_above="@+id/adView3"
             android:layout_centerHorizontal="true" />
 
-    </RelativeLayout>
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id"
+            android:layout_gravity="left|bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/chk_Aarpo7" />
 
+    </RelativeLayout>
 
 </RelativeLayout>
