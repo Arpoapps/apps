@@ -8,8 +8,8 @@ android {
         applicationId "com.appstory.aarppo"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 2
-        versionName "2.0"
+        versionCode 3
+        versionName "2.1"
     }
     buildTypes {
         release {
@@ -27,4 +27,5 @@ dependencies {
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:cardview-v7:23.3.0'
     compile 'commons-net:commons-net:3.3'
+    compile 'com.google.android.gms:play-services-ads:8.4.0'
 }
