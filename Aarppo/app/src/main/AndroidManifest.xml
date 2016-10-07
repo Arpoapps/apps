@@ -52,6 +52,9 @@
             android:screenOrientation="portrait" />
         <activity android:name=".flash_only_screen"
             android:screenOrientation="portrait"></activity>
+        <receiver android:name=".ArpoAlarmClass"
+            android:enabled="true">
+        </receiver>
     </application>
 
 </manifest>

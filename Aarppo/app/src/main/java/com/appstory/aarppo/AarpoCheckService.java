@@ -112,15 +112,14 @@ public class AarpoCheckService extends Service {
             // For our sample, we just sleep for 5 seconds.
             Log.d("JKS","inside service handler");
 
-            while(true) {
+            boolean serviceLoopExitFlag = true;
+            while(serviceLoopExitFlag) {
                 try {
                     if(isPlayingToday())
                     {
-
                         if(matchGoingOn())
                         {
                             Log.d("JKS ","Match is going on :: lets sync");
-
                             createDbIfnotExists();
                             SQLiteDatabase mdb = openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
 
@@ -156,7 +155,6 @@ public class AarpoCheckService extends Service {
                             if(realIndex != syncIndex) {
                                 Log.d("JKS ", "Syncing the aarpo sync time");
                                 syncIndex =realIndex;
-                                continue;
                             }
                             if(syncIndex>=MAX_SIZE) {
                                 Thread.sleep(5000);
@@ -164,7 +162,7 @@ public class AarpoCheckService extends Service {
 
                             }
 
-                            Log.d("JKS","Syncsettings "+arpo1+":"+arpo2+":"+arpo3+":"+arpo4+":"+arpo5);
+                            Log.d("JKS","Sync settings "+arpo1+":"+arpo2+":"+arpo3+":"+arpo4+":"+arpo5);
                             if(syncIndex == 0 && arpo1 ==0)
                             {
                                 syncIndex++;
@@ -215,6 +213,8 @@ public class AarpoCheckService extends Service {
                         else if(matchOver())
                         {
                             Log.d("JKS","Blasters match is over WAIT TILL next match");
+                            serviceLoopExitFlag = false;
+                            break;
                         }
                         else if(whisleTimeEnabled())
                         {
@@ -254,20 +254,24 @@ public class AarpoCheckService extends Service {
                             else intentCalled = false;
                         }
                         else
-                            Log.d("JKS","Blasters playing today, but not syncing at whislet time");
+                            Log.d("ARPO","Blasters playing today, but not syncing at whislet time");
                     }
-                    else Log.d("JKS","Blasters not playing today");
-
-                    Log.d("JKS","inside service handler while loop");
-
+                    else
+                    {
+                        Log.d("ARPO","Blasters not playing today");
+                        serviceLoopExitFlag = false;
+                        break;
+                    }
                     Thread.sleep(5000);
+
                 } catch (InterruptedException e) {
                     // Restore interrupt status.
                     Thread.currentThread().interrupt();
                 }
                 // Stop the service using the startId, so that we don't stop
                 // the service in the middle of handling another job
-            }//stopSelf(msg.arg1);
+            }
+            stopSelf(msg.arg1);
 
         }
     }

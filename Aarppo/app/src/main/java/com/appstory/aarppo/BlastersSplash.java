@@ -1,5 +1,7 @@
 package com.appstory.aarppo;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +16,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -35,9 +39,27 @@ public class BlastersSplash extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         setContentView(R.layout.activity_blasters_splash);
-        Intent service = new Intent(this, AarpoCheckService.class);
 
-        startService(service);
+        /***************************************************************************************/
+        /* SET ALARM FOR ARPO */
+        Intent myIntent = new Intent(this, ArpoAlarmClass.class);
+        PendingIntent pendingIntent  = PendingIntent.getBroadcast(this, 0, myIntent, 0);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        // Set the alarm to start at approximately 6:30:00 p.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 18);
+        calendar.set(Calendar.MINUTE, 30);
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date dateee= calendar.getTime();
+        Log.d("ARPO","Date today = "+df.format(dateee));
+        Log.d("ARPO","set alarm at 6:30");
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        /***************************************************************************************/
         ClockdriftTime = 0;
 /*
         Thread thread = new Thread() {
