@@ -49,7 +49,7 @@ public class AarpoCheckService extends Service {
     public Runnable updateTimer = new Runnable() {
         public void run() {
             diffTime--;
-            Log.d("JKS","diff = " +diffTime);
+        //    Log.d("ARPO","diff = " +diffTime);
 
             if(diffTime == 15)
             {
@@ -63,7 +63,7 @@ public class AarpoCheckService extends Service {
             if(diffTime <=0 )
             {
                 handler.removeCallbacks(this);
-                Log.d("JKS","Runnable reached less than 0 or 0");
+          //      Log.d("ARPO","Runnable reached less than 0 or 0");
                //cbRemoved = 1;
                // diffTime = getNewDiffTime();
             }
@@ -90,7 +90,7 @@ public class AarpoCheckService extends Service {
 
             }
             else {
-                Log.d("JKS","No internet connection using local time");
+                Log.d("ARPO","No internet connection using local time");
                 today = new Date();
             }
         }
@@ -110,7 +110,7 @@ public class AarpoCheckService extends Service {
         public void handleMessage(Message msg) {
             // Normally we would do some work here, like download a file.
             // For our sample, we just sleep for 5 seconds.
-            Log.d("JKS","inside service handler");
+            Log.d("ARPO","inside service handler");
 
             boolean serviceLoopExitFlag = true;
             while(serviceLoopExitFlag) {
@@ -119,7 +119,7 @@ public class AarpoCheckService extends Service {
                     {
                         if(matchGoingOn())
                         {
-                            Log.d("JKS ","Match is going on :: lets sync");
+                            Log.d("ARPO ","Match is going on :: lets sync");
                             createDbIfnotExists();
                             SQLiteDatabase mdb = openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
 
@@ -144,7 +144,7 @@ public class AarpoCheckService extends Service {
                             Date netWorkTime = getDateNow();
 
                             long elapsedTime =( netWorkTime.getTime() - todaysMatchTime.getTime() ) /(1000*60);
-                            Log.d("JKS","Elapesed minutes = "+elapsedTime);
+                            Log.d("ARPO","Elapesed minutes = "+elapsedTime);
                             int realIndex = 0;
                             for(int i = 0; i <MAX_SIZE;i++) {
                                 if (elapsedTime >= syncArray[i])
@@ -153,7 +153,7 @@ public class AarpoCheckService extends Service {
                                     break;
                             }
                             if(realIndex != syncIndex) {
-                                Log.d("JKS ", "Syncing the aarpo sync time");
+                                Log.d("ARPO ", "Syncing the aarpo sync time");
                                 syncIndex =realIndex;
                             }
                             if(syncIndex>=MAX_SIZE) {
@@ -162,7 +162,7 @@ public class AarpoCheckService extends Service {
 
                             }
 
-                            Log.d("JKS","Sync settings "+arpo1+":"+arpo2+":"+arpo3+":"+arpo4+":"+arpo5);
+                            Log.d("ARPO","Sync settings "+arpo1+":"+arpo2+":"+arpo3+":"+arpo4+":"+arpo5);
                             if(syncIndex == 0 && arpo1 ==0)
                             {
                                 syncIndex++;
@@ -183,7 +183,7 @@ public class AarpoCheckService extends Service {
                             {
                                 syncIndex++;
                             }
-                            Log.d("JKS","Sync index="+syncIndex + " value = "+syncArray[syncIndex]);
+                            Log.d("ARPO","Sync index="+syncIndex + " value = "+syncArray[syncIndex]);
                             long syncTime = todaysMatchTime.getTime() + syncArray[syncIndex] * 60 * 1000;
 
                             long diffTime_Match = syncTime - netWorkTime.getTime();
@@ -191,7 +191,7 @@ public class AarpoCheckService extends Service {
                             long days = TimeUnit.MILLISECONDS.toDays(diffTime_Match);
                             long mins = TimeUnit.MILLISECONDS.toMinutes(diffTime_Match) % 60;
                             long secs = TimeUnit.MILLISECONDS.toSeconds(diffTime_Match) % 60;
-                            Log.d("JKS", days + "days =" + hours + " hours = " + mins + "mins = " + secs+ "seconds to sync" );
+                            Log.d("ARPO", days + "days =" + hours + " hours = " + mins + "mins = " + secs+ "seconds to sync" );
                             if (days == 0 && hours == 0 && mins == 0 && secs <= 15) {
                                 if(intentCalled == false) {
                                     Intent i = new Intent(AarpoCheckService.this, AarpoBlast.class);
@@ -204,7 +204,7 @@ public class AarpoCheckService extends Service {
                                     intentCalled = true;
                                     syncIndex++;
                                 }
-                                else Log.d("JKS","not launcing activity");
+                                else Log.d("ARPO","not launcing activity");
 
                             }
                             else intentCalled = false;
@@ -212,7 +212,7 @@ public class AarpoCheckService extends Service {
                         }
                         else if(matchOver())
                         {
-                            Log.d("JKS","Blasters match is over WAIT TILL next match");
+                            Log.d("ARPO","Blasters match is over WAIT TILL next match");
                             serviceLoopExitFlag = false;
                             break;
                         }
@@ -221,14 +221,14 @@ public class AarpoCheckService extends Service {
 
                             Date netWorkTime = getDateNow();
                             SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                            Log.d("JKS", "Today " + df.format(todaysMatchTime) + " now = " + df.format(netWorkTime));
+                            Log.d("ARPO", "Today " + df.format(todaysMatchTime) + " now = " + df.format(netWorkTime));
                             long diffTime_Match = todaysMatchTime.getTime() - netWorkTime.getTime();
                             diffTime_Match = diffTime_Match - (2*60*1000);
                             long hours = TimeUnit.MILLISECONDS.toHours(diffTime_Match) % 24;
                             long days = TimeUnit.MILLISECONDS.toDays(diffTime_Match);
                             long mins = TimeUnit.MILLISECONDS.toMinutes(diffTime_Match) % 60;
                             long secs = TimeUnit.MILLISECONDS.toSeconds(diffTime_Match) % 60;
-                            Log.d("JKS", days + "days =" + hours + " hours = " + mins + "mins = " + secs+ "seconds=" );
+                            Log.d("ARPO", days + "days =" + hours + " hours = " + mins + "mins = " + secs+ "seconds=" );
                             if (days == 0 && hours == 0 && mins == 0 && secs <= 15) {
                                 if(intentCalled == false) {
                                     Intent i = new Intent(AarpoCheckService.this, AarpoBlast.class);
@@ -241,9 +241,9 @@ public class AarpoCheckService extends Service {
                                     intentCalled = true;
                                     syncIndex = 0;
                                 }
-                                else Log.d("JKS","not launcing activity");
+                                else Log.d("ARPO","not launcing activity");
                                 /*if(cbRemoved == 1) {
-                                    Log.d("JKS", "seconds left = " + secs);
+                                    Log.d("ARPO", "seconds left = " + secs);
 
                                     diffTime = secs;
                                     handler.postDelayed(updateTimer, 0);
@@ -288,7 +288,7 @@ public class AarpoCheckService extends Service {
                 " aarpo6 INTEGER NOT NULL)");
         Cursor c4 = mdb.rawQuery("SELECT * FROM tbl_AARPO", null);
         if(c4.getCount() == 0) {
-            Log.d("JKS ", "table is empty fill data first");
+            Log.d("ARPO ", "table is empty fill data first");
             AarpoDb db =new AarpoDb();
             db.openConnection();
 
@@ -364,7 +364,7 @@ public class AarpoCheckService extends Service {
         cal.add(Calendar.DATE, -2);
         Date dayBefore = cal.getTime();
 
-       // Log.d("JKS","Todays date = "+todaysDate +" after "+ df.format(dayAfter) + " before " +df.format(dayBefore));
+       // Log.d("ARPO","Todays date = "+todaysDate +" after "+ df.format(dayAfter) + " before " +df.format(dayBefore));
         String query = "select * from tbl_schedule WHERE date_time<'"+df.format(dayAfter) + "' AND date_time>'"+df.format(dayBefore)+"' AND (team1=2 OR team2=2)" ;
         Cursor c1 = db.selectData(query);
         if(c1 != null)
@@ -383,7 +383,7 @@ public class AarpoCheckService extends Service {
             }
 
         }
-       // Log.d("JKS","query ="+query +" got data="+c1.getCount());
+       // Log.d("ARPO","query ="+query +" got data="+c1.getCount());
 
         if(c1.getCount() > 0) result = true;
         db.closeConnection();
@@ -402,7 +402,7 @@ public class AarpoCheckService extends Service {
         HandlerThread thread = new HandlerThread("ServiceStartArguments",
                 Process.THREAD_PRIORITY_BACKGROUND);
         thread.start();
-        Log.d("JKS","onCreate serviice");
+        Log.d("ARPO","onCreate serviice");
 
         // Get the HandlerThread's Looper and use it for our Handler
 
@@ -416,7 +416,7 @@ public class AarpoCheckService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
 
-        Log.d("JKS","Start Service");
+        Log.d("ARPO","Start Service");
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
         Message msg = mServiceHandler.obtainMessage();
@@ -435,7 +435,7 @@ public class AarpoCheckService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d("JKS","Service stopned");
+        Log.d("ARPO","Service stopned");
 
     }
 }
