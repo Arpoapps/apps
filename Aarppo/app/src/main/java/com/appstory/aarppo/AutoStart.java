@@ -14,6 +14,6 @@ public class AutoStart extends BroadcastReceiver
     {
         Intent intent = new Intent(arg0,AarpoCheckService.class);
         arg0.startService(intent);
-        Log.i("Autostart", "started");
+
     }
 }

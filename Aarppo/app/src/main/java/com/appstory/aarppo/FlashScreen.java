@@ -95,7 +95,7 @@ public class FlashScreen extends AppCompatActivity {
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
             public void onCompletion(MediaPlayer mp)
             {
-                Log.d("JKS", "Exit mediaplayer");
+               // Log.d("JKS", "Exit mediaplayer");
                 mp.stop();
                 handler.removeCallbacks(runnable);
                 finish();

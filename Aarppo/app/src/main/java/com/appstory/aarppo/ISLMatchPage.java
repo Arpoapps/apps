@@ -199,9 +199,9 @@ Date matchDate;
         StrictMode.setThreadPolicy(policy);
         View rootView = inflater.inflate(R.layout.fragment_islmatch_page, container, false);
         mTypeFace =  Typeface.createFromAsset(rootView.getContext().getAssets(), "fonts/century-gothic.ttf");
-        Log.d("JKS","==================================");
+        Log.d("ARPO","==================================");
         if(isNetworkAvailable()) {
-            Log.d("JKS","Internet connection is available");
+            Log.d("ARPO","Internet connection is available");
 
 
 
@@ -213,13 +213,13 @@ Date matchDate;
             long hours = TimeUnit.MILLISECONDS.toHours(diffTime) % 24;
             long days = TimeUnit.MILLISECONDS.toDays(diffTime);
 
-            Log.d("JKS", "Time drift" + days + ":" + String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":"
+            Log.d("ARPO", "Time drift" + days + ":" + String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":"
                     + String.format("%02d", secs));
 
         }
         else
         {
-            Log.d("JKS","Internet is not present");
+            Log.d("ARPO","Internet is not present");
         }
 //        Context context = getActivity();
 //        SharedPreferences sharedPref = context.getSharedPreferences(
@@ -230,11 +230,11 @@ Date matchDate;
 
         if( android.provider.Settings.Global.getInt(getActivity().getContentResolver(), android.provider.Settings.Global.AUTO_TIME, 0)== 1)
         {
-            Log.d("JKS","Auto update time is on");
+            Log.d("ARPO","Auto update time is on");
         }
         else
         {
-            Log.d("JKS","Auto update time is off");
+            Log.d("ARPO","Auto update time is off");
             int requestCode = 99;
             startActivityForResult(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS), requestCode) ;
             if( android.provider.Settings.Global.getInt(getActivity().getContentResolver(), android.provider.Settings.Global.AUTO_TIME, 0)== 0)
@@ -243,13 +243,13 @@ Date matchDate;
             }
 
         }
-        Log.d("JKS","==================================");
+        Log.d("ARPO","==================================");
         String strtext = getArguments().getString("id");
-        Log.d("JKS","id ="+strtext);
+        Log.d("ARPO","id ="+strtext);
         mId = strtext;
 
         String query = "select date_time,team1, team2 from tbl_schedule WHERE sched_id="+mId;
-        //Log.d("JKS", "querry  =" +query);
+        //Log.d("ARPO", "querry  =" +query);
         AarpoDb db = new AarpoDb();
         db.openConnection();
         Cursor crsor = db.selectData(query);
@@ -270,7 +270,7 @@ Date matchDate;
                 {
                     SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     matchDate = dateformat.parse(crsor.getString(0));
-                    Log.d("JKS","Match date ="+crsor.getString(0));
+                    Log.d("ARPO","Match date ="+crsor.getString(0));
                 }
                 catch (ParseException ex)
                 {
@@ -333,11 +333,10 @@ Date matchDate;
 
 
 
-Log.d("JKS","Set check box");
 
         if (aarpo != null) {
             while (aarpo.moveToNext()) {
-                Log.d("JKS","id:"+ aarpo.getString(0)+
+                Log.d("ARPO","id:"+ aarpo.getString(0)+
                         " data: "+ aarpo.getString(1)+
                         " data: "+ aarpo.getString(2)+
                         " data: "+ aarpo.getString(3)+
@@ -378,8 +377,7 @@ Log.d("JKS","Set check box");
             }
 
         }
-        else
-Log.d("JKS", "Cursor came as null");
+
         db.closeConnection();
 
         mdb.close();
@@ -390,14 +388,14 @@ Log.d("JKS", "Cursor came as null");
                 String query;
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
-                    Log.d("JKS","Checked");
+                    Log.d("ARPO","Checked");
                      query = "UPDATE tbl_AARPO SET aarpo1=1 WHERE sched_id="+mId;
                 }
                 else
                 {
                     query = "UPDATE tbl_AARPO SET aarpo1=0 WHERE sched_id="+mId;
                 }
-                Log.d("JKS","query="+query);
+                Log.d("ARPO","query="+query);
                 updateCheckListData(getActivity(), query,mId);
             }
         });
@@ -408,14 +406,14 @@ Log.d("JKS", "Cursor came as null");
                 String query;
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
-                    Log.d("JKS","Checked");
+
                     query = "UPDATE tbl_AARPO SET aarpo2=1 WHERE sched_id="+mId;
                 }
                 else
                 {
                     query = "UPDATE tbl_AARPO SET aarpo2=0 WHERE sched_id="+mId;
                 }
-                Log.d("JKS","query="+query);
+                Log.d("ARPO","query="+query);
                 updateCheckListData(getActivity(), query,mId);
             }
         });
@@ -426,14 +424,14 @@ Log.d("JKS", "Cursor came as null");
                 String query;
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
-                    Log.d("JKS","Checked");
+
                     query = "UPDATE tbl_AARPO SET aarpo3=1 WHERE sched_id="+mId;
                 }
                 else
                 {
                     query = "UPDATE tbl_AARPO SET aarpo3=0 WHERE sched_id="+mId;
                 }
-                Log.d("JKS","query="+query);
+                Log.d("ARPO","query="+query);
                 updateCheckListData(getActivity(), query,mId);
             }
         });
@@ -444,14 +442,14 @@ Log.d("JKS", "Cursor came as null");
                 String query;
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
-                    Log.d("JKS","Checked");
+
                     query = "UPDATE tbl_AARPO SET aarpo4=1 WHERE sched_id="+mId;
                 }
                 else
                 {
                     query = "UPDATE tbl_AARPO SET aarpo4=0 WHERE sched_id="+mId;
                 }
-                Log.d("JKS","query="+query);
+                Log.d("ARPO","query="+query);
                 updateCheckListData(getActivity(), query,mId);
             }
         });
@@ -462,14 +460,14 @@ Log.d("JKS", "Cursor came as null");
                 String query;
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
-                    Log.d("JKS","Checked");
+
                     query = "UPDATE tbl_AARPO SET aarpo5=1 WHERE sched_id="+mId;
                 }
                 else
                 {
                     query = "UPDATE tbl_AARPO SET aarpo5=0 WHERE sched_id="+mId;
                 }
-                Log.d("JKS","query="+query);
+                Log.d("ARPO","query="+query);
                 updateCheckListData(getActivity(), query,mId);
             }
         });
@@ -498,14 +496,14 @@ Log.d("JKS", "Cursor came as null");
                 String query;
                 if ( ((CheckBox)v).isChecked() ) {
                     // perform logic
-                    Log.d("JKS","Checked");
+
                     query = "UPDATE tbl_AARPO SET aarpo6=1 WHERE sched_id="+mId;
                 }
                 else
                 {
                     query = "UPDATE tbl_AARPO SET aarpo6=0 WHERE sched_id="+mId;
                 }
-                Log.d("JKS","query="+query);
+                Log.d("ARPO","query="+query);
                 updateCheckListData(getActivity(), query,mId);
             }
         });
@@ -544,7 +542,7 @@ Log.d("JKS", "Cursor came as null");
 
     public Cursor  getChecklistDate(Context Ctx, String id)
     {
-        Log.d("JKS","open or create databse");
+        //Log.d("JKS","open or create databse");
          mdb = Ctx.openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
         mdb.execSQL("CREATE TABLE IF NOT EXISTS tbl_AARPO(sched_id INTEGER, "+
                 " aarpo1 INTEGER NOT NULL ,"+
@@ -555,7 +553,7 @@ Log.d("JKS", "Cursor came as null");
                 " aarpo6 INTEGER NOT NULL)");
         Cursor c3 = mdb.rawQuery("SELECT * FROM tbl_AARPO", null);
         if(c3.getCount() == 0) {
-            Log.d("JKS ", "table is empty fill data first");
+            //Log.d("JKS ", "table is empty fill data first");
             AarpoDb db =new AarpoDb();
             db.openConnection();
 
@@ -567,18 +565,18 @@ Log.d("JKS", "Cursor came as null");
             }
             db.closeConnection();
         }
-        else Log.d("JKS","data exits");
+       // else Log.d("JKS","data exits");
         String query = "Select * from tbl_AARPO WHERE sched_id="+mId;
         Cursor c2 = mdb.rawQuery(query,null);
 
-        Log.d("JKS","Cursor size=0"+c2.getCount());
+        //Log.d("JKS","Cursor size=0"+c2.getCount());
         if(c2 != null)
         {
 
-            Log.d("JKS","Cursor size=0"+c2.getCount());
+            //Log.d("JKS","Cursor size=0"+c2.getCount());
             while(c2.moveToNext())
             {
-                Log.d("JKS","id:"+ c2.getString(0)+
+                Log.d("ARPO","id:"+ c2.getString(0)+
                         " data: "+ c2.getString(1)+
                         " data: "+ c2.getString(2)+
                         " data: "+ c2.getString(3)+
@@ -586,7 +584,7 @@ Log.d("JKS", "Cursor came as null");
                         " data: "+ c2.getString(5));
             }
         }
-        else Log.d("JKS","Cursor came as null");
+      //  else Log.d("ARPO","Cursor came as null");
 
         mdb.close();
         return  c2;
@@ -601,7 +599,7 @@ Log.d("JKS", "Cursor came as null");
         {
             while(c2.moveToNext())
             {
-                Log.d("JKS","AFTER UPDATE id:"+ c2.getString(0)+
+                Log.d("ARPO","AFTER UPDATE id:"+ c2.getString(0)+
                         " data: "+ c2.getString(1)+
                         " data: "+ c2.getString(2)+
                         " data: "+ c2.getString(3)+

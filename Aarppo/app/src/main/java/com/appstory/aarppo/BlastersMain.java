@@ -39,11 +39,11 @@ public class BlastersMain extends AppCompatActivity
 
                 if( android.provider.Settings.Global.getInt(getContentResolver(), android.provider.Settings.Global.AUTO_TIME, 0)== 1)
                 {
-                    Log.d("JKS","Auto update time is on");
+                 //   Log.d("JKS","Auto update time is on");
                 }
                 else
                 {
-                    Log.d("JKS","Auto update time is off");
+                  //  Log.d("JKS","Auto update time is off");
                     int requestCode = 99;
                     startActivityForResult(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS), requestCode) ;
 
