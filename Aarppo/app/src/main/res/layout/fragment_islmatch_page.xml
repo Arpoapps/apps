@@ -115,8 +115,9 @@
             android:checked="false"
             android:textColor="#ffffff"
             android:buttonTint="@color/colorPrimaryDark"
-            android:layout_centerVertical="true"
-            android:layout_alignStart="@+id/chk_Aarpo1" />
+            android:layout_above="@+id/fab"
+            android:layout_alignStart="@+id/chk_Aarpo1"
+            android:layout_marginBottom="59dp" />
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,8 +126,9 @@
             android:checked="false"
             android:textColor="#ffffff"
             android:buttonTint="@color/colorPrimaryDark"
-            android:layout_above="@+id/fab"
-            android:layout_alignStart="@+id/chk_Aarpo1" />
+            android:layout_below="@+id/chk_Aarpo5"
+            android:layout_toStartOf="@+id/fab"
+            android:layout_marginTop="13dp" />
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
