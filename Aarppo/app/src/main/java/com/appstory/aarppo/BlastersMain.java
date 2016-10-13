@@ -122,7 +122,7 @@ public class BlastersMain extends AppCompatActivity
                 break;
             case R.id.nav_contact:
                 fragmentClass = ContactUs.class;
-                Log.d("JKS","Clicked on contact us");
+               // Log.d("JKS","Clicked on contact us");
                 break;
             case R.id.nav_howtouse:
                 fragmentClass = HowToUse.class;
@@ -130,7 +130,7 @@ public class BlastersMain extends AppCompatActivity
                 break;
             case R.id.nav_rateus:
                 fragmentClass = BlastersMatchFragment.class;
-                Log.d("JKS","package name = "+this.getPackageName());
+                //Log.d("JKS","package name = "+this.getPackageName());
                 Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + this.getPackageName()));
                 startActivity(rateIntent);
                 break;

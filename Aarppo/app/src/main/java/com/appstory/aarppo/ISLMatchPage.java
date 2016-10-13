@@ -194,20 +194,20 @@ Date matchDate;
         String query = "select team1, team2 from tbl_schedule WHERE sched_id="+mId;
         AarpoDb db = new AarpoDb();
         db.openConnection();
-        Log.d("JKS","Cancel all away arpos query="+query);
+        //Log.d("JKS","Cancel all away arpos query="+query);
         Cursor crsor = db.selectData(query);
         if (crsor != null) {
             while (crsor.moveToNext()) {
-                Log.d("JKS","team1="+crsor.getInt(0)+" TEAM2 ="+crsor.getInt(1));
+               // Log.d("JKS","team1="+crsor.getInt(0)+" TEAM2 ="+crsor.getInt(1));
                if(crsor.getInt(1) == 2) {
                    query = "UPDATE tbl_AARPO SET aarpo1=0,aarpo2=0,aarpo3=0,aarpo4=0,aarpo5=0,aarpo6=0 WHERE sched_id=" + mId;
-                   Log.d("JKS","query to cancel all arpos = "+query);
+                  // Log.d("JKS","query to cancel all arpos = "+query);
                    updateCheckListData(getActivity(), query, mId);
                }
 
             }
         }
-        db.close();
+        db.closeConnection();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

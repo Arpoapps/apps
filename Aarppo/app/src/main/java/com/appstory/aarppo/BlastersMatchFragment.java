@@ -165,12 +165,12 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
         String sysdate = formatter.format(dt);
 
         String se = "select * from tbl_schedule WHERE ((team1=2 or team2=2) and date_time>="+"'"+sysdate+"')";
-        Log.d("JKS","query ="+se);
-        Log.d("JKS","sql query = "+se);
+       // Log.d("JKS","query ="+se);
+       // Log.d("JKS","sql query = "+se);
         Cursor c = db.selectData(se);
         if (c != null) {
             while (c.moveToNext()) {
-                Log.d("JKS","result "+c.getString(0)+" =  "+c.getString(1) + "team1 = "+getTeamName(c.getInt(3))+" team2="+getTeamName(c.getInt(4))) ;
+              //  Log.d("JKS","result "+c.getString(0)+" =  "+c.getString(1) + "team1 = "+getTeamName(c.getInt(3))+" team2="+getTeamName(c.getInt(4))) ;
                 String dateTime = c.getString(1);
                 String format = c.getString(2);
                 String time = "dontcare";
