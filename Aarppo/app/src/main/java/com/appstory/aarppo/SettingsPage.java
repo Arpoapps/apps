@@ -73,30 +73,20 @@ public class SettingsPage extends Fragment {
 
         Typeface typeFace =  Typeface.createFromAsset(rootView.getContext().getAssets(), "fonts/century-gothic.ttf");
 
-        TextView txt1 = (TextView)rootView.findViewById(R.id.textView2);
-        TextView txt2 = (TextView)rootView.findViewById(R.id.textView3);
+/*        TextView txt1 = (TextView)rootView.findViewById(R.id.textView2);
         TextView txt3 = (TextView)rootView.findViewById(R.id.textView10);
-        TextView txt4 = (TextView)rootView.findViewById(R.id.textView12);
         TextView txt5 = (TextView)rootView.findViewById(R.id.textView13);
         TextView txt6 = (TextView)rootView.findViewById(R.id.textView14);
-        TextView txt7 = (TextView)rootView.findViewById(R.id.textView15);
         TextView txt8 = (TextView)rootView.findViewById(R.id.textView16);
-        TextView txt9 = (TextView)rootView.findViewById(R.id.textView17);
-        TextView txt10 = (TextView)rootView.findViewById(R.id.textView18);
         TextView txt11 = (TextView)rootView.findViewById(R.id.textView19);
-        TextView txt12 = (TextView)rootView.findViewById(R.id.textView20);
+
         txt1.setTypeface(typeFace);
-        txt2.setTypeface(typeFace);
         txt3.setTypeface(typeFace);
-        txt4.setTypeface(typeFace);
         txt5.setTypeface(typeFace);
         txt6.setTypeface(typeFace);
-        txt7.setTypeface(typeFace);
         txt8.setTypeface(typeFace);
-        txt9.setTypeface(typeFace);
-        txt10.setTypeface(typeFace);
-        txt11.setTypeface(typeFace);
-        txt12.setTypeface(typeFace);
+        txt11.setTypeface(typeFace);*/
+
         AdView adView = (AdView) rootView.findViewById(R.id.adView5);
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent(getResources().getString(R.string.banner_ad_unit_origin)).build();
