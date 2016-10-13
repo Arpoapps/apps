@@ -19,20 +19,9 @@
         android:layout_gravity="center_horizontal"
         android:src="@drawable/logoicon"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true" />
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:textStyle="bold"
-        android:fontFamily="assets/fonts/GOTHICB"
-        android:text="ARPO"
-        android:textSize="40dp"
-        android:gravity="right"
-        android:textColor="@color/colorPrimary"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/textView21" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="50sp"
+        android:layout_marginBottom="10sp" />
 
 
 </RelativeLayout>
