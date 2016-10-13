@@ -41,7 +41,7 @@ public class AarpoCheckService extends Service {
     boolean intentCalled;
 
     int syncIndex;
-    int syncArray[]= {20, 30, 45, 65, 90};
+    int syncArray[]= {22, 32, 47, 67, 88};
     int MAX_SIZE = 5;
 
 
