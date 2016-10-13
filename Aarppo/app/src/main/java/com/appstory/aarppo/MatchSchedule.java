@@ -146,7 +146,7 @@ public class MatchSchedule extends Fragment implements  AdapterView.OnItemClickL
                 {
 
                 }
-                int img = R.mipmap.ic_football;
+               // int img = R.mipmap.ic_football;
                 MatchList p1 = new MatchList();
                 p1.setName(dateTime);
                 p1.setTeam1(getTeamName(c.getInt(3)));
@@ -155,7 +155,7 @@ public class MatchSchedule extends Fragment implements  AdapterView.OnItemClickL
                 p1.setTime(time);
                 p1.setMonth(mnth);
                 p1.setLocation(getHomeGround(c.getInt(3)));
-                p1.setImg(img);
+                //p1.setImg(img);
                 list1.add(p1);
             }
         }
