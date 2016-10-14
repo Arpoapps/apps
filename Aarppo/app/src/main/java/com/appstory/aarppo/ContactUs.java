@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -72,6 +74,21 @@ public class ContactUs extends Fragment {
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent(getResources().getString(R.string.banner_ad_unit_origin)).build();
         adView.loadAd(adRequest);
+
+        TextView txt_manjappadaweb = (TextView)rootView.findViewById(R.id.manjappadaweb);
+        TextView txt_manjappadafbgroup = (TextView)rootView.findViewById(R.id.manjappadafbgroup);
+        TextView txt_manjappadafppage = (TextView)rootView.findViewById(R.id.manjappadafbPage);
+        TextView txt_manjappadainst = (TextView)rootView.findViewById(R.id.manjappadainstagram);
+        TextView txt_manjappadatwitter = (TextView)rootView.findViewById(R.id.manjappadatwitter);
+        TextView txt_manjappadautube = (TextView)rootView.findViewById(R.id.manjappadautube);
+
+        txt_manjappadaweb.setMovementMethod(LinkMovementMethod.getInstance());
+        txt_manjappadafbgroup.setMovementMethod(LinkMovementMethod.getInstance());
+        txt_manjappadafppage.setMovementMethod(LinkMovementMethod.getInstance());
+        txt_manjappadainst.setMovementMethod(LinkMovementMethod.getInstance());
+        txt_manjappadatwitter.setMovementMethod(LinkMovementMethod.getInstance());
+        txt_manjappadautube.setMovementMethod(LinkMovementMethod.getInstance());
+
         return rootView;
     }
 
