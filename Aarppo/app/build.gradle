@@ -8,8 +8,8 @@ android {
         applicationId "com.appstory.aarppo"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 5
-        versionName "2.4"
+        versionCode 7
+        versionName "3.1"
     }
     buildTypes {
         release {
