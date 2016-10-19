@@ -270,7 +270,7 @@ Date matchDate;
         Log.d("ARPO","id ="+strtext);
         mId = strtext;
         
-        cancelAllAwayArpos();
+
 
         String query = "select date_time,team1, team2 from tbl_schedule WHERE sched_id="+mId;
         //Log.d("ARPO", "querry  =" +query);
@@ -352,6 +352,7 @@ Date matchDate;
       //  Cursor aarpo =  getChecklistDate(getActivity(),mId);
 
         getChecklistDate(getActivity(),mId);
+        cancelAllAwayArpos();
         mdb = getActivity().openOrCreateDatabase("aarpoDB", Context.MODE_PRIVATE, null);
         Cursor aarpo  = mdb.rawQuery(query,null);
 
