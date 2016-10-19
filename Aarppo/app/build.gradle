@@ -27,5 +27,8 @@ dependencies {
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:cardview-v7:23.3.0'
     compile 'commons-net:commons-net:3.3'
-    compile 'com.google.android.gms:play-services-ads:8.4.0'
+    compile 'com.google.android.gms:play-services-ads:9.0.0'
+
 }
+// Add to the bottom of the file
+apply plugin: 'com.google.gms.google-services'

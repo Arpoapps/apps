@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "405486767351",
+    "firebase_url": "https://arpoappsolutions-b1ffd.firebaseio.com",
+    "project_id": "arpoappsolutions-b1ffd",
+    "storage_bucket": "arpoappsolutions-b1ffd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405486767351:android:1e8982082c6f7820",
+        "android_client_info": {
+          "package_name": "com.appstory.aarppo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405486767351-hlptmb1do6poefvaat4clqklk114v5vr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appstory.aarppo",
+            "certificate_hash": "FD23D377AA9933023DF3FA3B7E3BE2781845ADB1"
+          }
+        },
+        {
+          "client_id": "405486767351-egi7it6k9umq57h48eqe54ijqjas9rhs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ5ZRV-2ZclN8Vq-Uz9jLEERJkGzNMd6A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405486767351-egi7it6k9umq57h48eqe54ijqjas9rhs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
