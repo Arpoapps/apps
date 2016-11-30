@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHALLENGE NAME"
+        android:id="@+id/txt_challenge_Name"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/txt_type"
+        android:layout_alignStart="@+id/txt_type"
+        android:layout_marginTop="13dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Challenge type"
+        android:id="@+id/txt_type"
+        android:layout_marginTop="13dp"
+        android:layout_below="@+id/txt_challenge_Name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Details"
+        android:id="@+id/txt_count"
+        android:layout_below="@+id/txt_type"
+        android:layout_alignLeft="@+id/txt_type"
+        android:layout_alignStart="@+id/txt_type"
+        android:layout_marginTop="15dp" />
+</RelativeLayout>
