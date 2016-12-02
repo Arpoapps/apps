@@ -4,9 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 /**
@@ -64,7 +67,26 @@ public class ChallengePageClient extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_challenge_page_client, container, false);
+        View rootView =  inflater.inflate(R.layout.fragment_challenge_page_client, container, false);
+        final TextView msg = (TextView) rootView.findViewById(R.id.txt_msg);
+
+        Button btn_connect = (Button)rootView.findViewById(R.id.btn_connectTo);
+        final  String ip="";
+        btn_connect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ip.equals(""))
+                {
+                    Log.d("JKS","ip is null");
+                }else {
+
+                    Client arpoClient = new Client("192.168.43.1", 8080, msg);
+                    arpoClient.execute();
+                }
+            }
+        });
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

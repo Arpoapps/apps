@@ -4,9 +4,17 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 
 /**
@@ -60,11 +68,122 @@ public class ChallengePageServer extends Fragment {
         }
     }
 
+    public void print(String str)
+    {
+        Log.d("JKS",str);
+    }
+/*
+    int socketServerPORT = 5005;
+
+    private class SocketServerThread extends Thread {
+
+        int count = 0;
+
+        ServerSocket serverSocket;
+        String message;
+        @Override
+        public void run() {
+            try {
+                // create ServerSocket using specified port
+                serverSocket = new ServerSocket(socketServerPORT);
+
+                while (true) {
+                    // block the call until connection is created and return
+                    // Socket object
+                    Socket socket = serverSocket.accept();
+                    count++;
+                    message = "#" + count + " from "
+                            + socket.getInetAddress() + ":"
+                            + socket.getPort() + "\n";
+*//*
+
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            activity.msg.setText(message);
+                        }
+                    });
+*//*
+                    print("Connected" + message);
+
+                    SocketServerReplyThread socketServerReplyThread =
+                            new SocketServerReplyThread(socket, count);
+                    socketServerReplyThread.run();
+
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    private class SocketServerReplyThread extends Thread {
+
+        private Socket hostThreadSocket;
+        int cnt;
+
+        SocketServerReplyThread(Socket socket, int c) {
+            hostThreadSocket = socket;
+            cnt = c;
+        }
+
+        @Override
+        public void run() {
+            OutputStream outputStream;
+            String msgReply = "Hello from Server, you are #" + cnt;
+
+            try {
+                outputStream = hostThreadSocket.getOutputStream();
+                PrintStream printStream = new PrintStream(outputStream);
+                printStream.print(msgReply);
+                printStream.close();
+
+                print("replayed: " + msgReply + "\n");
+*//*
+
+                activity.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        activity.msg.setText(message);
+                    }
+                });
+*//*
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+
+            }
+*//*
+            activity.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    activity.msg.setText(message);
+                }
+            });*//*
+        }
+
+    }*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_challenge_page_server, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_challenge_page_server, container, false);
+
+        Button startServer = (Button)rootView.findViewById(R.id.btn_connect_client);
+        startServer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Server server = new Server();
+
+            }
+        });
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
