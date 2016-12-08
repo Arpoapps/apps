@@ -9,6 +9,10 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -156,5 +160,51 @@ public class ArpoWifi {
         }
 
         return  result;
+    }
+
+    public String getIpAddress() {
+        String ip = "";
+        try {
+            Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface
+                    .getNetworkInterfaces();
+            while (enumNetworkInterfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = enumNetworkInterfaces
+                        .nextElement();
+                Enumeration<InetAddress> enumInetAddress = networkInterface
+                        .getInetAddresses();
+                while (enumInetAddress.hasMoreElements()) {
+                    InetAddress inetAddress = enumInetAddress
+                            .nextElement();
+
+                    if (inetAddress.isSiteLocalAddress()) {
+                        ip = inetAddress.getHostAddress();
+                    }
+                }
+            }
+
+        } catch (SocketException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            ip ="";
+        }
+        return ip;
+    }
+
+    public boolean isIpAddressPresent()
+    {
+        boolean result = false;
+
+        String ip = getIpAddress();
+        if(ip.equals(""))
+        {
+            Log.d("JKS","Didnt get ipAddress");
+            result = false;
+        }
+        else
+        {
+            Log.d("JKS","Got ip address as "+ip);
+            result = true;
+        }
+        return result;
     }
 }

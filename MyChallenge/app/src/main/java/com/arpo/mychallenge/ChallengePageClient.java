@@ -32,6 +32,11 @@ public class ChallengePageClient extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    public void print(String str)
+    {
+        Log.d("JKS",str);
+    }
+
     public ChallengePageClient() {
         // Required empty public constructor
     }
@@ -70,19 +75,36 @@ public class ChallengePageClient extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_challenge_page_client, container, false);
         final TextView msg = (TextView) rootView.findViewById(R.id.txt_msg);
 
+        new Thread(new Runnable() {
+            public void run(){
+                ArpoWifi wifiModule = new ArpoWifi(getContext());
+
+                try {
+                    while(wifiModule.isIpAddressPresent() == false)
+                    {
+                        Thread.sleep(5);
+                    }
+                    print("GOT IP ADDRESS");
+                    Thread.sleep(3000);
+                    print("TRY CONNECTING");
+                    Client arpoClient = new Client("192.168.43.1", 8080, msg);
+                    arpoClient.execute();
+                }catch (Exception e)
+                {
+
+                }
+            }
+        }).start();
         Button btn_connect = (Button)rootView.findViewById(R.id.btn_connectTo);
         final  String ip="";
         btn_connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ip.equals(""))
-                {
-                    Log.d("JKS","ip is null");
-                }else {
+
 
                     Client arpoClient = new Client("192.168.43.1", 8080, msg);
                     arpoClient.execute();
-                }
+
             }
         });
 

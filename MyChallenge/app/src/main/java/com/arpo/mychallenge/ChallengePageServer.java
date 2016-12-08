@@ -37,6 +37,8 @@ public class ChallengePageServer extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private Server mServer;
+
     public ChallengePageServer() {
         // Required empty public constructor
     }
@@ -70,116 +72,50 @@ public class ChallengePageServer extends Fragment {
 
     public void print(String str)
     {
-        Log.d("JKS",str);
-    }
-/*
-    int socketServerPORT = 5005;
-
-    private class SocketServerThread extends Thread {
-
-        int count = 0;
-
-        ServerSocket serverSocket;
-        String message;
-        @Override
-        public void run() {
-            try {
-                // create ServerSocket using specified port
-                serverSocket = new ServerSocket(socketServerPORT);
-
-                while (true) {
-                    // block the call until connection is created and return
-                    // Socket object
-                    Socket socket = serverSocket.accept();
-                    count++;
-                    message = "#" + count + " from "
-                            + socket.getInetAddress() + ":"
-                            + socket.getPort() + "\n";
-*//*
-
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            activity.msg.setText(message);
-                        }
-                    });
-*//*
-                    print("Connected" + message);
-
-                    SocketServerReplyThread socketServerReplyThread =
-                            new SocketServerReplyThread(socket, count);
-                    socketServerReplyThread.run();
-
-                }
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+        Log.d("JKS", str);
     }
 
-
-    private class SocketServerReplyThread extends Thread {
-
-        private Socket hostThreadSocket;
-        int cnt;
-
-        SocketServerReplyThread(Socket socket, int c) {
-            hostThreadSocket = socket;
-            cnt = c;
-        }
-
-        @Override
-        public void run() {
-            OutputStream outputStream;
-            String msgReply = "Hello from Server, you are #" + cnt;
-
-            try {
-                outputStream = hostThreadSocket.getOutputStream();
-                PrintStream printStream = new PrintStream(outputStream);
-                printStream.print(msgReply);
-                printStream.close();
-
-                print("replayed: " + msgReply + "\n");
-*//*
-
-                activity.runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        activity.msg.setText(message);
-                    }
-                });
-*//*
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-
-            }
-*//*
-            activity.runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    activity.msg.setText(message);
-                }
-            });*//*
-        }
-
-    }*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_challenge_page_server, container, false);
 
+
+        new Thread(new Runnable() {
+            public void run(){
+                ArpoWifi wifiModule = new ArpoWifi(getContext());
+                try {
+
+                    while(wifiModule.isIpAddressPresent() == false)
+                    {
+                        Thread.sleep(500);
+                    }
+                    print("GOT IP ADDRESS");
+                    Thread.sleep(500);
+                }catch (Exception e)
+                {
+
+                }
+                print("Start server");
+                mServer = new Server();
+            }
+        }).start();
+
         Button startServer = (Button)rootView.findViewById(R.id.btn_connect_client);
         startServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Server server = new Server();
+                if(mServer.isConnected())
+                {
+                    print("Send message");
+                    mServer.sendDummy();
+                }
+                else
+                {
+                    print("Device not connected");
+                }
 
             }
         });

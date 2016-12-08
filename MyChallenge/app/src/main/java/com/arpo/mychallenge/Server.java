@@ -20,6 +20,15 @@ public class Server {
     ServerSocket serverSocket;
     String message = "";
     static final int socketServerPORT = 8080;
+    static final int MAX_DEVICES = 16;
+
+    int count = 0;
+
+    private class sockClass {
+        public  Socket serverSocket;
+        public int clientNumber;
+    }
+    sockClass [] clientsSockInfo  = new sockClass[16];
 
     public Server(MainActivity activity) {
         this.activity = activity;
@@ -27,8 +36,32 @@ public class Server {
         socketServerThread.start();
     }
 
+    public boolean isConnected()    {
+        boolean result = false;
+
+        if(count > 0 )
+            result = true;
+
+        return result;
+    }
+
+    public void sendDummy()
+    {
+        for(int i = 0; i < count;i++)
+        {
+            print("Send message to client "+ clientsSockInfo[i].clientNumber);
+        }
+    }
     public Server() {
 
+
+        for(int i = 0; i <MAX_DEVICES;i++)
+        {
+            print("sock info"+ i +" created");
+            clientsSockInfo[i] = new sockClass();
+            print("sock info"+ i +" created");
+            clientsSockInfo[i].clientNumber = i;
+        }
         Thread socketServerThread = new Thread(new SocketServerThread());
         socketServerThread.start();
     }
@@ -55,7 +88,6 @@ public class Server {
 
     private class SocketServerThread extends Thread {
 
-        int count = 0;
 
         @Override
         public void run() {
@@ -70,16 +102,18 @@ public class Server {
                     // block the call until connection is created and return
                     // Socket object
                     print("Wait to accept");
-                    Socket socket = serverSocket.accept();
-                    count++;
+
+                    clientsSockInfo[count].serverSocket = serverSocket.accept();
+
                     message += "#" + count + " from "
-                            + socket.getInetAddress() + ":"
-                            + socket.getPort() + "\n";
+                            + clientsSockInfo[count].serverSocket .getInetAddress() + ":"
+                            + clientsSockInfo[count].serverSocket .getPort() + "\n";
 
                     print("#" + count + " from "
-                            + socket.getInetAddress() + ":"
-                            + socket.getPort() );
-                    print("ACcepted conection");
+                            + clientsSockInfo[count].serverSocket .getInetAddress() + ":"
+                            + clientsSockInfo[count].serverSocket .getPort() );
+
+                    print("Accepted conection of client "+clientsSockInfo[count].clientNumber);
 
                     /*activity.runOnUiThread(new Runnable() {
                         @Override
@@ -89,8 +123,9 @@ public class Server {
                     });*/
 
                     SocketServerReplyThread socketServerReplyThread =
-                            new SocketServerReplyThread(socket, count);
+                            new SocketServerReplyThread(clientsSockInfo[count].serverSocket , count);
                     socketServerReplyThread.run();
+                    count++;
 
                 }
             } catch (Exception e) {
@@ -123,27 +158,11 @@ public class Server {
 
                 message += "replayed: " + msgReply + "\n";
 
-                /*activity.runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        activity.msg.setText(message);
-                    }
-                });*/
-
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 message += "Something wrong! " + e.toString() + "\n";
             }
-
-            /*activity.runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    activity.msg.setText(message);
-                }
-            });*/
         }
 
     }
