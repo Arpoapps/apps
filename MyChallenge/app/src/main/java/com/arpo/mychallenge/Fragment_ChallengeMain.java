@@ -125,25 +125,23 @@ public class Fragment_ChallengeMain extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 // TODO Auto-generated method stub
-                Log.i("JKS", "opening wifi manager");
 
-                Log.d("JKS","Get scan results");
                 List<ScanResult> mScanResults = mArpoWifiModule.getWifiScanResults();
                 List<ScanResult> challengesList = new ArrayList<>();
                 for(ScanResult results : mScanResults)
                 {
                     if(results.SSID.startsWith("ARPO")) {
                         String[] tokens = results.SSID.split("/");
-                        for (String t : tokens)
+             /*           for (String t : tokens)
                             Log.d("JKS", "s=" + t);
-                        Log.d("JKS", "NAME:" + tokens[1] + " TYPE=" + tokens[2] + " COUNT=" + tokens[3]);
+                        Log.d("JKS", "NAME:" + tokens[1] + " TYPE=" + tokens[2] + " COUNT=" + tokens[3]);*/
                         if (tokens[0].equals("ARPO")) {
                             challengesList.add(results);
                         }
                     }
                 }
 
-                Log.d("JKS","Result Count="+mScanResults.size());
+               // Log.d("JKS","Result Count="+mScanResults.size());
                 ChallengesAdapter adapChallenge = new ChallengesAdapter(getContext(),challengesList);
                 lv_challengeList.setAdapter(adapChallenge);
                 lv_challengeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

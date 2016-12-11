@@ -32,6 +32,9 @@ public class ChallengePageClient extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    Client arpoClient;
+    ArpoWifi wifiModule;
+
     public void print(String str)
     {
         Log.d("JKS",str);
@@ -77,7 +80,7 @@ public class ChallengePageClient extends Fragment {
 
         new Thread(new Runnable() {
             public void run(){
-                ArpoWifi wifiModule = new ArpoWifi(getContext());
+                wifiModule = new ArpoWifi(getContext());
 
                 try {
                     while(wifiModule.isIpAddressPresent() == false)
@@ -87,23 +90,24 @@ public class ChallengePageClient extends Fragment {
                     print("GOT IP ADDRESS");
                     Thread.sleep(3000);
                     print("TRY CONNECTING");
-                    Client arpoClient = new Client("192.168.43.1", 8080, msg);
-                    arpoClient.execute();
+                    arpoClient = new Client("192.168.43.1", 8080, msg,getActivity());
+
+                    //wifiModule.startClient("192.168.43.1", 8080, msg);
+                    //arpoClient.execute();
                 }catch (Exception e)
                 {
 
                 }
             }
         }).start();
+
         Button btn_connect = (Button)rootView.findViewById(R.id.btn_connectTo);
         final  String ip="";
         btn_connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-                    Client arpoClient = new Client("192.168.43.1", 8080, msg);
-                    arpoClient.execute();
+                arpoClient.sendMsg();
 
             }
         });
@@ -132,8 +136,18 @@ public class ChallengePageClient extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        print("Detach client");
+        arpoClient.closeConnection();
         mListener = null;
     }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        arpoClient.closeConnection();
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

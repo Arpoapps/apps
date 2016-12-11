@@ -39,6 +39,8 @@ public class ChallengePageServer extends Fragment {
 
     private Server mServer;
 
+    private ArpoWifi wifiModule;
+
     public ChallengePageServer() {
         // Required empty public constructor
     }
@@ -84,7 +86,7 @@ public class ChallengePageServer extends Fragment {
 
         new Thread(new Runnable() {
             public void run(){
-                ArpoWifi wifiModule = new ArpoWifi(getContext());
+                wifiModule = new ArpoWifi(getContext());
                 try {
 
                     while(wifiModule.isIpAddressPresent() == false)
@@ -99,6 +101,8 @@ public class ChallengePageServer extends Fragment {
                 }
                 print("Start server");
                 mServer = new Server();
+
+                //wifiModule.startServer();
             }
         }).start();
 
@@ -133,6 +137,7 @@ public class ChallengePageServer extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
+            print("INTERACTION");
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
@@ -143,7 +148,14 @@ public class ChallengePageServer extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        print("INTERACTION");
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mServer.closeConnection();
     }
 
     /**
@@ -158,6 +170,7 @@ public class ChallengePageServer extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+
         void onFragmentInteraction(Uri uri);
     }
 }

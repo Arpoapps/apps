@@ -3,8 +3,12 @@ package com.arpo.mychallenge;
 import android.util.Log;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
@@ -22,11 +26,16 @@ public class Server {
     static final int socketServerPORT = 8080;
     static final int MAX_DEVICES = 16;
 
-    int count = 0;
+    int count = -1;
+    int msgCount = 0;
+
+    boolean exitFlag = true;
 
     private class sockClass {
         public  Socket serverSocket;
         public int clientNumber;
+        //PrintWriter serverOut;
+        ObjectOutputStream serverOutObj;
     }
     sockClass [] clientsSockInfo  = new sockClass[16];
 
@@ -39,6 +48,7 @@ public class Server {
     public boolean isConnected()    {
         boolean result = false;
 
+        print("Count = "+count);
         if(count > 0 )
             result = true;
 
@@ -47,23 +57,55 @@ public class Server {
 
     public void sendDummy()
     {
+        ArpoPacket packet = new ArpoPacket();
+
         for(int i = 0; i < count;i++)
         {
-            print("Send message to client "+ clientsSockInfo[i].clientNumber);
+            packet.setMessage("JKS Hello from server to client " + clientsSockInfo[i].clientNumber + " MESSAGE NUMBER=" + msgCount++);
+            if(clientsSockInfo[i].serverOutObj == null)
+            {
+                print("print servet is null");
+            }
+            else {
+
+                try {
+                    clientsSockInfo[i].serverOutObj.writeObject(packet);
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+                //clientsSockInfo[i].serverOut.println(");
+            }
         }
     }
     public Server() {
 
 
+        count = 0;
         for(int i = 0; i <MAX_DEVICES;i++)
         {
-            print("sock info"+ i +" created");
             clientsSockInfo[i] = new sockClass();
-            print("sock info"+ i +" created");
             clientsSockInfo[i].clientNumber = i;
         }
         Thread socketServerThread = new Thread(new SocketServerThread());
         socketServerThread.start();
+    }
+
+    public void closeConnection()
+    {
+        exitFlag = false;
+        for(int i = 0; i <MAX_DEVICES;i++)
+        {
+            try {
+                clientsSockInfo[i].serverSocket.close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 
     public int getPort() {
@@ -95,7 +137,7 @@ public class Server {
                 // create ServerSocket using specified port
                 Thread.sleep(20);
                 print("Start server with port ="+socketServerPORT);
-                Log.d("JKS","server ip ="+getIpAddress());
+                print("server ip ="+getIpAddress());
                 serverSocket = new ServerSocket(socketServerPORT);
 
                 while (true) {
@@ -122,10 +164,20 @@ public class Server {
                         }
                     });*/
 
+                    clientsSockInfo[count].serverOutObj =new ObjectOutputStream(clientsSockInfo[count].serverSocket.getOutputStream());
+
+                    if(clientsSockInfo[count].serverOutObj == null)
+                    {
+                        print("Couldnt get serverOut it is null");
+                    }
+
                     SocketServerReplyThread socketServerReplyThread =
-                            new SocketServerReplyThread(clientsSockInfo[count].serverSocket , count);
-                    socketServerReplyThread.run();
+                            new SocketServerReplyThread(clientsSockInfo[count].serverSocket , count , clientsSockInfo[count].serverOutObj);
+                    socketServerReplyThread.start();
                     count++;
+                    print("INCREMENTED count to " + count);
+
+
 
                 }
             } catch (Exception e) {
@@ -138,27 +190,47 @@ public class Server {
     private class SocketServerReplyThread extends Thread {
 
         private Socket hostThreadSocket;
+        private ObjectOutputStream outObj;
         int cnt;
 
-        SocketServerReplyThread(Socket socket, int c) {
+        SocketServerReplyThread(Socket socket, int c, ObjectOutputStream outSocket) {
             hostThreadSocket = socket;
             cnt = c;
+            outObj = outSocket;
         }
 
         @Override
         public void run() {
-            OutputStream outputStream;
-            String msgReply = "Hello from Server, you are #" + cnt;
+
+            ArpoPacket msg = new ArpoPacket();
+
+            msg.appendMessage("you are #" + cnt);
+
 
             try {
-                outputStream = hostThreadSocket.getOutputStream();
-                PrintStream printStream = new PrintStream(outputStream);
-                printStream.print(msgReply);
-                printStream.close();
 
-                message += "replayed: " + msgReply + "\n";
+                ObjectInputStream objectInput = new ObjectInputStream(hostThreadSocket.getInputStream());
 
-            } catch (IOException e) {
+                outObj.writeObject(msg);
+
+                while(exitFlag) {
+                    //waiting for input
+                    print("server waiting for data");
+                    ArpoPacket packet = (ArpoPacket) objectInput.readObject();
+                    print("Server got data = "+packet.getMessage());
+                    Thread.sleep(500);
+                }
+
+            } catch (ClassNotFoundException ex)
+            {
+                ex.printStackTrace();
+            }
+            catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                message += "Something wrong! " + e.toString() + "\n";
+            }
+            catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 message += "Something wrong! " + e.toString() + "\n";

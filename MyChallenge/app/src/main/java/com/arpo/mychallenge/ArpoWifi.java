@@ -7,6 +7,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -22,6 +23,9 @@ public class ArpoWifi {
 
     private Context mContext;
     private WifiManager mWifiManager;
+
+    private Server mServer;
+    private Client mClient;
 
     ArpoWifi(Context C)
     {
@@ -206,5 +210,23 @@ public class ArpoWifi {
             result = true;
         }
         return result;
+    }
+
+    public void startServer()
+    {
+        mServer = new Server();
+    }
+    public void closeServer()
+    {
+        mServer.closeConnection();
+    }
+
+    public void startClient(String addr, int port, TextView textResponse)
+    {
+        mClient =  new Client(addr,port,textResponse);
+    }
+    public void closeClient()
+    {
+        mClient.closeConnection();
     }
 }
