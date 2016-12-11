@@ -9,7 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -34,6 +38,9 @@ public class ChallengePageClient extends Fragment {
 
     Client arpoClient;
     ArpoWifi wifiModule;
+    GridView gv_avatarCl;
+    List<ListAvatar> list;
+    AdapterChallengers avatarAdapter;
 
     public void print(String str)
     {
@@ -71,12 +78,34 @@ public class ChallengePageClient extends Fragment {
         }
     }
 
+    private void fillAvatarInfo()
+    {
+        list = new ArrayList<>();
+        ListAvatar p1 = new ListAvatar();
+        // adding self information
+        {
+            p1.setName("Client Name");
+            p1.setPushUpTaken("0");
+            p1.setPushUPTimeTaken("00:00:000");
+            list.add(p1);
+        }
+
+        avatarAdapter = new AdapterChallengers(getContext(), list);
+        gv_avatarCl.setAdapter(avatarAdapter);
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_challenge_page_client, container, false);
         final TextView msg = (TextView) rootView.findViewById(R.id.txt_msg);
+
+        gv_avatarCl = (GridView)rootView.findViewById(R.id.gv_client);
+        gv_avatarCl.setNumColumns(2);
+        fillAvatarInfo();
+
 
         new Thread(new Runnable() {
             public void run(){
@@ -90,7 +119,7 @@ public class ChallengePageClient extends Fragment {
                     print("GOT IP ADDRESS");
                     Thread.sleep(3000);
                     print("TRY CONNECTING");
-                    arpoClient = new Client("192.168.43.1", 8080, msg,getActivity());
+                    arpoClient = new Client("192.168.43.1", 8080, msg,getActivity(),list,avatarAdapter);
 
                     //wifiModule.startClient("192.168.43.1", 8080, msg);
                     //arpoClient.execute();

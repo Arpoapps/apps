@@ -1,5 +1,6 @@
 package com.arpo.mychallenge;
 
+import android.app.Activity;
 import android.util.Log;
 
 import java.io.IOException;
@@ -15,12 +16,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Created by jithin on 1/12/16.
  */
 public class Server {
-    MainActivity activity;
+    Activity activity;
     ServerSocket serverSocket;
     String message = "";
     static final int socketServerPORT = 8080;
@@ -29,21 +31,18 @@ public class Server {
     int count = -1;
     int msgCount = 0;
 
+    AdapterChallengers avatarAdapter;
+    List<ListAvatar> list;
     boolean exitFlag = true;
+    ArpoPacket mainPacket;
 
     private class sockClass {
         public  Socket serverSocket;
         public int clientNumber;
-        //PrintWriter serverOut;
         ObjectOutputStream serverOutObj;
+
     }
     sockClass [] clientsSockInfo  = new sockClass[16];
-
-    public Server(MainActivity activity) {
-        this.activity = activity;
-        Thread socketServerThread = new Thread(new SocketServerThread());
-        socketServerThread.start();
-    }
 
     public boolean isConnected()    {
         boolean result = false;
@@ -58,6 +57,7 @@ public class Server {
     public void sendDummy()
     {
         ArpoPacket packet = new ArpoPacket();
+        packet.setMessageType(ArpoPacket.ARPO_PACKET_JUNK_MESSAGE);
 
         for(int i = 0; i < count;i++)
         {
@@ -91,6 +91,39 @@ public class Server {
         }
         Thread socketServerThread = new Thread(new SocketServerThread());
         socketServerThread.start();
+    }
+
+    public Server(List<ListAvatar> lst, AdapterChallengers  adapter, Activity act) {
+
+        list = lst;
+        avatarAdapter = adapter;
+        activity = act;
+
+        count = 0;
+        for(int i = 0; i <MAX_DEVICES;i++)
+        {
+            clientsSockInfo[i] = new sockClass();
+            clientsSockInfo[i].clientNumber = i;
+        }
+        Thread socketServerThread = new Thread(new SocketServerThread());
+        socketServerThread.start();
+    }
+
+    public void updateView (ArpoPacket packet)
+    {
+        mainPacket = packet;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ListAvatar p1 = new ListAvatar();
+                p1.setName(mainPacket.getClientName());
+                p1.setPushUpTaken("0");
+                p1.setPushUPTimeTaken("00:00:000");
+                list.add(p1);
+                avatarAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     public void closeConnection()
@@ -205,7 +238,7 @@ public class Server {
             ArpoPacket msg = new ArpoPacket();
 
             msg.appendMessage("you are #" + cnt);
-
+            msg.setServerName("Game server");
 
             try {
 
@@ -218,6 +251,14 @@ public class Server {
                     print("server waiting for data");
                     ArpoPacket packet = (ArpoPacket) objectInput.readObject();
                     print("Server got data = "+packet.getMessage());
+                    int type = packet.getMessageType();
+                    switch (type)
+                    {
+                        case ArpoPacket.ARPO_PACKET_RESPONSE_CLIENT_INFO:
+                            print("got client name as "+packet.getClientName());
+                            updateView(packet);
+                            break;
+                    }
                     Thread.sleep(500);
                 }
 

@@ -89,7 +89,6 @@ public class ChallengePageServer extends Fragment {
         list = new ArrayList<>();
         ListAvatar p1 = new ListAvatar();
         // adding self information
-     //   for(int i = 0; i<10;i++)
         {
             p1.setName("My Name");
             p1.setPushUpTaken("0");
@@ -101,12 +100,10 @@ public class ChallengePageServer extends Fragment {
         gv_avatar.setAdapter(avatarAdapter);
         //gv_avatar.setOnItemClickListener(this);
 
-        addChallengerToGridView();
 
     }
 
-    public void addChallengerToGridView()
-    {
+    public void addChallengerToGridView() {
 
         ListAvatar p1 = new ListAvatar();
         p1.setName("Challenger");
@@ -114,7 +111,6 @@ public class ChallengePageServer extends Fragment {
         p1.setPushUPTimeTaken("00:00:000");
         list.add(p1);
         avatarAdapter.notifyDataSetChanged();
-
     }
 
     @Override
@@ -144,7 +140,7 @@ public class ChallengePageServer extends Fragment {
 
                 }
                 print("Start server");
-                mServer = new Server();
+                mServer = new Server(list, avatarAdapter, getActivity());
 
                 //wifiModule.startServer();
             }
@@ -181,7 +177,6 @@ public class ChallengePageServer extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
-            print("INTERACTION");
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
@@ -192,7 +187,6 @@ public class ChallengePageServer extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        print("INTERACTION");
         mListener = null;
     }
 

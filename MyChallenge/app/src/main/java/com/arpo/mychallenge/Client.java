@@ -18,6 +18,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Created by jithin on 1/12/16.
@@ -32,6 +33,11 @@ public class Client extends AsyncTask<Void, Void, Void> {
     Socket socket = null;
     ObjectOutputStream clientOutObj;
     Activity uiActitivy;
+
+    List<ListAvatar> list;
+    AdapterChallengers avatarAdapter;
+
+    ArpoPacket mainPct;
 
     int Pcount = 0;
 
@@ -52,6 +58,7 @@ public class Client extends AsyncTask<Void, Void, Void> {
     public void sendMsg()
     {
         ArpoPacket packet = new ArpoPacket();
+        packet.setMessageType(ArpoPacket.ARPO_PACKET_JUNK_MESSAGE);
         packet.setMessage("HELLO FROM CLIENT");
         print("send messge from client");
 
@@ -62,8 +69,40 @@ public class Client extends AsyncTask<Void, Void, Void> {
         {
 
         }
+    }
 
+    public void sendMyInfo()
+    {
+        ArpoPacket packet = new ArpoPacket();
+        packet.setMessage("Client information");
+        print("send client info to server");
 
+        packet.setClientName("ClientName");
+        packet.setMessageType(ArpoPacket.ARPO_PACKET_RESPONSE_CLIENT_INFO);
+
+        try {
+            clientOutObj.writeObject(packet);
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    public void updateServerName(ArpoPacket packet)
+    {
+        mainPct = packet;
+        uiActitivy.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ListAvatar p1 = new ListAvatar();
+                p1.setName(mainPct.getServerName());
+                p1.setPushUpTaken("0");
+                p1.setPushUPTimeTaken("00:00:000");
+                list.add(p1);
+                avatarAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     Client(String addr, int port, TextView textResponse) {
@@ -75,11 +114,13 @@ public class Client extends AsyncTask<Void, Void, Void> {
         socketClientThread.start();
     }
 
-    Client(String addr, int port, TextView textResponse, Activity uiAct) {
+    Client(String addr, int port, TextView textResponse, Activity uiAct, List<ListAvatar> lst, AdapterChallengers adapter) {
         dstAddress = addr;
         dstPort = port;
         this.textResponse = textResponse;
         this.uiActitivy = uiAct;
+        list = lst;
+        avatarAdapter = adapter;
 
 
         Thread socketClientThread = new Thread(new SocketClientThread());
@@ -130,11 +171,14 @@ public class Client extends AsyncTask<Void, Void, Void> {
                     //bytesRead = inputStream.read(buffer);
                     ArpoPacket packet = (ArpoPacket)objectInput.readObject();
                     print("Received packet");
-                    int state = 1;
+                    int type = packet.getMessageType();
 
-                    switch (state)
+                    switch (type)
                     {
-                        case 1: print("STATE 1");
+                        case ArpoPacket.ARPO_PACKET_WELCOME:
+                            print("STATE 1");
+                            sendMyInfo();
+                            updateServerName(packet);
                             break;
                         case 2: print("STATE 2");
                             break;
