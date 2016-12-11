@@ -17,4 +17,23 @@
         android:id="@+id/btn_connect_client"
         android:layout_gravity="left|bottom" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|bottom">
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="61dp"
+            android:layout_marginTop="61dp"
+            android:id="@+id/grdViewServer"
+            ></GridView>
+    </RelativeLayout>
+
 </FrameLayout>

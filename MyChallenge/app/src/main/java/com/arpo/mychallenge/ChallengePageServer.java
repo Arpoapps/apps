@@ -9,12 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -38,6 +41,10 @@ public class ChallengePageServer extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private Server mServer;
+
+    private GridView gv_avatar;
+    AdapterChallengers avatarAdapter;
+    List<ListAvatar> list;
 
     private ArpoWifi wifiModule;
 
@@ -77,12 +84,49 @@ public class ChallengePageServer extends Fragment {
         Log.d("JKS", str);
     }
 
+    private void fillAvatarInfo()
+    {
+        list = new ArrayList<>();
+        ListAvatar p1 = new ListAvatar();
+        // adding self information
+     //   for(int i = 0; i<10;i++)
+        {
+            p1.setName("My Name");
+            p1.setPushUpTaken("0");
+            p1.setPushUPTimeTaken("00:00:000");
+            list.add(p1);
+        }
+
+        avatarAdapter = new AdapterChallengers(getContext(), list);
+        gv_avatar.setAdapter(avatarAdapter);
+        //gv_avatar.setOnItemClickListener(this);
+
+        addChallengerToGridView();
+
+    }
+
+    public void addChallengerToGridView()
+    {
+
+        ListAvatar p1 = new ListAvatar();
+        p1.setName("Challenger");
+        p1.setPushUpTaken("0");
+        p1.setPushUPTimeTaken("00:00:000");
+        list.add(p1);
+        avatarAdapter.notifyDataSetChanged();
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_challenge_page_server, container, false);
 
+
+        gv_avatar = (GridView)rootView.findViewById(R.id.grdViewServer);
+        gv_avatar.setNumColumns(2);
+        fillAvatarInfo();
 
         new Thread(new Runnable() {
             public void run(){
