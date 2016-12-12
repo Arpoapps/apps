@@ -1,6 +1,7 @@
 package com.arpo.mychallenge;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.io.IOException;
@@ -126,6 +127,34 @@ public class Server {
 
     }
 
+    public void sendChallengerInfo()
+    {
+        ArpoPacket packet = new ArpoPacket();
+        packet.setMessageType(ArpoPacket.ARPO_PACKET_REPOSNSE_CHALLENGERS);
+        packet.setChallengerList(list);
+
+        for(int i = 0; i < count;i++)
+        {
+            packet.setMessage("Challenger information from server to " + clientsSockInfo[i].clientNumber + " MESSAGE NUMBER=" + msgCount++);
+            if(clientsSockInfo[i].serverOutObj == null)
+            {
+                print("print servet is null");
+            }
+            else {
+
+                try {
+                    clientsSockInfo[i].serverOutObj.writeObject(packet);
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+                //clientsSockInfo[i].serverOut.println(");
+            }
+        }
+    }
+
     public void closeConnection()
     {
         exitFlag = false;
@@ -240,6 +269,10 @@ public class Server {
             msg.appendMessage("you are #" + cnt);
             msg.setServerName("Game server");
 
+            SharedPreferences prefs = activity.getSharedPreferences("AVATAR_INFO", activity.MODE_PRIVATE);
+            String restoredText = prefs.getString("name", null);
+            msg.setServerName(restoredText);
+
             try {
 
                 ObjectInputStream objectInput = new ObjectInputStream(hostThreadSocket.getInputStream());
@@ -257,6 +290,7 @@ public class Server {
                         case ArpoPacket.ARPO_PACKET_RESPONSE_CLIENT_INFO:
                             print("got client name as "+packet.getClientName());
                             updateView(packet);
+                            sendChallengerInfo();
                             break;
                     }
                     Thread.sleep(500);

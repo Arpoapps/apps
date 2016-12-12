@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -97,6 +98,24 @@ public class Fragment_ChallengeMain extends Fragment {
         }
     }
 
+    private void createSharedPreferences()
+    {
+        //public static final String MY_PREFS_NAME = "MyPrefsFile";
+        SharedPreferences prefs = getContext().getSharedPreferences("AVATAR_INFO", getContext().MODE_PRIVATE);
+        String restoredText = prefs.getString("name", null);
+        if (restoredText != null) {
+            String name = prefs.getString("name", "No name defined");//"No name defined" is the default value.
+            int age = prefs.getInt("age", 0); //0 is the default value.
+        }
+        else {
+            SharedPreferences.Editor editor = getContext().getSharedPreferences("AVATAR_INFO", getContext().MODE_PRIVATE).edit();
+            editor.putString("name", "PushUpChallenger");
+            editor.putInt("age", 25);
+            editor.putInt("avatar", 1);
+            editor.commit();
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -106,6 +125,8 @@ public class Fragment_ChallengeMain extends Fragment {
         mArpoWifiModule = new ArpoWifi(getContext());
 
         final ListView lv_challengeList = (ListView)rootView.findViewById(R.id.list_challengeList);
+
+        createSharedPreferences();
 
         mayRequestLocation();
 
@@ -173,10 +194,32 @@ public class Fragment_ChallengeMain extends Fragment {
         };
 
 
-        getContext().registerReceiver(bcWifiList ,new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        Log.d("JKS","Start scanning");
+        getContext().registerReceiver(bcWifiList, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        Log.d("JKS", "Start scanning");
 
         mArpoWifiModule.startWifiScanning();
+
+        Button createAvatar = (Button)rootView.findViewById(R.id.btn_create_avatar);
+        createAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+
+                    Fragment nextFrag = CreateAvatar.class.newInstance();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.flContent, nextFrag, "create avatar")
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         Button startChallenge = (Button)rootView.findViewById(R.id.btn_createChallenge);
         startChallenge.setOnClickListener(new View.OnClickListener() {

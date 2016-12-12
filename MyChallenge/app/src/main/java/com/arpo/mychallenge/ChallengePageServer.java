@@ -1,6 +1,7 @@
 package com.arpo.mychallenge;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -90,7 +91,10 @@ public class ChallengePageServer extends Fragment {
         ListAvatar p1 = new ListAvatar();
         // adding self information
         {
-            p1.setName("My Name");
+
+            SharedPreferences prefs = getContext().getSharedPreferences("AVATAR_INFO", getContext().MODE_PRIVATE);
+            String restoredText = prefs.getString("name", null);
+            p1.setName(restoredText);
             p1.setPushUpTaken("0");
             p1.setPushUPTimeTaken("00:00:000");
             list.add(p1);

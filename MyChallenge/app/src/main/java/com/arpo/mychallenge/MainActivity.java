@@ -17,7 +17,8 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity implements  HomePageFragment.OnFragmentInteractionListener,
 Fragment_ChallengeMain.OnFragmentInteractionListener,
 ChallengePageServer.OnFragmentInteractionListener,
-ChallengePageClient.OnFragmentInteractionListener{
+ChallengePageClient.OnFragmentInteractionListener,
+CreateAvatar.OnFragmentInteractionListener{
 
     ArpoWifi mWifiModule;
     @Override
@@ -72,6 +73,15 @@ ChallengePageClient.OnFragmentInteractionListener{
                     {
 
                     }
+                }
+                else if(ft instanceof CreateAvatar)
+                {
+                    Fragment nextFrag = Fragment_ChallengeMain.class.newInstance();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.flContent, nextFrag, "ChallengeMain")
+                            .addToBackStack(null)
+                            .commit();
                 }
                 else
                     this.finish();

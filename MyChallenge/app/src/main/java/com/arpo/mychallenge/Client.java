@@ -1,6 +1,7 @@
 package com.arpo.mychallenge;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
@@ -77,7 +78,9 @@ public class Client extends AsyncTask<Void, Void, Void> {
         packet.setMessage("Client information");
         print("send client info to server");
 
-        packet.setClientName("ClientName");
+        SharedPreferences prefs = uiActitivy.getSharedPreferences("AVATAR_INFO", uiActitivy.MODE_PRIVATE);
+        String restoredText = prefs.getString("name", null);
+        packet.setClientName(restoredText);
         packet.setMessageType(ArpoPacket.ARPO_PACKET_RESPONSE_CLIENT_INFO);
 
         try {
@@ -87,6 +90,28 @@ public class Client extends AsyncTask<Void, Void, Void> {
         {
 
         }
+    }
+
+    private void updateChallengerList(ArpoPacket packet)
+    {
+
+        List <ListAvatar> tmp = packet.getChallengerList();
+        for (ListAvatar item: tmp) {
+            print(" JKSIN OTHER THREAD name = "+item.getName());
+            list.add(item);
+        }
+
+        mainPct = packet;
+
+        print("UPDATE CHALLENGER LIST");
+        printToScreen("UPDATE CHALLENGER LIST WITH LIST FROM SERVER");
+        uiActitivy.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                avatarAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public void updateServerName(ArpoPacket packet)
@@ -167,47 +192,44 @@ public class Client extends AsyncTask<Void, Void, Void> {
                 while (exitFlag) {
 
                     print("try to read");
-                    print("read to object");
+
                     //bytesRead = inputStream.read(buffer);
                     ArpoPacket packet = (ArpoPacket)objectInput.readObject();
                     print("Received packet");
+
+                    response = packet.getMessage();
+                    print("response   =" + response);
+                    uiActitivy.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            textResponse.setText(response);
+                        }
+                    });
+
                     int type = packet.getMessageType();
+                    print(("TYPE=" + type));
 
                     switch (type)
                     {
                         case ArpoPacket.ARPO_PACKET_WELCOME:
                             print("STATE 1");
                             sendMyInfo();
-                            updateServerName(packet);
+                            //updateServerName(packet);
                             break;
-                        case 2: print("STATE 2");
+                        case ArpoPacket.ARPO_PACKET_REPOSNSE_CHALLENGERS:
+                            printToScreen("Received challenger information; updating");
+                            updateChallengerList(packet);
                             break;
                         case 3: print("STATE 3");
                             break;
-                        case 4: print("STATE 4");
-                            break;
+
                         case 5: print("STATE 5");
                             break;
                         case 6: print("STATE 7");
                             break;
                     }
 
-                    print("Read");
-                  //  if(bytesRead != -1) {
-                    {
-                     //   ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
-                      //  byteArrayOutputStream.write(buffer, 0, bytesRead);
 
-                        //response = byteArrayOutputStream.toString("UTF-8");
-                        response = packet.getMessage();
-                        print("response   =" + response);
-                        uiActitivy.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                textResponse.setText(response);
-                            }
-                        });
-                    }
                     /*else
                     {
                         final String error = "Read = "+bytesRead;
