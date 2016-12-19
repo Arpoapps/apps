@@ -215,10 +215,20 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView= inflater.inflate(R.layout.fragment_blasters_match, container, false);
+
         db = new AarpoDb();
         db.openConnection();
         lv_pushup = (ListView) rootView.findViewById(R.id.lv_BlastersmatchList);
         list1 = new ArrayList<>();
+
+        FloatingActionButton myFab2 = (FloatingActionButton) rootView.findViewById(R.id.fab2);
+        myFab2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), FlashScreen.class);
+                getActivity().startActivity(i);
+            }
+        });
+
         FloatingActionButton myFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -226,9 +236,11 @@ public class BlastersMatchFragment extends Fragment implements AdapterView.OnIte
                getActivity().startActivity(i);
             }
         });
+
         getListBlastersSchedules();
 
         db.closeConnection();
+
         // Load an ad into the AdMob banner view.
         AdView adView = (AdView) rootView.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()

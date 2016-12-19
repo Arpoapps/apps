@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="60sp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/final_bg"
     tools:context="com.appstory.aarppo.BlastersMatchFragment">
 
 
@@ -14,15 +15,25 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/lv_BlastersmatchList"
-        android:divider="#ffffff"
-        android:dividerHeight="0dp"
-        android:layout_marginRight="10sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lv_BlastersmatchList"
+                android:divider="#ffffff"
+                android:dividerHeight="0dp"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:backgroundTint="@color/colorPrimaryDark"
+            android:tint="@color/colorPrimary"
+            android:src="@drawable/ic_play_circle_filled_white"
+            app:layout_anchorGravity="bottom|right|end"
+            android:layout_above="@+id/adView" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -33,10 +44,8 @@
         android:tint="@color/colorPrimary"
         android:src="@drawable/ic_highlight"
         android:layout_gravity="right|center_vertical"
-        android:layout_marginEnd="13dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/lv_BlastersmatchList"
-        android:layout_marginBottom="36dp" />
+        android:layout_above="@+id/adView"
+        android:layout_toEndOf="@+id/adView" />
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
@@ -44,8 +53,7 @@
             android:layout_height="wrap_content"
             ads:adSize="BANNER"
             ads:adUnitId="@string/banner_ad_unit_id"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/lv_BlastersmatchList" />
+            android:layout_alignParentBottom="true" />
     </RelativeLayout>
     <!-- view for AdMob Banner Ad -->
 </FrameLayout>
