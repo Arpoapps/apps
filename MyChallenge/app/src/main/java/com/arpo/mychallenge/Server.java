@@ -127,6 +127,31 @@ public class Server {
 
     }
 
+    public void sendStartChallenge()
+    {
+        ArpoPacket packet = new ArpoPacket();
+        packet.setMessageType(ArpoPacket.ARPO_PACKET_START_CHALLENGE);
+
+        for(int i = 0; i < count;i++)
+        {
+            packet.setMessage("Start challenge message from server to " + clientsSockInfo[i].clientNumber + " MESSAGE NUMBER=" + msgCount++);
+            if(clientsSockInfo[i].serverOutObj == null)
+            {
+                print("print server is null");
+            }
+            else {
+
+                try {
+                    clientsSockInfo[i].serverOutObj.writeObject(packet);
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public void sendChallengerInfo()
     {
         ArpoPacket packet = new ArpoPacket();
@@ -138,7 +163,7 @@ public class Server {
             packet.setMessage("Challenger information from server to " + clientsSockInfo[i].clientNumber + " MESSAGE NUMBER=" + msgCount++);
             if(clientsSockInfo[i].serverOutObj == null)
             {
-                print("print servet is null");
+                print("print server is null");
             }
             else {
 

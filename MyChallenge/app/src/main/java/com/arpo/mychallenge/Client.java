@@ -220,13 +220,10 @@ public class Client extends AsyncTask<Void, Void, Void> {
                             printToScreen("Received challenger information; updating");
                             updateChallengerList(packet);
                             break;
-                        case 3: print("STATE 3");
+                        case ArpoPacket.ARPO_PACKET_START_CHALLENGE:
+                            printToScreen("Start Challenge");
                             break;
 
-                        case 5: print("STATE 5");
-                            break;
-                        case 6: print("STATE 7");
-                            break;
                     }
 
 

@@ -16,6 +16,7 @@ public class ArpoPacket implements Serializable {
     static final int ARPO_PACKET_RESPONSE = 2;
     static final int ARPO_PACKET_RESPONSE_CLIENT_INFO = 3;
     static final int ARPO_PACKET_REPOSNSE_CHALLENGERS = 4;
+    static final int ARPO_PACKET_START_CHALLENGE = 5;
 
     private int type;
     private String msg;
