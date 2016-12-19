@@ -136,17 +136,6 @@ public class ChallengePageClient extends Fragment {
             }
         }).start();
 
-        Button btn_connect = (Button)rootView.findViewById(R.id.btn_connectTo);
-        final  String ip="";
-        btn_connect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                arpoClient.sendMsg();
-
-            }
-        });
-
         return rootView;
     }
 

@@ -221,7 +221,7 @@ public class Fragment_ChallengeMain extends Fragment {
             }
         });
 
-        Button startChallenge = (Button)rootView.findViewById(R.id.btn_createChallenge);
+        final Button startChallenge = (Button)rootView.findViewById(R.id.btn_createChallenge);
         startChallenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -289,6 +289,16 @@ public class Fragment_ChallengeMain extends Fragment {
             }
         });
 
+        Button startMyChallenge = (Button)rootView.findViewById(R.id.btn_start_new_challenge);
+        startMyChallenge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("JKS","start popup");
+                Intent popUpChallenge = new Intent(getContext(),CreateChallengePopUpActivity.class);
+                startActivity(popUpChallenge);
+            }
+        });
         return  rootView;
     }
 

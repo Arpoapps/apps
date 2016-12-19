@@ -121,6 +121,18 @@
                 android:layout_alignLeft="@+id/textView4"
                 android:layout_alignStart="@+id/textView4" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start new challenge"
+                android:id="@+id/btn_start_new_challenge"
+                android:layout_alignRight="@+id/inputText_challengeCount"
+                android:layout_alignEnd="@+id/inputText_challengeCount"
+                android:layout_alignLeft="@+id/inputText_challengeCount"
+                android:layout_alignStart="@+id/inputText_challengeCount"
+                android:layout_alignTop="@+id/btn_createChallenge"
+                android:layout_alignBottom="@+id/btn_createChallenge" />
+
         </RelativeLayout>
         </ScrollView>
 
