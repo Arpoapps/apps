@@ -150,21 +150,33 @@ public class ChallengePageServer extends Fragment {
             }
         }).start();
 
-        Button startServer = (Button)rootView.findViewById(R.id.btn_connect_client);
-        startServer.setOnClickListener(new View.OnClickListener() {
+
+        final Button btn_start = (Button) rootView.findViewById(R.id.btn_startMyChallenge);
+        final Button btn_takeChallenge = (Button) rootView.findViewById(R.id.btn_take_challenge);
+        Button btn_addChallenger = (Button) rootView.findViewById(R.id.btn_addChallenger);
+
+        btn_takeChallenge.setEnabled(false);
+
+        btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mServer.sendStartChallenge();
+                btn_start.setEnabled(false);
+                btn_takeChallenge.setEnabled(true);
+            }
+        });
 
-                if(mServer.isConnected())
-                {
-                    print("Send message");
-                    mServer.sendDummy();
-                }
-                else
-                {
-                    print("Device not connected");
-                }
+        btn_addChallenger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                print("Add a player");
+            }
+        });
 
+        btn_takeChallenge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                print("Take Challenge");
             }
         });
         return rootView;

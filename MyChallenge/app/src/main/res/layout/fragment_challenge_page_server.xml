@@ -6,20 +6,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Challenge Page server" />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SEND MESSAGE"
-        android:id="@+id/btn_connect_client"
-        android:layout_gravity="left|bottom" />
+        android:text="Challenge Page server" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="left|bottom">
 
         <GridView
@@ -34,6 +27,33 @@
             android:layout_marginTop="61dp"
             android:id="@+id/grdViewServer"
             ></GridView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Challenge"
+            android:id="@+id/btn_startMyChallenge"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TAKE CHALLENGE"
+            android:id="@+id/btn_take_challenge"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/btn_addChallenger"
+            android:layout_alignStart="@+id/btn_addChallenger" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Challenger"
+            android:id="@+id/btn_addChallenger"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
 </FrameLayout>
