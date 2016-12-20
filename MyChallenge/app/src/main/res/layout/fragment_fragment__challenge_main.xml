@@ -44,97 +44,15 @@
 
 
         </RelativeLayout>
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/relativeLayout"
-            android:id="@+id/scrollView">
-        <RelativeLayout
+
+        <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/inputTxt_challangeName"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:text="myChall" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/inputText_challengeType"
-                android:layout_below="@+id/inputTxt_challangeName"
-                android:layout_alignLeft="@+id/inputTxt_challangeName"
-                android:layout_alignStart="@+id/inputTxt_challangeName"
-                android:layout_alignRight="@+id/inputTxt_challangeName"
-                android:layout_alignEnd="@+id/inputTxt_challangeName"
-                android:text="type" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Challenge Name"
-                android:id="@+id/textView2"
-                android:layout_alignBottom="@+id/inputTxt_challangeName"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Challenge Type"
-                android:id="@+id/textView3"
-                android:layout_alignBottom="@+id/inputText_challengeType"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Challenge Count"
-                android:id="@+id/textView4"
-
-                android:layout_below="@+id/textView3"
-                android:layout_alignRight="@+id/textView2"
-                android:layout_alignEnd="@+id/textView2"
-                android:layout_marginTop="17dp" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/inputText_challengeCount"
-                android:layout_alignTop="@+id/textView4"
-                android:layout_alignLeft="@+id/inputText_challengeType"
-                android:layout_alignStart="@+id/inputText_challengeType"
-                android:layout_alignRight="@+id/inputText_challengeType"
-                android:layout_alignEnd="@+id/inputText_challengeType"
-                android:text="10" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Create Challenge"
-                android:id="@+id/btn_createChallenge"
-                android:layout_below="@+id/inputText_challengeCount"
-                android:layout_alignLeft="@+id/textView4"
-                android:layout_alignStart="@+id/textView4" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Start new challenge"
-                android:id="@+id/btn_start_new_challenge"
-                android:layout_alignRight="@+id/inputText_challengeCount"
-                android:layout_alignEnd="@+id/inputText_challengeCount"
-                android:layout_alignLeft="@+id/inputText_challengeCount"
-                android:layout_alignStart="@+id/inputText_challengeCount"
-                android:layout_alignTop="@+id/btn_createChallenge"
-                android:layout_alignBottom="@+id/btn_createChallenge" />
-
-        </RelativeLayout>
-        </ScrollView>
+            android:layout_height="wrap_content"
+            android:text="Start new challenge"
+            android:id="@+id/btn_start_new_challenge"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 

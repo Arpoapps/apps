@@ -20,6 +20,8 @@ ChallengePageServer.OnFragmentInteractionListener,
 ChallengePageClient.OnFragmentInteractionListener,
 CreateAvatar.OnFragmentInteractionListener{
 
+    public static FragmentManager fragmentManager;
+
     ArpoWifi mWifiModule;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,8 @@ CreateAvatar.OnFragmentInteractionListener{
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fragmentManager = getSupportFragmentManager();
 
         mWifiModule = new ArpoWifi(this);
     }
