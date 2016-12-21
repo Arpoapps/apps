@@ -29,8 +29,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateChallengePopUpActivity"
-            android:theme="@style/custom"></activity>
+        <activity
+            android:name=".CreateChallengePopUpActivity"
+            android:theme="@style/custom" />
+        <activity android:name=".AddPlayerPopUpActivity"
+            android:theme="@style/custom"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.arpo.mychallenge;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +49,8 @@ public class ChallengePageServer extends Fragment {
     List<ListAvatar> list;
 
     private ArpoWifi wifiModule;
+
+    int playerCount = 0;
 
     public ChallengePageServer() {
         // Required empty public constructor
@@ -170,6 +173,9 @@ public class ChallengePageServer extends Fragment {
             @Override
             public void onClick(View v) {
                 print("Add a player");
+
+                Intent addPlayer = new Intent(getContext(),AddPlayerPopUpActivity.class);
+                startActivityForResult(addPlayer, 101);
             }
         });
 
@@ -182,7 +188,30 @@ public class ChallengePageServer extends Fragment {
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        print("OnActivity result");
+        if(requestCode == 101)
+        {
+            print("got the result");
+            print( "result ="+resultCode);
+            if(resultCode != 0) {
+                String name = data.getStringExtra("name");
+                String age = data.getStringExtra("age");
+
+                print("Name = " + name + " Age = " + age + " FROM Activity");
+                ListAvatar p1 = new ListAvatar();
+                p1.setName(name);
+                p1.setPushUpTaken("0");
+                p1.setPushUPTimeTaken("00:00:000");
+                list.add(p1);
+                avatarAdapter.notifyDataSetChanged();
+                playerCount++;
+            }
+        }
+
+    }
+        // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
