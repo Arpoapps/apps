@@ -12,6 +12,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class TakeChallenge extends AppCompatActivity  implements TextToSpeech.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_take_challenge);
 
 
@@ -292,8 +294,7 @@ public class TakeChallenge extends AppCompatActivity  implements TextToSpeech.On
                 installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
                 startActivity(installTTSIntent);
             }
-        }
-        else if(requestCode == 301 )
+        } else if(requestCode == 301 )
         {
             print("Displayed congratulations");
             Intent intentData = new Intent();

@@ -88,6 +88,13 @@ public class AdapterChallengers extends BaseAdapter {
         viewHolder.avatar_pushupTaken.setText(list1.get(position).getPushUpCount());
         viewHolder.avatar_timeTaken.setText(list1.get(position).getPushUpTimeTaken());
 
+        if(list1.get(position).getSelected())
+        {
+            viewHolder.border.setBackgroundColor(context.getResources().getColor(R.color.green));
+        }
+        else
+            viewHolder.border.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+
         return convertView;
     }
     class  ViewHolder{

@@ -120,6 +120,8 @@ public class Server {
                 p1.setName(mainPacket.getClientName());
                 p1.setPushUpTaken("0");
                 p1.setPushUPTimeTaken("00:00:000");
+                p1.setTakenChallenge(true);
+                p1.setSelected(false);
                 list.add(p1);
                 avatarAdapter.notifyDataSetChanged();
             }

@@ -53,6 +53,7 @@ public class ChallengePageServer extends Fragment {
     private ArpoWifi wifiModule;
 
     int playerCount = 0;
+    int selectedPlayer = 0;
 
     public ChallengePageServer() {
         // Required empty public constructor
@@ -102,6 +103,9 @@ public class ChallengePageServer extends Fragment {
             p1.setName(restoredText);
             p1.setPushUpTaken("0");
             p1.setPushUPTimeTaken("00:00:000");
+            p1.setSelected(true);
+            p1.setTakenChallenge(false);
+            selectedPlayer = 0;
             list.add(p1);
         }
 
@@ -109,6 +113,24 @@ public class ChallengePageServer extends Fragment {
         print("CREATE GRIDVIEW");
         gv_avatar.setAdapter(avatarAdapter);
         print("SET ITEM CLICK LISTNER");
+
+        gv_avatar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                // DO something
+                print("Clicked on " + position);
+                Toast.makeText(getContext(), "Clicked on gridView " + position, Toast.LENGTH_SHORT).show();
+                ListAvatar gridItem = list.get(position);
+                gridItem.setSelected(true);
+                ListAvatar selectedGrid = list.get(selectedPlayer);
+                selectedGrid.setSelected(false);
+                selectedPlayer = position;
+                avatarAdapter.notifyDataSetChanged();
+
+            }
+        });
 
 
     }
@@ -119,6 +141,7 @@ public class ChallengePageServer extends Fragment {
         p1.setName("Challenger");
         p1.setPushUpTaken("0");
         p1.setPushUPTimeTaken("00:00:000");
+        p1.setSelected(false);
         list.add(p1);
         avatarAdapter.notifyDataSetChanged();
     }
@@ -133,17 +156,7 @@ public class ChallengePageServer extends Fragment {
         gv_avatar = (GridView)rootView.findViewById(R.id.grdViewServer);
         gv_avatar.setNumColumns(2);
 
-        gv_avatar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
 
-                // DO something
-                print("Clicked on "+position);
-                Toast.makeText(getContext(),"Clicked on gridView "+position, Toast.LENGTH_SHORT).show();
-
-            }
-        });
 
         fillAvatarInfo();
 
@@ -199,8 +212,15 @@ public class ChallengePageServer extends Fragment {
             @Override
             public void onClick(View v) {
                 print("Take Challenge");
-                Intent takeChallenge = new Intent(getContext(), TakeChallenge.class);
-                startActivityForResult(takeChallenge,201);
+                ListAvatar p1 = list.get(selectedPlayer);
+                if(p1.isTakenChallenge())
+                {
+                    Toast.makeText(getContext(),"Already taken challenge",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent takeChallenge = new Intent(getContext(), TakeChallenge.class);
+                    startActivityForResult(takeChallenge, 201);
+                }
             }
         });
         return rootView;
@@ -222,6 +242,8 @@ public class ChallengePageServer extends Fragment {
                 p1.setName(name);
                 p1.setPushUpTaken("0");
                 p1.setPushUPTimeTaken("00:00:000");
+                p1.setSelected(false);
+                p1.setTakenChallenge(false);
                 list.add(p1);
                 avatarAdapter.notifyDataSetChanged();
                 playerCount++;
@@ -237,11 +259,12 @@ public class ChallengePageServer extends Fragment {
                 String time = data.getStringExtra("time");
 
                 print("Taken = " + count + " time = " + time + " FROM Activity");
-                ListAvatar p1 = list.get(0);
+                ListAvatar p1 = list.get(selectedPlayer);
                 p1.setPushUpTaken(count);
                 p1.setPushUPTimeTaken(time);
+                p1.setTakenChallenge(true);
                 avatarAdapter.notifyDataSetChanged();
-                playerCount++;
+
             }
 
         }

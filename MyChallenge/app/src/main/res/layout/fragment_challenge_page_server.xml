@@ -25,6 +25,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="61dp"
             android:layout_marginTop="61dp"
+
             android:id="@+id/grdViewServer"
             ></GridView>
 

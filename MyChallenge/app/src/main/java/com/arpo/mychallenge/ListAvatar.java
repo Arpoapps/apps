@@ -11,6 +11,8 @@ public class ListAvatar implements Serializable {
     String pushUpTaken;
     String pushUpTimeTaken;
     int img;
+    boolean selected;
+    boolean takenTest;
 
     public String getName()
     {
@@ -26,6 +28,16 @@ public class ListAvatar implements Serializable {
     {
         return pushUpTimeTaken;
     }
+
+    public boolean getSelected()   {
+        return selected;
+    }
+
+    public boolean isTakenChallenge() { return  takenTest;}
+
+    public void setTakenChallenge(boolean value) { takenTest = value; }
+
+    public void setSelected(boolean value) { selected = value;}
 
     public void setName(String str)
     {
