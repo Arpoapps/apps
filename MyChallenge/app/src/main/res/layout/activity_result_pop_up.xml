@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.arpo.mychallenge.ResultPopUp"
+    android:background="@color/green"
+    android:layout_width="300dp"
+    android:layout_height="500dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Congratulations"
+        android:id="@+id/textView4"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="74dp"
+        android:textStyle="bold"
+        android:textSize="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Succesfully taken challenge"
+        android:id="@+id/textView11"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txt_resultPrint"
+        android:layout_below="@+id/textView11"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="42dp"
+        android:textStyle="bold"
+        android:textSize="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go Back"
+        android:id="@+id/btn_goBackSuccessPage"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/txt_exclamation"
+        android:layout_alignEnd="@+id/txt_exclamation" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WOW !!!"
+        android:id="@+id/txt_exclamation"
+        android:textSize="30dp"
+        android:layout_above="@+id/btn_goBackSuccessPage"
+        android:layout_alignLeft="@+id/txt_resultPrint"
+        android:layout_alignStart="@+id/txt_resultPrint"
+        android:layout_marginBottom="69dp" />
+</RelativeLayout>

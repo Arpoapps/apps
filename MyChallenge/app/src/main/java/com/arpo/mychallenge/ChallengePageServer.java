@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -104,8 +106,9 @@ public class ChallengePageServer extends Fragment {
         }
 
         avatarAdapter = new AdapterChallengers(getContext(), list);
+        print("CREATE GRIDVIEW");
         gv_avatar.setAdapter(avatarAdapter);
-        //gv_avatar.setOnItemClickListener(this);
+        print("SET ITEM CLICK LISTNER");
 
 
     }
@@ -129,6 +132,19 @@ public class ChallengePageServer extends Fragment {
 
         gv_avatar = (GridView)rootView.findViewById(R.id.grdViewServer);
         gv_avatar.setNumColumns(2);
+
+        gv_avatar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                // DO something
+                print("Clicked on "+position);
+                Toast.makeText(getContext(),"Clicked on gridView "+position, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
         fillAvatarInfo();
 
         new Thread(new Runnable() {
@@ -174,7 +190,7 @@ public class ChallengePageServer extends Fragment {
             public void onClick(View v) {
                 print("Add a player");
 
-                Intent addPlayer = new Intent(getContext(),AddPlayerPopUpActivity.class);
+                Intent addPlayer = new Intent(getContext(), AddPlayerPopUpActivity.class);
                 startActivityForResult(addPlayer, 101);
             }
         });
@@ -183,6 +199,8 @@ public class ChallengePageServer extends Fragment {
             @Override
             public void onClick(View v) {
                 print("Take Challenge");
+                Intent takeChallenge = new Intent(getContext(), TakeChallenge.class);
+                startActivityForResult(takeChallenge,201);
             }
         });
         return rootView;
@@ -208,6 +226,24 @@ public class ChallengePageServer extends Fragment {
                 avatarAdapter.notifyDataSetChanged();
                 playerCount++;
             }
+        }
+        else if (requestCode == 201)
+        {
+
+            print("got the result");
+            print("result =" + resultCode);
+            if (resultCode != 0) {
+                String count = data.getStringExtra("count");
+                String time = data.getStringExtra("time");
+
+                print("Taken = " + count + " time = " + time + " FROM Activity");
+                ListAvatar p1 = list.get(0);
+                p1.setPushUpTaken(count);
+                p1.setPushUPTimeTaken(time);
+                avatarAdapter.notifyDataSetChanged();
+                playerCount++;
+            }
+
         }
 
     }

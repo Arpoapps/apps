@@ -199,6 +199,46 @@ public class CreateChallengePopUpActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Enter challenge name",Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    String challengeType;
+                    String challengeCount="0";
+                    if(chk_pushUpChallenge.isChecked())
+                    {
+                        challengeType ="pushup";
+
+                        if(chk_selection1.isChecked()) {
+                            challengeCount="20";
+                        } else if(chk_selection2.isChecked()) {
+                            challengeCount="30";
+                        } else if(chk_selection3.isChecked()) {
+                            challengeCount="50";
+                        } else if(chk_selection4.isChecked()) {
+                            challengeCount="100";
+                        } else if(chk_selection5.isChecked()) {
+                            challengeCount="xx";
+                        }
+                    }
+                    else {
+                        challengeType ="time";
+
+                        if(chk_selection1.isChecked()) {
+                            challengeCount="30";
+                        } else if(chk_selection2.isChecked()) {
+                            challengeCount="60";
+                        } else if(chk_selection3.isChecked()) {
+                            challengeCount="120";
+                        } else if(chk_selection4.isChecked()) {
+                            challengeCount="300";
+                        } else if(chk_selection5.isChecked()) {
+                            challengeCount="xx";
+                        }
+                    }
+                    String apName = String.format("%s/%s/%s", challengeName, challengeType, challengeCount);
+                    apName = "ARPO/"+apName;
+
+                    SharedPreferences.Editor editor = getSharedPreferences("GAME_INFO", MODE_PRIVATE).edit();
+                    editor.putString("name", apName);
+                    editor.commit();
+
                     if(enableHotspot == true) {
 
 
@@ -206,44 +246,9 @@ public class CreateChallengePopUpActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 try {
-                                    EditText edit_name = (EditText) findViewById(R.id.edit_challengeNAME);
-                                    String challengeName = edit_name.getText().toString();
-                                    String challengeType;
-                                    String challengeCount="0";
-                                    if(chk_pushUpChallenge.isChecked())
-                                    {
-                                        challengeType ="pushup";
 
-                                        if(chk_selection1.isChecked()) {
-                                            challengeCount="20";
-                                        } else if(chk_selection2.isChecked()) {
-                                            challengeCount="30";
-                                        } else if(chk_selection3.isChecked()) {
-                                            challengeCount="50";
-                                        } else if(chk_selection4.isChecked()) {
-                                            challengeCount="100";
-                                        } else if(chk_selection5.isChecked()) {
-                                            challengeCount="xx";
-                                        }
-                                    }
-                                    else {
-                                        challengeType ="time";
-
-                                        if(chk_selection1.isChecked()) {
-                                            challengeCount="30";
-                                        } else if(chk_selection2.isChecked()) {
-                                            challengeCount="1";
-                                        } else if(chk_selection3.isChecked()) {
-                                            challengeCount="2";
-                                        } else if(chk_selection4.isChecked()) {
-                                            challengeCount="5";
-                                        } else if(chk_selection5.isChecked()) {
-                                            challengeCount="xx";
-                                        }
-                                    }
-                                    String apName = String.format("%s/%s/%s",challengeName,challengeType,challengeCount);
-                                    apName = "ARPO/"+apName;
-
+                                    SharedPreferences prefs = getSharedPreferences("GAME_INFO", MODE_PRIVATE);
+                                    String apName = prefs.getString("name", null);
 
                                     mArpoWifiModule.turnOn_hotspot(apName);
 

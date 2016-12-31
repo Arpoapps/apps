@@ -32,9 +32,13 @@
         <activity
             android:name=".CreateChallengePopUpActivity"
             android:theme="@style/custom" />
-        <activity android:name=".AddPlayerPopUpActivity"
+        <activity
+            android:name=".AddPlayerPopUpActivity"
             android:theme="@style/custom"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".TakeChallenge" />
+        <activity android:name=".ResultPopUp"
+            android:theme="@style/custom"></activity>
     </application>
 
 </manifest>

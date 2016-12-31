@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class AddPlayerPopUpActivity extends AppCompatActivity {
 
@@ -29,12 +30,15 @@ public class AddPlayerPopUpActivity extends AppCompatActivity {
                     String name = in_name.getText().toString();
                     String age = in_age.getText().toString();
 
-                    Log.d("JKS","Name = "+name + " Age=" + age);
-                    Intent data = new Intent();
-                    data.putExtra("name",name);
-                    data.putExtra("age",age);
-                    setResult(RESULT_OK, data);
-                    finish();
+                    if(!name.equals("") || !age.equals("")) {
+                        Log.d("JKS", "Name = " + name + " Age=" + age);
+                        Intent data = new Intent();
+                        data.putExtra("name", name);
+                        data.putExtra("age", age);
+                        setResult(RESULT_OK, data);
+                        finish();
+                    }
+                    Toast.makeText(getApplicationContext(),"Fill the feilds",Toast.LENGTH_SHORT).show();
                 }
             });
         }

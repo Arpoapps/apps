@@ -2,10 +2,12 @@ package com.arpo.mychallenge;
 
 import android.content.Context;
 import android.net.wifi.ScanResult;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -58,6 +60,17 @@ public class AdapterChallengers extends BaseAdapter {
             viewHolder.avatar_name = (TextView)convertView.findViewById(R.id.txt_avatarName);
             viewHolder.avatar_pushupTaken = (TextView)convertView.findViewById(R.id.txt_pushupCount);
             viewHolder.avatar_timeTaken = (TextView)convertView.findViewById(R.id.txt_pushUpTimeTaken);
+            viewHolder.border = (RelativeLayout)convertView.findViewById(R.id.border);
+
+/*
+
+            viewHolder.border.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("JKS","Clicked on layout");
+                }
+            });
+*/
 
 
             viewHolder.avatar_name.setText(list1.get(position).getName());
@@ -82,5 +95,6 @@ public class AdapterChallengers extends BaseAdapter {
         TextView avatar_name;
         TextView avatar_pushupTaken;
         TextView avatar_timeTaken;
+        RelativeLayout border;
     }
 }
