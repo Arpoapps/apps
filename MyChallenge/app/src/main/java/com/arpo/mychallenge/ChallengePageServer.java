@@ -21,8 +21,12 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 
 /**
@@ -111,9 +115,9 @@ public class ChallengePageServer extends Fragment {
         }
 
         avatarAdapter = new AdapterChallengers(getContext(), list);
-        print("CREATE GRIDVIEW");
+
         gv_avatar.setAdapter(avatarAdapter);
-        print("SET ITEM CLICK LISTNER");
+
 
         gv_avatar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -121,9 +125,8 @@ public class ChallengePageServer extends Fragment {
                                     int position, long id) {
 
                 // DO something
-                print("Clicked on " + position);
 
-                if(selectedPlayer == position) return;
+                if (selectedPlayer == position) return;
 
                 ListAvatar selectedGrid = list.get(selectedPlayer);
                 selectedGrid.setSelected(false);
@@ -218,11 +221,9 @@ public class ChallengePageServer extends Fragment {
             public void onClick(View v) {
                 print("Take Challenge");
                 ListAvatar p1 = list.get(selectedPlayer);
-                if(p1.isTakenChallenge())
-                {
-                    Toast.makeText(getContext(),"Already taken challenge",Toast.LENGTH_SHORT).show();
-                }
-                else {
+                if (p1.isTakenChallenge()) {
+                    Toast.makeText(getContext(), "Already taken challenge", Toast.LENGTH_SHORT).show();
+                } else {
                     Intent takeChallenge = new Intent(getContext(), TakeChallenge.class);
                     startActivityForResult(takeChallenge, 201);
                 }
@@ -246,6 +247,63 @@ public class ChallengePageServer extends Fragment {
         return result;
     }
 
+    private ListAvatar getListFirst()
+    {
+        ListAvatar first = list.get(0);
+
+        int challengeType = -1;
+        SharedPreferences prefs = getContext().getSharedPreferences("GAME_INFO", getContext().MODE_PRIVATE);
+        String challengeName = prefs.getString("name", null);
+
+        String[] tokens = challengeName.split("/");
+
+        if(tokens[2].equals("time")) {
+            challengeType = 0;
+        }
+        else if(tokens[2].equals("pushup")) {
+            challengeType=1;
+        }
+
+        for (ListAvatar item:list
+             ) {
+            if(challengeType == 0) {
+                if (Integer.parseInt(first.getPushUpCount()) < Integer.parseInt(item.getPushUpCount())) {
+                    first = item;
+                }
+            }
+            else if(challengeType == 1)
+            {
+                DateFormat df = new SimpleDateFormat("mm:ss.S");
+                try {
+                    Date firstDate = df.parse(first.getPushUpTimeTaken());
+                    Date curDate = df.parse(item.getPushUpTimeTaken());
+                    long firstMillis = firstDate.getTime()+ TimeZone.getDefault().getRawOffset();;
+                    long itemMillis = curDate.getTime()+TimeZone.getDefault().getRawOffset();;
+
+                    if(firstMillis > itemMillis)
+                        first = item;
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        return  first;
+    }
+    private ListAvatar getListSecond()
+    {
+        ListAvatar second= null;
+        return second;
+    }
+    private ListAvatar getListThird()
+    {
+        ListAvatar third= null;
+        return third;
+    }
+
     private void showResults()
     {
         Thread thread = new Thread() {
@@ -260,7 +318,15 @@ public class ChallengePageServer extends Fragment {
                     e.printStackTrace();
                 }
 
+                ListAvatar first = getListFirst();
+                ListAvatar second = getListSecond();
+                ListAvatar third = getListThird();
+
                 Intent challengeResult = new Intent(getContext(), Winner.class);
+
+                challengeResult.putExtra("firstName",first.getName());
+                challengeResult.putExtra("firstPushUpCount",first.getPushUpCount());
+                challengeResult.putExtra("firstTime",first.getPushUpTimeTaken());
 
                 startActivityForResult(challengeResult, 401);
             }
