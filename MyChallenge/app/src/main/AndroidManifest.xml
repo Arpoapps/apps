@@ -37,7 +37,10 @@
             android:theme="@style/custom"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".TakeChallenge" />
-        <activity android:name=".ResultPopUp"
+        <activity
+            android:name=".ResultPopUp"
+            android:theme="@style/custom" />
+        <activity android:name=".Winner"
             android:theme="@style/custom"></activity>
     </application>
 

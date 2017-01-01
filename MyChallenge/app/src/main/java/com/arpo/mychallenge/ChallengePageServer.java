@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,11 +122,15 @@ public class ChallengePageServer extends Fragment {
 
                 // DO something
                 print("Clicked on " + position);
-                Toast.makeText(getContext(), "Clicked on gridView " + position, Toast.LENGTH_SHORT).show();
-                ListAvatar gridItem = list.get(position);
-                gridItem.setSelected(true);
+
+                if(selectedPlayer == position) return;
+
                 ListAvatar selectedGrid = list.get(selectedPlayer);
                 selectedGrid.setSelected(false);
+
+                ListAvatar gridItem = list.get(position);
+                gridItem.setSelected(true);
+
                 selectedPlayer = position;
                 avatarAdapter.notifyDataSetChanged();
 
@@ -226,6 +231,43 @@ public class ChallengePageServer extends Fragment {
         return rootView;
     }
 
+    private boolean isGameOver()
+    {
+        boolean result = true;
+        for (ListAvatar item: list
+             ) {
+            if(item.isTakenChallenge() == false) {
+                result = false;
+                break;
+            }
+
+        }
+
+        return result;
+    }
+
+    private void showResults()
+    {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+
+                try {
+                    Thread.sleep(1000);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+                Intent challengeResult = new Intent(getContext(), Winner.class);
+
+                startActivityForResult(challengeResult, 401);
+            }
+        };
+        thread.start();
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         print("OnActivity result");
@@ -264,9 +306,31 @@ public class ChallengePageServer extends Fragment {
                 p1.setPushUPTimeTaken(time);
                 p1.setTakenChallenge(true);
                 avatarAdapter.notifyDataSetChanged();
+                if(isGameOver())
+                {
+                    showResults();
+                }
 
             }
 
+        }
+        else if (requestCode == 401)
+        {
+            try
+            {
+
+            Fragment nextFrag = Fragment_ChallengeMain.class.newInstance();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.flContent, nextFrag, "ChallengeMain")
+                    .addToBackStack(null)
+                    .commit();
+
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
     }
