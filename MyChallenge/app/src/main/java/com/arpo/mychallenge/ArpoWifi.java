@@ -40,6 +40,8 @@ public class ArpoWifi {
         return  result;
     }
 
+    private void print(String str){Log.d("JKS",str);}
+
     public boolean forgetConnectedWifi()
     {
         int networkId = mWifiManager.getConnectionInfo().getNetworkId();
@@ -113,18 +115,18 @@ public class ArpoWifi {
         boolean result = true;
 
         WifiConfiguration wifiConfig = new WifiConfiguration();
-        Log.d("JKS","Connect to "+ssid);
+        print("Connect to "+ssid);
         wifiConfig.SSID = String.format("\"%s\"", ssid);
         wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
         // wifiConfig.preSharedKey = String.format("\"%s\"", "mostwaNted");
 
         int netId = mWifiManager.addNetwork(wifiConfig);
-        Log.d("JKS","disconnect");
+        print("disconnect");
         mWifiManager.disconnect();
-        Log.d("JKS","Enable network");
+        print("Enable network");
         mWifiManager.enableNetwork(netId, true);
         mWifiManager.reconnect();
-        Log.d("JKS","Done");
+        print("Done");
 
         return result;
     }
@@ -201,12 +203,12 @@ public class ArpoWifi {
         String ip = getIpAddress();
         if(ip.equals(""))
         {
-            Log.d("JKS","Didnt get ipAddress");
+            print("Didnt get ipAddress");
             result = false;
         }
         else
         {
-            Log.d("JKS","Got ip address as "+ip);
+            print("Got ip address as "+ip);
             result = true;
         }
         return result;

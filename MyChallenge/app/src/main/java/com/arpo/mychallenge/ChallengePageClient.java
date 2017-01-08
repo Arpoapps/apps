@@ -1,17 +1,21 @@
 package com.arpo.mychallenge;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +46,10 @@ public class ChallengePageClient extends Fragment {
     GridView gv_avatarCl;
     List<ListAvatar> list;
     AdapterChallengers avatarAdapter;
+
+    Button btn_takeChallenge;
+
+    int selectedPlayer = 0;
 
     public void print(String str)
     {
@@ -99,6 +107,38 @@ public class ChallengePageClient extends Fragment {
         avatarAdapter = new AdapterChallengers(getContext(), list);
         gv_avatarCl.setAdapter(avatarAdapter);
 
+        gv_avatarCl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                ListAvatar gridItem = list.get(position);
+
+                if (selectedPlayer == position) {
+                    print("Aleady selected");
+                    return;
+                }
+
+                ListAvatar selectedGrid = list.get(selectedPlayer);
+
+                if(gridItem.isRemoteMachine())
+                {
+                    print("Clicking on remote machine");
+                    return;
+                }
+                selectedGrid.setSelected(false);
+
+
+                gridItem.setSelected(true);
+
+                selectedPlayer = position;
+                avatarAdapter.notifyDataSetChanged();
+
+
+            }
+        });
+
+
     }
 
     @Override
@@ -110,6 +150,22 @@ public class ChallengePageClient extends Fragment {
 
         gv_avatarCl = (GridView)rootView.findViewById(R.id.gv_client);
         gv_avatarCl.setNumColumns(2);
+        btn_takeChallenge = (Button) rootView.findViewById(R.id.btn_take_challenge);
+        btn_takeChallenge.setEnabled(false);
+        btn_takeChallenge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                print("Take Challenge");
+                ListAvatar p1 = list.get(selectedPlayer);
+                if (p1.isTakenChallenge()) {
+                    Toast.makeText(getContext(), "Already taken challenge", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent takeChallenge = new Intent(getContext(), TakeChallenge.class);
+                    startActivityForResult(takeChallenge, 201);
+                }
+            }
+        });
         fillAvatarInfo();
 
 
@@ -125,7 +181,7 @@ public class ChallengePageClient extends Fragment {
                     print("GOT IP ADDRESS");
                     Thread.sleep(3000);
                     print("TRY CONNECTING");
-                    arpoClient = new Client("192.168.43.1", 8080, msg,getActivity(),list,avatarAdapter);
+                    arpoClient = new Client("192.168.43.1", 8080, msg,getActivity(),list,avatarAdapter,btn_takeChallenge);
 
                     //wifiModule.startClient("192.168.43.1", 8080, msg);
                     //arpoClient.execute();
@@ -170,6 +226,77 @@ public class ChallengePageClient extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         arpoClient.closeConnection();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        print("OnActivity result");
+
+        if (requestCode == 201)
+        {
+
+            print("got the result");
+            print("result =" + resultCode);
+            if (resultCode != 0) {
+                String count = data.getStringExtra("count");
+                String time = data.getStringExtra("time");
+                int uId = 0;
+
+
+                print("Taken = " + count + " time = " + time + " FROM Activity");
+
+                for (ListAvatar item: list
+                     ) {
+
+                    if(item.getSelected())
+                    {
+                        item.setPushUpTaken(count);
+                        item.setPushUPTimeTaken(time);
+                        item.setTakenChallenge(true);
+                        uId = item.getUniqueId();
+                        break;
+
+                    }
+                }
+
+                /*
+                ListAvatar p1 = list.get(selectedPlayer);
+                p1.setPushUpTaken(count);
+                p1.setPushUPTimeTaken(time);
+                p1.setTakenChallenge(true);
+                uId = p1.getUniqueId();
+                */
+
+                avatarAdapter.notifyDataSetChanged();
+
+                arpoClient.sendMyResults(count,time,uId);
+               /* if(isGameOver())
+                {
+                    showResults();
+                }*/
+
+            }
+
+        }
+        else if (requestCode == 401)
+        {
+            try
+            {
+
+                Fragment nextFrag = Fragment_ChallengeMain.class.newInstance();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.flContent, nextFrag, "ChallengeMain")
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
     }
 
 

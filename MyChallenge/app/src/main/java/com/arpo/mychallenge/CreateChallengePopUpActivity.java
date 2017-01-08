@@ -32,6 +32,8 @@ public class CreateChallengePopUpActivity extends AppCompatActivity {
 
     ArpoWifi mArpoWifiModule;
 
+    private void print(String str){Log.d("JKS",str);}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class CreateChallengePopUpActivity extends AppCompatActivity {
         EditText edit_name = (EditText) findViewById(R.id.edit_challengeNAME);
         SharedPreferences prefs = getSharedPreferences("AVATAR_INFO", MODE_PRIVATE);
         String restoredText = prefs.getString("name", null);
-        edit_name.setText(restoredText+"'s Challenge");
+        edit_name.setText(restoredText+"'s");
 
         chk_pushUpChallenge.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -186,11 +188,15 @@ public class CreateChallengePopUpActivity extends AppCompatActivity {
         });
 
         Button startChallange = (Button)findViewById(R.id.btn_startCHALLENGE);
+        startChallange.setEnabled(true);
 
         if (startChallange != null) {
             startChallange.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    Button startChallange = (Button)findViewById(R.id.btn_startCHALLENGE);
+                    startChallange.setEnabled(false);
 
                     EditText edit_name = (EditText) findViewById(R.id.edit_challengeNAME);
                     String challengeName = edit_name.getText().toString();
@@ -250,7 +256,9 @@ public class CreateChallengePopUpActivity extends AppCompatActivity {
                                     SharedPreferences prefs = getSharedPreferences("GAME_INFO", MODE_PRIVATE);
                                     String apName = prefs.getString("name", null);
 
+                                    print("Turn on hotspot" +apName);
                                     mArpoWifiModule.turnOn_hotspot(apName);
+                                    print("Hotpost turned on");
 
                                     Fragment nextFrag = ChallengePageServer.class.newInstance();
                                     MainActivity.fragmentManager.beginTransaction()
@@ -258,8 +266,6 @@ public class CreateChallengePopUpActivity extends AppCompatActivity {
                                             .addToBackStack(null)
                                             .commitAllowingStateLoss();
                                     finish();
-
-
                                 }
                                 catch (IllegalAccessException e) {
                                     e.printStackTrace();

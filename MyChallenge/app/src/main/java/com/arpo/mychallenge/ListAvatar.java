@@ -13,6 +13,15 @@ public class ListAvatar implements Serializable {
     int img;
     boolean selected;
     boolean takenTest;
+    boolean isRemote;
+    int uniqueId;
+
+    ListAvatar ()
+    {
+        selected = false;
+        takenTest = false;
+        isRemote = false;
+    }
 
     public String getName()
     {
@@ -39,8 +48,7 @@ public class ListAvatar implements Serializable {
 
     public void setSelected(boolean value) { selected = value;}
 
-    public void setName(String str)
-    {
+    public void setName(String str){
         name = str;
     }
 
@@ -53,4 +61,12 @@ public class ListAvatar implements Serializable {
     {
         pushUpTaken = str;
     }
+
+    public boolean isRemoteMachine() { return isRemote; }
+
+    public void setRemoteMachine(boolean value) { isRemote = value;}
+
+    public int getUniqueId() { return  uniqueId;}
+
+    public void setUniqueId(int uId) { uniqueId = uId; }
 }

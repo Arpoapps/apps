@@ -172,6 +172,11 @@ public class Fragment_ChallengeMain extends Fragment {
                         ScanResult wifiNode = (ScanResult)parent.getAdapter().getItem(position);
                         Log.d("JKS","Connect to "+wifiNode.SSID);
 
+                        SharedPreferences.Editor editor = getContext().getSharedPreferences("GAME_INFO", getContext().MODE_PRIVATE).edit();
+                        editor.putString("name", wifiNode.SSID);
+                        editor.commit();
+
+
                         mArpoWifiModule.connectTo_wifi(wifiNode.SSID);
 
                         try {

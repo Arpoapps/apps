@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
@@ -35,6 +36,7 @@ public class Client extends AsyncTask<Void, Void, Void> {
     ObjectOutputStream clientOutObj;
     Activity uiActitivy;
 
+    Button takeChallenge;
     List<ListAvatar> list;
     AdapterChallengers avatarAdapter;
 
@@ -92,12 +94,67 @@ public class Client extends AsyncTask<Void, Void, Void> {
         }
     }
 
+    public void sendMyResults(String count, String time, int uniqueId)
+    {
+        ArpoPacket packet = new ArpoPacket();
+        packet.setMessage("Client Result");
+        print("send client Result to server");
+
+        SharedPreferences prefs = uiActitivy.getSharedPreferences("AVATAR_INFO", uiActitivy.MODE_PRIVATE);
+        String restoredText = prefs.getString("name", null);
+
+        packet.setClientName(restoredText);
+        packet.setMessageType(ArpoPacket.ARPO_PACKET_CLIENT_RESULT);
+        packet.setResultCount(count);
+        packet.setResultTime(time);
+        packet.setUniqueplayerID(uniqueId);
+
+
+        try {
+            clientOutObj.writeObject(packet);
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    private void updatePushUpResult(ArpoPacket pct)
+    {
+
+        print("got result for player with player id"+pct.getUniqueplayerID());
+        ListAvatar item = list.get(pct.getUniqueplayerID());
+        item.setPushUpTaken(pct.getResultCount());
+        item.setPushUPTimeTaken(pct.getResultTime());
+        print("update : "+item.getName()+" took"+item.getPushUpCount()+" pushups in"+item.getPushUpTimeTaken()+" seconds");
+        uiActitivy.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                avatarAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
     private void updateChallengerList(ArpoPacket packet)
     {
 
+        SharedPreferences prefs = uiActitivy.getSharedPreferences("AVATAR_INFO", uiActitivy.MODE_PRIVATE);
+        String restoredText = prefs.getString("name", null);
+
+        list.clear();
+
         List <ListAvatar> tmp = packet.getChallengerList();
         for (ListAvatar item: tmp) {
-            print(" JKSIN OTHER THREAD name = "+item.getName());
+            print(" IN OTHER THREAD name = " + item.getName());
+            print(" name = " + item.getName() + " uniqueid=" + item.getUniqueId());
+            item.setRemoteMachine(true);
+            item.setSelected(false);
+            if(item.getName().equals(restoredText))
+            {
+                item.setRemoteMachine(false);
+                item.setSelected(true);
+            }
             list.add(item);
         }
 
@@ -139,11 +196,12 @@ public class Client extends AsyncTask<Void, Void, Void> {
         socketClientThread.start();
     }
 
-    Client(String addr, int port, TextView textResponse, Activity uiAct, List<ListAvatar> lst, AdapterChallengers adapter) {
+    Client(String addr, int port, TextView textResponse, Activity uiAct, List<ListAvatar> lst, AdapterChallengers adapter, Button takeChallenge) {
         dstAddress = addr;
         dstPort = port;
         this.textResponse = textResponse;
         this.uiActitivy = uiAct;
+        this.takeChallenge = takeChallenge;
         list = lst;
         avatarAdapter = adapter;
 
@@ -218,12 +276,25 @@ public class Client extends AsyncTask<Void, Void, Void> {
                             break;
                         case ArpoPacket.ARPO_PACKET_REPOSNSE_CHALLENGERS:
                             printToScreen("Received challenger information; updating");
+                            List <ListAvatar> tmp = packet.getChallengerList();
+                            for (ListAvatar item: tmp) {
+                                print("received name = " + item.getName());
+                            }
                             updateChallengerList(packet);
                             break;
                         case ArpoPacket.ARPO_PACKET_START_CHALLENGE:
                             printToScreen("Start Challenge");
-                            break;
+                            uiActitivy.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    takeChallenge.setEnabled(true);
+                                }
+                            });
 
+                            break;
+                        case ArpoPacket.ARPO_PACKET_CHALLENGER_RESULT:
+                            updatePushUpResult(packet);
+                            break;
                     }
 
 

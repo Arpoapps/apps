@@ -48,7 +48,7 @@ public class Server {
     public boolean isConnected()    {
         boolean result = false;
 
-        print("Count = "+count);
+        print("Count = " + count);
         if(count > 0 )
             result = true;
 
@@ -113,20 +113,41 @@ public class Server {
     public void updateView (ArpoPacket packet)
     {
         mainPacket = packet;
+        ListAvatar p1 = new ListAvatar();
+        p1.setName(mainPacket.getClientName());
+        p1.setPushUpTaken("0");
+        p1.setPushUPTimeTaken("00:00:000");
+        p1.setTakenChallenge(false);
+        p1.setSelected(false);
+        p1.setRemoteMachine(true);
+        p1.setUniqueId(list.size());
+        list.add(p1);
+        print("unique id of " + p1.getName() + " is set as " + p1.getUniqueId());
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ListAvatar p1 = new ListAvatar();
-                p1.setName(mainPacket.getClientName());
-                p1.setPushUpTaken("0");
-                p1.setPushUPTimeTaken("00:00:000");
-                p1.setTakenChallenge(true);
-                p1.setSelected(false);
-                list.add(p1);
+
                 avatarAdapter.notifyDataSetChanged();
+
             }
         });
 
+    }
+
+    private void updateResult(ArpoPacket packet)
+    {
+        mainPacket = packet;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ListAvatar p1 = list.get(mainPacket.getUniqueplayerID());
+                p1.setPushUpTaken(mainPacket.getResultCount());
+                p1.setPushUPTimeTaken(mainPacket.getResultTime());
+                avatarAdapter.notifyDataSetChanged();
+                p1.setTakenChallenge(true);
+                print("Player "+p1.getName()+" took "+p1.getPushUpCount()+" pushups in "+p1.getPushUpTimeTaken()+" seconds");
+            }
+        });
     }
 
     public void sendStartChallenge()
@@ -154,11 +175,55 @@ public class Server {
         }
     }
 
+    public void sendResultToClient(String Strcount, String time, int id)
+    {
+        ArpoPacket packet = new ArpoPacket();
+        packet.setMessage("Client Result");
+        print("send client Result to server");
+
+        SharedPreferences prefs = activity.getSharedPreferences("AVATAR_INFO", activity.MODE_PRIVATE);
+        String restoredText = prefs.getString("name", null);
+
+        packet.setClientName(restoredText);
+        packet.setMessageType(ArpoPacket.ARPO_PACKET_CHALLENGER_RESULT);
+        packet.setResultCount(Strcount);
+        packet.setResultTime(time);
+        packet.setUniqueplayerID(id);
+
+        for(int i = 0; i < count;i++)
+        {
+            packet.setMessage("PushUp Result: " + clientsSockInfo[i].clientNumber + " MESSAGE NUMBER=" + msgCount++);
+            if(clientsSockInfo[i].serverOutObj == null)
+            {
+                print("print server is null");
+            }
+            else {
+
+                try {
+                    clientsSockInfo[i].serverOutObj.writeObject(packet);
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+                //clientsSockInfo[i].serverOut.println(");
+            }
+        }
+
+    }
+
     public void sendChallengerInfo()
     {
         ArpoPacket packet = new ArpoPacket();
         packet.setMessageType(ArpoPacket.ARPO_PACKET_REPOSNSE_CHALLENGERS);
         packet.setChallengerList(list);
+
+        for (ListAvatar item:list
+             ) {
+            print("ChallangerInfo is sent to client : challenger:"+item.getName());
+
+        }
 
         for(int i = 0; i < count;i++)
         {
@@ -188,6 +253,7 @@ public class Server {
         for(int i = 0; i <MAX_DEVICES;i++)
         {
             try {
+                if(clientsSockInfo[i].serverSocket != null)
                 clientsSockInfo[i].serverSocket.close();
             }
             catch (Exception ex)
@@ -196,6 +262,22 @@ public class Server {
             }
         }
     }
+
+    private boolean isGameOver()
+    {
+        boolean result = true;
+        for (ListAvatar item: list
+                ) {
+            if(item.isTakenChallenge() == false) {
+                result = false;
+                break;
+            }
+
+        }
+
+        return result;
+    }
+
 
     public int getPort() {
         return socketServerPORT;
@@ -319,6 +401,15 @@ public class Server {
                             updateView(packet);
                             sendChallengerInfo();
                             break;
+                        case ArpoPacket.ARPO_PACKET_CLIENT_RESULT:
+                            print("got Result from client "+packet.getClientName() +" unique id="+ packet.getUniqueplayerID());
+                            updateResult(packet);
+
+                            if(isGameOver())
+                            {
+                                //showResults();
+                                print("GAME OVER");
+                            }
                     }
                     Thread.sleep(500);
                 }

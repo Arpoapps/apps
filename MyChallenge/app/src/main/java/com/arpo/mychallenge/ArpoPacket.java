@@ -17,6 +17,8 @@ public class ArpoPacket implements Serializable {
     static final int ARPO_PACKET_RESPONSE_CLIENT_INFO = 3;
     static final int ARPO_PACKET_REPOSNSE_CHALLENGERS = 4;
     static final int ARPO_PACKET_START_CHALLENGE = 5;
+    static final int ARPO_PACKET_CLIENT_RESULT = 6;
+    static final int ARPO_PACKET_CHALLENGER_RESULT = 7;
 
     private int type;
     private String msg;
@@ -24,6 +26,10 @@ public class ArpoPacket implements Serializable {
     private String serverName;
 
     private String clientName;
+
+    private String resultCount;
+    private String resultTime;
+    private int uniqueplayerID;
 
     private List<ListAvatar> listChallenger;
 
@@ -40,7 +46,13 @@ public class ArpoPacket implements Serializable {
 
     public void setChallengerList(List <ListAvatar>list)
     {
-        listChallenger = list;
+        listChallenger = new ArrayList<>();
+        for (ListAvatar item: list
+             ) {
+            listChallenger.add(item);
+            print("Adding "+item.getName()+" to ChallengerList for sending");
+
+        }
     }
 
     public List<ListAvatar> getChallengerList()
@@ -92,6 +104,14 @@ public class ArpoPacket implements Serializable {
     {
         type = msgType;
     }
+
+    public String getResultCount(){ return  resultCount; }
+    public String getResultTime(){ return  resultTime; }
+    public void setResultCount(String count) { resultCount = count;}
+    public void setResultTime(String time) { resultTime = time;}
+
+    public void setUniqueplayerID(int id) {uniqueplayerID = id;}
+    public int getUniqueplayerID(){return uniqueplayerID;}
 
 
 }

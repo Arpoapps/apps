@@ -110,6 +110,8 @@ public class ChallengePageServer extends Fragment {
             p1.setPushUPTimeTaken("00:00:000");
             p1.setSelected(true);
             p1.setTakenChallenge(false);
+            p1.setRemoteMachine(false);
+            p1.setUniqueId(list.size());
             selectedPlayer = 0;
             list.add(p1);
         }
@@ -126,12 +128,23 @@ public class ChallengePageServer extends Fragment {
 
                 // DO something
 
-                if (selectedPlayer == position) return;
+                ListAvatar gridItem = list.get(position);
+
+                if (selectedPlayer == position) {
+                    print("Aleady selected");
+                    return;
+                }
 
                 ListAvatar selectedGrid = list.get(selectedPlayer);
+
+                if(gridItem.isRemoteMachine())
+                {
+                    print("Clicking on remote machine");
+                    return;
+                }
                 selectedGrid.setSelected(false);
 
-                ListAvatar gridItem = list.get(position);
+
                 gridItem.setSelected(true);
 
                 selectedPlayer = position;
@@ -241,9 +254,7 @@ public class ChallengePageServer extends Fragment {
                 result = false;
                 break;
             }
-
         }
-
         return result;
     }
 
@@ -352,8 +363,10 @@ public class ChallengePageServer extends Fragment {
                 p1.setPushUPTimeTaken("00:00:000");
                 p1.setSelected(false);
                 p1.setTakenChallenge(false);
+                p1.setUniqueId(list.size());
                 list.add(p1);
                 avatarAdapter.notifyDataSetChanged();
+                mServer.sendChallengerInfo();
                 playerCount++;
             }
         }
@@ -372,6 +385,8 @@ public class ChallengePageServer extends Fragment {
                 p1.setPushUPTimeTaken(time);
                 p1.setTakenChallenge(true);
                 avatarAdapter.notifyDataSetChanged();
+
+                mServer.sendResultToClient(count, time, p1.getUniqueId());
                 if(isGameOver())
                 {
                     showResults();
@@ -382,6 +397,8 @@ public class ChallengePageServer extends Fragment {
         }
         else if (requestCode == 401)
         {
+            ArpoWifi mWifiModule = new ArpoWifi(getContext());
+            mWifiModule.turnoff_hotspot();
             try
             {
 
