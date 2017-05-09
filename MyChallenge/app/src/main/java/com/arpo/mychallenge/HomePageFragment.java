@@ -1,6 +1,8 @@
 package com.arpo.mychallenge;
 
+import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 
 /**
@@ -26,11 +30,13 @@ public class HomePageFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
 
     public HomePageFragment() {
         // Required empty public constructor
@@ -57,6 +63,8 @@ public class HomePageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -67,14 +75,13 @@ public class HomePageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView =  inflater.inflate(R.layout.fragment_home_page, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home_page, container, false);
 
-
-        Button challengFriend = (Button)rootView.findViewById(R.id.btn_challenge);
+        Button challengFriend = (Button) rootView.findViewById(R.id.btn_challenge);
         challengFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("JKS","Clicked button challenge a friend");
+                Log.d("JKS", "Clicked button challenge a friend");
                 try {
                     Fragment nextFrag = Fragment_ChallengeMain.class.newInstance();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -82,15 +89,39 @@ public class HomePageFragment extends Fragment {
                             .replace(R.id.flContent, nextFrag, "ChallengeMain")
                             .addToBackStack(null)
                             .commit();
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
 
                 }
             }
+
         });
-        return  rootView;
+
+
+        Button Challengemyself = (Button) rootView.findViewById(R.id.btn_challengemyself);
+        Challengemyself.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("JKS", "Clicked button challenge myself");
+
+                try {
+                    Fragment nextFrag = Fragment_Pushuplist.class.newInstance();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.flContent, nextFrag, "Pushuplist")
+                            .addToBackStack(null)
+                            .commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
+        return rootView;
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

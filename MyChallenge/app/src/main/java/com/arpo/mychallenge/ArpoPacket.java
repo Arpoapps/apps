@@ -31,6 +31,7 @@ public class ArpoPacket implements Serializable {
     private String resultTime;
     private int uniqueplayerID;
 
+
     private List<ListAvatar> listChallenger;
 
     ArpoPacket()

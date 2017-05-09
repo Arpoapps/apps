@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "624945092914",
+    "firebase_url": "https://colorchange-f7c66.firebaseio.com",
+    "project_id": "colorchange-f7c66",
+    "storage_bucket": "colorchange-f7c66.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624945092914:android:2d9dbaa64b7e6b14",
+        "android_client_info": {
+          "package_name": "com.example.sony.remoteconfig"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624945092914-bi1nc69mcmaj3hvmrakdvrv6ia83sac8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sony.remoteconfig",
+            "certificate_hash": "AAE71BCF15F76D78E501881830F22767F6B5BA26"
+          }
+        },
+        {
+          "client_id": "624945092914-ivj2e3m2c5cp5m40cv7vrnke4ogjrnhl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpSv0Jwo9SV1EmQeh9Poiz8ll-FBykfVI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624945092914-ivj2e3m2c5cp5m40cv7vrnke4ogjrnhl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

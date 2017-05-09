@@ -20,7 +20,6 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-
         try {
             Fragment nextFrag = HomePageFragment.class.newInstance();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
