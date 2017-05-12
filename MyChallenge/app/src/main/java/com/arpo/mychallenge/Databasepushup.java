@@ -24,6 +24,7 @@ public class Databasepushup extends SQLiteOpenHelper {
     {
         sqldb =  mContext.openOrCreateDatabase("PUSHUP_DB", Context.MODE_PRIVATE, null);
         createTables();
+        initData();
     }
 
     private void createTables()
