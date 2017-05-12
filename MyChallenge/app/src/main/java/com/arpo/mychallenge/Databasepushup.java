@@ -11,57 +11,61 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Databasepushup extends SQLiteOpenHelper {
 
     SQLiteDatabase sqldb;
-    Context c;
-
-
-
+    Context mContext;
 
 
 
     public Databasepushup(Context C)
     {
         super(C,"DB_pushup",null,1);
-        c=C;
+        mContext = C;
     }
     public void openConnection()
     {
-        sqldb=getWritableDatabase();
+        sqldb =  mContext.openOrCreateDatabase("PUSHUP_DB", Context.MODE_PRIVATE, null);
+        createTables();
     }
 
-    public void closeConnection()
+    private void createTables()
     {
-        sqldb.close();
+
+
+        String qury = "CREATE TABLE IF NOT EXISTS tb_staminatest(Testno INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, numPushUp INTEGER NOT NULL ,Timetaken INTEGER NOT NULL )";
+        sqldb.execSQL(qury);
+
+        String qury1 = "CREATE TABLE IF NOT EXISTS tb_userdata(Userid INTEGER PRIMARY KEY AUTOINCREMENT, Name VARCHAR(30) NOT NULL , height INTEGER NOT NULL ,weight INTEGER NOT NULL ,Score INTEGER NOT NULL)";
+        sqldb.execSQL(qury1);
+
+
+        String qury2 = "CREATE TABLE IF NOT EXISTS tb_pushupdata(Data_id INTEGER PRIMARY KEY AUTOINCREMENT ,Pushup_id INTEGER NOT NULL , Date VARCHAR(500) ,Attemptno VARCHAR(30) ,Numpushup INTEGER NOT NULL,Timetaken INTEGER NOT NULL,Badge INTEGER NOT NULL )";
+        sqldb.execSQL(qury2);
+
+
+        String qury3 = "CREATE TABLE IF NOT EXISTS tb_pushupdetails(Pushup_id INTEGER PRIMARY KEY AUTOINCREMENT , excersisename VARCHAR(500),images VARCHAR(100) ,targetPushUp INTEGER NOT NULL )";
+        sqldb.execSQL(qury3);
+
+
+        String qury4 = "CREATE TABLE IF NOT EXISTS tb_description( Description_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Pushup_id INTEGER , Steps VARCHAR(100) )";
+        sqldb.execSQL(qury4);
+
+
+        String qury5 = "CREATE TABLE IF NOT EXISTS tb_pushupimages(Image_id INTEGER PRIMARY KEY AUTOINCREMENT ,Pushup_id INTEGER  , image VARCHAR(30) )";
+        sqldb.execSQL(qury5);
+
+        // Toast.makeText(c, "created", Toast.LENGTH_SHORT).show();
+
+
     }
-    @Override
-    public void onCreate(SQLiteDatabase db) {
 
+    private void initData()
+    {
 
-
-        String qury = "create table tb_staminatest(Testno INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, numPushUp INTEGER NOT NULL ,Timetaken INTEGER NOT NULL )";
-        db.execSQL(qury);
-
-        String qury1 = "create table tb_userdata(Userid INTEGER PRIMARY KEY AUTOINCREMENT, Name VARCHAR(30) NOT NULL , height INTEGER NOT NULL ,weight INTEGER NOT NULL ,Score INTEGER NOT NULL)";
-        db.execSQL(qury1);
-
-
-        String qury2 = "create table tb_pushupdata(Data_id INTEGER PRIMARY KEY AUTOINCREMENT ,Pushup_id INTEGER NOT NULL , Date VARCHAR(500) ,Attemptno VARCHAR(30) ,Numpushup INTEGER NOT NULL,Timetaken INTEGER NOT NULL,Badge INTEGER NOT NULL )";
-        db.execSQL(qury2);
-
-
-        String qury3 = "create table tb_pushupdetails(Pushup_id INTEGER PRIMARY KEY AUTOINCREMENT , excersisename VARCHAR(500),images VARCHAR(100) ,targetPushUp INTEGER NOT NULL )";
-        db.execSQL(qury3);
-
-
-        String qury4 = "create table tb_description( Description_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Pushup_id INTEGER , Steps VARCHAR(100) )";
-        db.execSQL(qury4);
-
-
-        String qury5 = "create table tb_pushupimages(Image_id INTEGER PRIMARY KEY AUTOINCREMENT ,Pushup_id INTEGER  , image VARCHAR(30) )";
-        db.execSQL(qury5);
-
-       // Toast.makeText(c, "created", Toast.LENGTH_SHORT).show();
-
-
+        String checkQuery = "SELECT * FROM tb_pushupdetails";
+        Cursor checkData = sqldb.rawQuery(checkQuery,null);
+        if(checkData.getCount() != 0)
+        {
+            return;
+        }
 
 // push up name and image insetion
         int[]img ={R.mipmap.pushup,
@@ -141,7 +145,7 @@ public class Databasepushup extends SQLiteOpenHelper {
         for(int i=0;i<names.length;i++) {
             String st1 = "insert into tb_pushupdetails(excersisename,images,targetPushUp )values('"+names[i]+"','"+img[i]+"',"+count+")";
             count += 5;
-            db.execSQL(st1);
+            sqldb.execSQL(st1);
         }
 
 // description inserion .... only first five excersise  detais is correct
@@ -225,368 +229,378 @@ public class Databasepushup extends SQLiteOpenHelper {
 
         for(int i=0;i<s1.length;i++){
             String des1="insert into tb_description(Pushup_id,steps)values('1','"+s1[i]+"')";
-            db.execSQL(des1);
+            sqldb.execSQL(des1);
         }
         int[] img1={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img1.length;i++){
             String des2="insert into tb_pushupimages(Pushup_id,image)values('1','"+img1[i]+"')";
-            db.execSQL(des2);
+            sqldb.execSQL(des2);
         }
 
 
         for(int i=0;i<s2.length;i++){
             String des3="insert into tb_description(Pushup_id,steps)values('2','"+s2[i]+"')";
-            db.execSQL(des3);
+            sqldb.execSQL(des3);
         }
         int[] img2={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img2.length;i++){
             String des4="insert into tb_pushupimages(Pushup_id,image)values('2','"+img2[i]+"')";
-            db.execSQL(des4);
+            sqldb.execSQL(des4);
         }
         for(int i=0;i<s3.length;i++){
             String des5="insert into tb_description(Pushup_id,steps)values('3','"+s3[i]+"')";
-            db.execSQL(des5);
+            sqldb.execSQL(des5);
         }
         int[] img3={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img3.length;i++){
             String des6="insert into tb_pushupimages(Pushup_id,image)values('3','"+img3[i]+"')";
-            db.execSQL(des6);
+            sqldb.execSQL(des6);
         }
         for(int i=0;i<s4.length;i++){
             String des7="insert into tb_description(Pushup_id,steps)values('4','"+s4[i]+"')";
-            db.execSQL(des7);
+            sqldb.execSQL(des7);
         }
         int[] img4={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img4.length;i++){
             String des8="insert into tb_pushupimages(Pushup_id,image)values('4','"+img4[i]+"')";
-            db.execSQL(des8);
+            sqldb.execSQL(des8);
         }
 
-       // Toast.makeText(c, "inserted", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(c, "inserted", Toast.LENGTH_SHORT).show();
 
         //  database continue........
 
         for(int i=0;i<s5.length;i++){
             String des9="insert into tb_description(Pushup_id,steps)values('5','"+s5[i]+"')";
-            db.execSQL(des9);
+            sqldb.execSQL(des9);
         }
         int[] img5={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img5.length;i++){
             String des10="insert into tb_pushupimages(Pushup_id,image)values('5','"+img5[i]+"')";
-            db.execSQL(des10);
+            sqldb.execSQL(des10);
         }
 
         for(int i=0;i<s6.length;i++){
             String des11="insert into tb_description(Pushup_id,steps)values('6','"+s6[i]+"')";
-            db.execSQL(des11);
+            sqldb.execSQL(des11);
         }
         int[] img6={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img6.length;i++){
             String des12="insert into tb_pushupimages(Pushup_id,image)values('6','"+img6[i]+"')";
-            db.execSQL(des12);
+            sqldb.execSQL(des12);
         }
 
 
         for(int i=0;i<s7.length;i++){
             String des13="insert into tb_description(Pushup_id,steps)values('7','"+s7[i]+"')";
-            db.execSQL(des13);
+            sqldb.execSQL(des13);
         }
         int[] img7={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img7.length;i++){
             String des14="insert into tb_pushupimages(Pushup_id,image)values('7','"+img7[i]+"')";
-            db.execSQL(des14);
+            sqldb.execSQL(des14);
         }
 
         for(int i=0;i<s8.length;i++){
             String des15="insert into tb_description(Pushup_id,steps)values('8','"+s8[i]+"')";
-            db.execSQL(des15);
+            sqldb.execSQL(des15);
         }
         int[] img8={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img8.length;i++){
             String des16="insert into tb_pushupimages(Pushup_id,image)values('8','"+img8[i]+"')";
-            db.execSQL(des16);
+            sqldb.execSQL(des16);
         }
 
         for(int i=0;i<s9.length;i++){
             String des17="insert into tb_description(Pushup_id,steps)values('9','"+s9[i]+"')";
-            db.execSQL(des17);
+            sqldb.execSQL(des17);
         }
         int[] img9={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img9.length;i++){
             String des18="insert into tb_pushupimages(Pushup_id,image)values('9','"+img9[i]+"')";
-            db.execSQL(des18);
+            sqldb.execSQL(des18);
         }
         for(int i=0;i<s10.length;i++){
             String des19="insert into tb_description(Pushup_id,steps)values('10','"+s10[i]+"')";
-            db.execSQL(des19);
+            sqldb.execSQL(des19);
         }
         int[] img10={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img10.length;i++){
             String des20="insert into tb_pushupimages(Pushup_id,image)values('10','"+img10[i]+"')";
-            db.execSQL(des20);
+            sqldb.execSQL(des20);
         }
         for(int i=0;i<s11.length;i++){
             String des21="insert into tb_description(Pushup_id,steps)values('11','"+s11[i]+"')";
-            db.execSQL(des21);
+            sqldb.execSQL(des21);
         }
         int[] img11={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img11.length;i++){
             String des22="insert into tb_pushupimages(Pushup_id,image)values('11','"+img11[i]+"')";
-            db.execSQL(des22);
+            sqldb.execSQL(des22);
         }
         for(int i=0;i<s12.length;i++){
             String des23="insert into tb_description(Pushup_id,steps)values('12','"+s12[i]+"')";
-            db.execSQL(des23);
+            sqldb.execSQL(des23);
         }
         int[] img12={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img12.length;i++){
             String des24="insert into tb_pushupimages(Pushup_id,image)values('12','"+img12[i]+"')";
-            db.execSQL(des24);
+            sqldb.execSQL(des24);
         }
         for(int i=0;i<s13.length;i++){
             String des25="insert into tb_description(Pushup_id,steps)values('13','"+s13[i]+"')";
-            db.execSQL(des25);
+            sqldb.execSQL(des25);
         }
         int[] img13={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img13.length;i++){
             String des26="insert into tb_pushupimages(Pushup_id,image)values('13','"+img13[i]+"')";
-            db.execSQL(des26);
+            sqldb.execSQL(des26);
         }
         for(int i=0;i<s14.length;i++){
             String des27="insert into tb_description(Pushup_id,steps)values('14','"+s14[i]+"')";
-            db.execSQL(des27);
+            sqldb.execSQL(des27);
         }
         int[] img14={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img14.length;i++){
             String des28="insert into tb_pushupimages(Pushup_id,image)values('14','"+img14[i]+"')";
-            db.execSQL(des28);
+            sqldb.execSQL(des28);
         }
         for(int i=0;i<s15.length;i++){
             String des29="insert into tb_description(Pushup_id,steps)values('15','"+s15[i]+"')";
-            db.execSQL(des29);
+            sqldb.execSQL(des29);
         }
         int[] img15={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img15.length;i++){
             String des30="insert into tb_pushupimages(Pushup_id,image)values('15','"+img15[i]+"')";
-            db.execSQL(des30);
+            sqldb.execSQL(des30);
         }
 
         for(int i=0;i<s16.length;i++){
             String des31="insert into tb_description(Pushup_id,steps)values('16','"+s16[i]+"')";
-            db.execSQL(des31);
+            sqldb.execSQL(des31);
         }
         int[] img16={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img16.length;i++){
             String des32="insert into tb_pushupimages(Pushup_id,image)values('16','"+img16[i]+"')";
-            db.execSQL(des32);
+            sqldb.execSQL(des32);
         }
         for(int i=0;i<s17.length;i++){
             String des33="insert into tb_description(Pushup_id,steps)values('17','"+s17[i]+"')";
-            db.execSQL(des33);
+            sqldb.execSQL(des33);
         }
         int[] img17={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img17.length;i++){
             String des34="insert into tb_pushupimages(Pushup_id,image)values('17','"+img17[i]+"')";
-            db.execSQL(des34);
+            sqldb.execSQL(des34);
         }
         for(int i=0;i<s18.length;i++){
             String des35="insert into tb_description(Pushup_id,steps)values('18','"+s18[i]+"')";
-            db.execSQL(des35);
+            sqldb.execSQL(des35);
         }
         int[] img18={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img18.length;i++){
             String des36="insert into tb_pushupimages(Pushup_id,image)values('18','"+img18[i]+"')";
-            db.execSQL(des36);
+            sqldb.execSQL(des36);
         }
         for(int i=0;i<s19.length;i++){
             String des37="insert into tb_description(Pushup_id,steps)values('19','"+s19[i]+"')";
-            db.execSQL(des37);
+            sqldb.execSQL(des37);
         }
         int[] img19={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img19.length;i++){
             String des38="insert into tb_pushupimages(Pushup_id,image)values('19','"+img19[i]+"')";
-            db.execSQL(des38);
+            sqldb.execSQL(des38);
         }
         for(int i=0;i<s20.length;i++){
             String des39="insert into tb_description(Pushup_id,steps)values('20','"+s20[i]+"')";
-            db.execSQL(des39);
+            sqldb.execSQL(des39);
         }
         int[] img20={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img20.length;i++){
             String des40="insert into tb_pushupimages(Pushup_id,image)values('20','"+img20[i]+"')";
-            db.execSQL(des40);
+            sqldb.execSQL(des40);
         }
         for(int i=0;i<s21.length;i++){
             String des41="insert into tb_description(Pushup_id,steps)values('21','"+s21[i]+"')";
-            db.execSQL(des41);
+            sqldb.execSQL(des41);
         }
         int[] img21={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img21.length;i++){
             String des42="insert into tb_pushupimages(Pushup_id,image)values('21','"+img21[i]+"')";
-            db.execSQL(des42);
+            sqldb.execSQL(des42);
         }
         for(int i=0;i<s22.length;i++){
             String des43="insert into tb_description(Pushup_id,steps)values('22','"+s22[i]+"')";
-            db.execSQL(des43);
+            sqldb.execSQL(des43);
         }
         int[] img22={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img22.length;i++){
             String des44="insert into tb_pushupimages(Pushup_id,image)values('22','"+img22[i]+"')";
-            db.execSQL(des44);
+            sqldb.execSQL(des44);
         }
         for(int i=0;i<s23.length;i++){
             String des45="insert into tb_description(Pushup_id,steps)values('23','"+s23[i]+"')";
-            db.execSQL(des45);
+            sqldb.execSQL(des45);
         }
         int[] img23={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img23.length;i++){
             String des46="insert into tb_pushupimages(Pushup_id,image)values('23','"+img23[i]+"')";
-            db.execSQL(des46);
+            sqldb.execSQL(des46);
         }
         for(int i=0;i<s24.length;i++){
             String des47="insert into tb_description(Pushup_id,steps)values('24','"+s24[i]+"')";
-            db.execSQL(des47);
+            sqldb.execSQL(des47);
         }
         int[] img24={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img24.length;i++){
             String des48="insert into tb_pushupimages(Pushup_id,image)values('24','"+img24[i]+"')";
-            db.execSQL(des48);
+            sqldb.execSQL(des48);
         }
 
         for(int i=0;i<s25.length;i++){
             String des49="insert into tb_description(Pushup_id,steps)values('25','"+s25[i]+"')";
-            db.execSQL(des49);
+            sqldb.execSQL(des49);
         }
         int[] img25={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img25.length;i++){
             String des50="insert into tb_pushupimages(Pushup_id,image)values('25','"+img25[i]+"')";
-            db.execSQL(des50);
+            sqldb.execSQL(des50);
         }
 
         for(int i=0;i<s26.length;i++){
             String des51="insert into tb_description(Pushup_id,steps)values('26','"+s26[i]+"')";
-            db.execSQL(des51);
+            sqldb.execSQL(des51);
         }
         int[] img26={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img26.length;i++){
             String des52="insert into tb_pushupimages(Pushup_id,image)values('26','"+img26[i]+"')";
-            db.execSQL(des52);
+            sqldb.execSQL(des52);
         }
 
         for(int i=0;i<s27.length;i++){
             String des53="insert into tb_description(Pushup_id,steps)values('27','"+s27[i]+"')";
-            db.execSQL(des53);
+            sqldb.execSQL(des53);
         }
         int[] img27={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img27.length;i++){
             String des54="insert into tb_pushupimages(Pushup_id,image)values('27','"+img27[i]+"')";
-            db.execSQL(des54);
+            sqldb.execSQL(des54);
         }
 
         for(int i=0;i<s28.length;i++){
             String des55="insert into tb_description(Pushup_id,steps)values('28','"+s28[i]+"')";
-            db.execSQL(des55);
+            sqldb.execSQL(des55);
         }
         int[] img28={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img28.length;i++){
             String des56="insert into tb_pushupimages(Pushup_id,image)values('28','"+img28[i]+"')";
-            db.execSQL(des56);
+            sqldb.execSQL(des56);
         }
 
         for(int i=0;i<s29.length;i++){
             String des57="insert into tb_description(Pushup_id,steps)values('29','"+s29[i]+"')";
-            db.execSQL(des57);
+            sqldb.execSQL(des57);
         }
         int[] img29={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img29.length;i++){
             String des58="insert into tb_pushupimages(Pushup_id,image)values('29','"+img29[i]+"')";
-            db.execSQL(des58);
+            sqldb.execSQL(des58);
         }
 
         for(int i=0;i<s30.length;i++){
             String des59="insert into tb_description(Pushup_id,steps)values('30','"+s30[i]+"')";
-            db.execSQL(des59);
+            sqldb.execSQL(des59);
         }
         int[] img30={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img30.length;i++){
             String des60="insert into tb_pushupimages(Pushup_id,image)values('30','"+img30[i]+"')";
-            db.execSQL(des60);
+            sqldb.execSQL(des60);
         }
 
         for(int i=0;i<s31.length;i++){
             String des61="insert into tb_description(Pushup_id,steps)values('31','"+s31[i]+"')";
-            db.execSQL(des61);
+            sqldb.execSQL(des61);
         }
         int[] img31={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img31.length;i++){
             String des62="insert into tb_pushupimages(Pushup_id,image)values('31','"+img31[i]+"')";
-            db.execSQL(des62);
+            sqldb.execSQL(des62);
         }
 
         for(int i=0;i<s32.length;i++){
             String des63="insert into tb_description(Pushup_id,steps)values('32','"+s32[i]+"')";
-            db.execSQL(des63);
+            sqldb.execSQL(des63);
         }
         int[] img32={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img32.length;i++){
             String des64="insert into tb_pushupimages(Pushup_id,image)values('32','"+img32[i]+"')";
-            db.execSQL(des64);
+            sqldb.execSQL(des64);
         }
 
         for(int i=0;i<s33.length;i++){
             String des65="insert into tb_description(Pushup_id,steps)values('33','"+s33[i]+"')";
-            db.execSQL(des65);
+            sqldb.execSQL(des65);
         }
         int[] img33={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img33.length;i++){
             String des66="insert into tb_pushupimages(Pushup_id,image)values('33','"+img33[i]+"')";
-            db.execSQL(des66);
+            sqldb.execSQL(des66);
         }
 
         for(int i=0;i<s34.length;i++){
             String des67="insert into tb_description(Pushup_id,steps)values('34','"+s34[i]+"')";
-            db.execSQL(des67);
+            sqldb.execSQL(des67);
         }
         int[] img34={R.mipmap.download, R.mipmap.pic, R.mipmap.popo,R.mipmap.pushup};
 
         for(int i=0;i<img34.length;i++){
             String des68="insert into tb_pushupimages(Pushup_id,image)values('34','"+img34[i]+"')";
-            db.execSQL(des68);
+            sqldb.execSQL(des68);
 
         }
+    }
+
+
+    public void closeConnection()
+    {
+        sqldb.close();
+    }
+    @Override
+    public void onCreate(SQLiteDatabase sqldb) {
+
 
     }
 

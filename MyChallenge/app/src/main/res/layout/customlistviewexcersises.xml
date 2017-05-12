@@ -5,8 +5,9 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="150dp"
+        android:layout_height="165dp"
+        android:background="#333333"
         android:orientation="vertical">
 
         <LinearLayout
@@ -16,25 +17,27 @@
             android:orientation="vertical"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="19dp">
 
 
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="65dp"
                 android:layout_alignParentTop="true"
                 android:src="@mipmap/pushup" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:background="#ffa500"
                 android:text="Medium Text"
-                android:background="#ff3300"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000000" />
 
 
         </LinearLayout>
@@ -49,78 +52,105 @@
 
             <LinearLayout
                 android:layout_width="50dp"
-                android:layout_height="80dp"
+                android:layout_height="40dp"
                 android:background="#2b2c2c"
                 android:gravity="center|left">
+
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/tv_next"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="NEXT Count"
+                        android:text="NEXT"
+                        android:textColor="#ffa500"
                         android:textSize="5dp"
-                        android:textColor="#ff3300"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_nextbest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#ff3300"
-                        android:layout_below="@+id/tv_next"
-                        android:text="86"/>
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:text="86"
+                        android:textAlignment="center"
+                        android:textColor="#ffa500"
+                        android:textSize="24sp" />
                 </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="50dp"
-                android:layout_height="80dp"
+                android:layout_height="40dp"
                 android:background="#333333"
                 android:gravity="center|left">
+
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/tv_best"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="BEST Time"
+                        android:text="BEST"
+                        android:textColor="#ffa500"
                         android:textSize="5dp"
-                        android:textColor="#ff3300"/>
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/tv_besttime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1.23 sec"
-                        android:layout_below="@+id/tv_best"
-                        android:textColor="#ff3300"/>
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:text="1.23"
+                        android:textAlignment="center"
+                        android:textColor="#ffa500"
+                        android:textSize="18sp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
                 </RelativeLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="50dp"
-                android:layout_height="80dp"
+                android:layout_height="40dp"
                 android:background="#2b2c2c"
                 android:gravity="center|left">
+
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/tv_top"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Best Count"
+                        android:text="AWSOME"
+                        android:textColor="#ffa500"
                         android:textSize="5dp"
-                        android:textColor="#ff3300"/>
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/tv_topbest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentStart="true"
                         android:text="76"
-                        android:layout_below="@+id/tv_top"
-                        android:textColor="#ff3300"/>
+                        android:textAlignment="center"
+                        android:textColor="#ffa500"
+                        android:textSize="24sp" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
