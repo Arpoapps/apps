@@ -99,6 +99,10 @@ public class Fragment_Pushuplist extends Fragment implements AdapterView.OnItemC
                     p1.setName(n);
                     p1.setId(id);
                     p1.setImage(img);
+                    p1.setNextbest(c.getString(4));
+                    p1.setBesttime(c.getString(5));
+                    p1.setTopbest(c.getString(3));
+                    p1.setTaken(c.getString(6));
                     list1.add(p1);
                     Log.d("JKS","Adding "+n);
 

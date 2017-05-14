@@ -42,7 +42,13 @@ public class Databasepushup extends SQLiteOpenHelper {
         sqldb.execSQL(qury2);
 
 
-        String qury3 = "CREATE TABLE IF NOT EXISTS tb_pushupdetails(Pushup_id INTEGER PRIMARY KEY AUTOINCREMENT , excersisename VARCHAR(500),images VARCHAR(100) ,targetPushUp INTEGER NOT NULL )";
+        String qury3 = "CREATE TABLE IF NOT EXISTS tb_pushupdetails(Pushup_id INTEGER PRIMARY KEY AUTOINCREMENT ,"+
+                "excersisename VARCHAR(500),"+
+                "images VARCHAR(100) ,"+
+                "targetPushUp INTEGER NOT NULL,"+
+                "nextset INTEGER NOT NULL,"+
+                "besttime VARCHAR(100),"+
+                "taken INTEGER)";
         sqldb.execSQL(qury3);
 
 
@@ -141,11 +147,11 @@ public class Databasepushup extends SQLiteOpenHelper {
                 "SUPERMAN PUSHUP",
                 "FINGER TIP PUSHUP"};
 
-        int count = 10;
+        int count = 100;
 
         for(int i=0;i<names.length;i++) {
-            String st1 = "insert into tb_pushupdetails(excersisename,images,targetPushUp )values('"+names[i]+"','"+img[i]+"',"+count+")";
-            count += 5;
+            String st1 = "insert into tb_pushupdetails(excersisename,images,targetPushUp,nextset,besttime,taken )values('"+names[i]+"','"+img[i]+"',"+count+",10,'nil',0)";
+            //count += 5;
             sqldb.execSQL(st1);
         }
 
