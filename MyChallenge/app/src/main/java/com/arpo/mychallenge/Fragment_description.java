@@ -1,12 +1,16 @@
 package com.arpo.mychallenge;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -50,7 +54,10 @@ public class Fragment_description extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    void print(String str)
+    {
+        Log.d("JKS",str);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +71,20 @@ public class Fragment_description extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_description, container, false);
+        View description_page =  inflater.inflate(R.layout.fragment_fragment_description, container, false);
+
+        // button cclick listner
+        Button challenge = (Button)description_page.findViewById(R.id.btn_description_challenge);
+        challenge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takeChallenge = new Intent(getContext(), TakeChallenge.class);
+                startActivityForResult(takeChallenge, 201);
+            }
+        });
+
+
+        return description_page;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,5 +124,25 @@ public class Fragment_description extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        print("OnActivity result");
+        if (requestCode == 201)
+        {
+
+            print("got the result");
+            print("result =" + resultCode);
+            if (resultCode != 0) {
+                String count = data.getStringExtra("count");
+                String time = data.getStringExtra("time");
+
+                print("Taken = " + count + " time = " + time + " FROM Activity");
+
+            }
+
+        }
+
     }
 }

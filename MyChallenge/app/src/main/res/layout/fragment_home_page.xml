@@ -28,7 +28,7 @@
         <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_challenge"
+            android:id="@+id/btn_description_challenge"
             android:background="@drawable/homechallengefriend"
             android:layout_marginBottom="21dp"
             android:layout_above="@+id/btn_challengemyself"
@@ -40,8 +40,8 @@
             android:id="@+id/btn_challengemyself"
             android:background="@drawable/homechallengemyself"
             android:layout_alignBottom="@+id/btn_achevments"
-            android:layout_alignLeft="@+id/btn_challenge"
-            android:layout_alignStart="@+id/btn_challenge"
+            android:layout_alignLeft="@+id/btn_description_challenge"
+            android:layout_alignStart="@+id/btn_description_challenge"
             android:layout_marginBottom="101dp" />
 
         <android.support.v7.widget.AppCompatButton
