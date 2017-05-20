@@ -130,8 +130,7 @@
                         android:textAlignment="center"
                         android:textColor="#d65e05"
                         android:textSize="18sp"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" />
+ />
                 </RelativeLayout>
 
             </LinearLayout>
