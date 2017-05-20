@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,7 +105,7 @@ public class Fragment_Pushuplist extends Fragment implements AdapterView.OnItemC
                     p1.setTopbest(c.getString(3));
                     p1.setTaken(c.getString(6));
                     list1.add(p1);
-                    Log.d("JKS","Adding "+n);
+                    Log.d("JKS", "Adding " + n);
 
                 }
             }
@@ -112,9 +113,9 @@ public class Fragment_Pushuplist extends Fragment implements AdapterView.OnItemC
             gridv.setAdapter(adapterlist);
             /*int count = c.getCount();*/
             gridv.setNumColumns(2);
-
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -126,8 +127,38 @@ public class Fragment_Pushuplist extends Fragment implements AdapterView.OnItemC
 
         getpushuplist();
         Log.d("pss", "layoutdone");
+
+        gridv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Log.d("JKS","CLicked in postion "+position);
+                try {
+
+                    Log.d("JKS","got to next fragment");
+                    Fragment nextFrag = Fragment_description.class.newInstance();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.flContent, nextFrag, "description")
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+                catch (Exception e)
+                {
+                    Log.d("JKS","Exception");
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         return rootView;
+
     }
+
+
+
 
 
 

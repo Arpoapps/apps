@@ -18,7 +18,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+       >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -40,8 +40,9 @@
         <activity
             android:name=".ResultPopUp"
             android:theme="@style/custom" />
-        <activity android:name=".Winner"
-            android:theme="@style/custom"></activity>
+        <activity
+            android:name=".Winner"
+            android:theme="@style/custom" />
     </application>
 
 </manifest>

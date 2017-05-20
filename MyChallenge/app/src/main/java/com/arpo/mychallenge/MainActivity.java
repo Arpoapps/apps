@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         ChallengePageServer.OnFragmentInteractionListener,
         ChallengePageClient.OnFragmentInteractionListener,
         Fragment_Pushuplist.OnFragmentInteractionListener,
+        Fragment_description.OnFragmentInteractionListener,
         CreateAvatar.OnFragmentInteractionListener {
 
     public static FragmentManager fragmentManager;
@@ -92,7 +93,10 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                     } catch (Exception ex) {
 
                     }
-                } else if (ft instanceof CreateAvatar) {
+                }
+
+
+                else if (ft instanceof CreateAvatar) {
                     Fragment nextFrag = Fragment_ChallengeMain.class.newInstance();
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
@@ -112,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                     } catch (Exception ex) {
 
                     }
+
 
                 } else
                     this.finish();

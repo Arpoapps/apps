@@ -1,29 +1,73 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/holo_blue_bright"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.arpo.mychallenge.HomePageFragment">
+    tools:context="com.arpo.mychallenge.HomePageFragment"
+
+
+
+    >
 
     <!-- TODO: Update blank fragment layout -->
-  <RelativeLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent">
 
-      <Button
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Challenge"
-          android:id="@+id/btn_challenge"
-          android:layout_centerVertical="true"
-          android:layout_centerHorizontal="true" />
 
-      <Button
-          android:id="@+id/btn_challengemyself"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginBottom="33dp"
-          android:text="CHALLENGE MYSELF"
-          android:layout_above="@+id/btn_challenge"
-          android:layout_centerHorizontal="true" />
-  </RelativeLayout>
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_achevments"
+            android:background="@drawable/homeachivements"
+            android:layout_marginBottom="85dp"
+            android:layout_above="@+id/btn_settings"
+            android:layout_centerHorizontal="true" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_challenge"
+            android:background="@drawable/homechallengefriend"
+            android:layout_marginBottom="21dp"
+            android:layout_above="@+id/btn_challengemyself"
+            android:layout_centerHorizontal="true" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_challengemyself"
+            android:background="@drawable/homechallengemyself"
+            android:layout_alignBottom="@+id/btn_achevments"
+            android:layout_alignLeft="@+id/btn_challenge"
+            android:layout_alignStart="@+id/btn_challenge"
+            android:layout_marginBottom="101dp" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_settings"
+            android:background="@drawable/homesettings"
+            android:layout_marginRight="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_alignBaseline="@+id/btn_tips"
+            android:layout_alignBottom="@+id/btn_tips"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_tips"
+            android:background="@drawable/hometips"
+            android:layout_marginBottom="54dp"
+            android:layout_marginRight="28dp"
+            android:layout_marginEnd="28dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/btn_settings"
+            android:layout_toStartOf="@+id/btn_settings" />
+
+    </RelativeLayout>
+
 </FrameLayout>
