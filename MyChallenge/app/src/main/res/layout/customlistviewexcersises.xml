@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:background="#ffa500"
+                android:background="#d65e05"
                 android:text="Medium Text"
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -65,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="NEXT"
-                        android:textColor="#ffa500"
+                        android:textColor="#d65e05"
                         android:textSize="5dp"
                         android:textStyle="bold" />
 
@@ -78,7 +78,7 @@
                         android:layout_alignParentStart="true"
                         android:text="86"
                         android:textAlignment="center"
-                        android:textColor="#ffa500"
+                        android:textColor="#d65e05"
                         android:textSize="24sp" />
                 </RelativeLayout>
             </LinearLayout>
@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="BEST"
-                        android:textColor="#ffa500"
+                        android:textColor="#d65e05"
                         android:textSize="5dp"
                         android:textStyle="bold" />
 
@@ -109,9 +109,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:text="1.23"
+                        android:text="1.23s"
                         android:textAlignment="center"
-                        android:textColor="#ffa500"
+                        android:textColor="#d65e05"
                         android:textSize="18sp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true" />
@@ -134,7 +134,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="AWSOME"
-                        android:textColor="#ffa500"
+                        android:textColor="#d65e05"
                         android:textSize="5dp"
                         android:textStyle="bold" />
 
@@ -149,7 +149,7 @@
                         android:layout_alignParentStart="true"
                         android:text="76"
                         android:textAlignment="center"
-                        android:textColor="#ffa500"
+                        android:textColor="#d65e05"
                         android:textSize="24sp" />
                 </RelativeLayout>
             </LinearLayout>
