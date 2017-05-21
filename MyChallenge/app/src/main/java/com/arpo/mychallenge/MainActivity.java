@@ -118,7 +118,29 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                     }
 
 
-                } else
+
+                }
+                else if (ft instanceof Fragment_description)
+
+                {
+                    try {
+                        Fragment nextFrag = Fragment_Pushuplist.class.newInstance();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.flContent, nextFrag, "HomePage")
+                                .addToBackStack(null)
+                                .commit();
+                    } catch (Exception ex) {
+
+                    }
+
+
+
+                }
+
+
+
+                else
                     this.finish();
 
             } catch (Exception ex) {
