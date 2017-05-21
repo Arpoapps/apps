@@ -2,6 +2,7 @@ package com.arpo.mychallenge;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 /**
@@ -33,6 +35,13 @@ public class Fragment_description extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+
+    Databasepushup db;
+    TextView tv_step1;
+
+    int position;
+    String fid;
+String des = "";
     public Fragment_description() {
         // Required empty public constructor
     }
@@ -66,12 +75,49 @@ public class Fragment_description extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    private void getpushupdescription()
+    {
+        db=new Databasepushup(getContext());
+        db.openConnection();
+        {
+
+        }
+    }
+
+
+    private void getDescription() {
+
+        String se = "select Steps from tb_description where Pushup_id= '" + fid + "'";
+        Cursor c = db.selectData(se);
+        int i = 1;
+        if (c != null) {
+            while (c.moveToNext()) {
+                String s1 = c.getString(0);
+                des = des + "Step " + i + ":\n";//+s1+"\n";
+                String[] s2 = s1.split(".:");
+                for (int j = 0; j < s2.length; j++) {
+                    des = des + s2[j] + ".\n";
+                }
+                i++;
+            }
+            tv_step1.setText(des);
+
+        }
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View description_page =  inflater.inflate(R.layout.fragment_fragment_description, container, false);
+        tv_step1= (TextView)description_page.findViewById(R.id.tv_des);
+        getDescription();
+        fid = getIntent().getStringExtra("fid");
+        position = getIntent().getIntExtra("position", -1);
+        Log.d("JKS", "Intent received on details page pos= " + position + " fid = " + fid);
+        getpushupdescription();
+
 
         // button cclick listner
         Button challenge = (Button)description_page.findViewById(R.id.btn_description_challenge);
