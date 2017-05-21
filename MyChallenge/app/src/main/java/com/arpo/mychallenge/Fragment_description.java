@@ -76,21 +76,16 @@ String des = "";
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private void getpushupdescription()
-    {
+
+
+
+    private void getDescription(String id) {
         db=new Databasepushup(getContext());
         db.openConnection();
-        {
-
-        }
-    }
-
-
-    private void getDescription() {
-
-        String se = "select Steps from tb_description where Pushup_id= '" + fid + "'";
+        String se = "select Steps from tb_description where Pushup_id=" + id ;
         Cursor c = db.selectData(se);
         int i = 1;
+        print("Got "+c.getCount());
         if (c != null) {
             while (c.moveToNext()) {
                 String s1 = c.getString(0);
@@ -104,6 +99,7 @@ String des = "";
             tv_step1.setText(des);
 
         }
+        db.closeConnection();
 
     }
 
@@ -113,11 +109,33 @@ String des = "";
         // Inflate the layout for this fragment
         View description_page =  inflater.inflate(R.layout.fragment_fragment_description, container, false);
         tv_step1= (TextView)description_page.findViewById(R.id.tv_des);
-        getDescription();
+        /*getDescription();
         fid = getIntent().getStringExtra("fid");
         position = getIntent().getIntExtra("position", -1);
         Log.d("JKS", "Intent received on details page pos= " + position + " fid = " + fid);
         getpushupdescription();
+*/
+
+        Bundle bundle = this.getArguments();
+        String name = bundle.getString("NAME");
+        String id = bundle.getString("ID");
+
+        getDescription(id);
+        print("GOT PUSH UP = "+name+"WITH ID="+id);
+
+
+
+        String challengeType;
+        challengeType ="pushup";
+        String challengeCount="0";
+        challengeCount="20";
+
+        String apName = String.format("%s/%s/%s", "EXCERCISE", challengeType, challengeCount);
+        apName = "ARPO/"+apName;
+
+        SharedPreferences.Editor editor = getContext().getSharedPreferences("GAME_INFO", getContext().MODE_PRIVATE).edit();
+        editor.putString("name", apName);
+        editor.commit();
 
 
         // button cclick listner
@@ -126,18 +144,6 @@ String des = "";
             @Override
             public void onClick(View v) {
 
-
-                String challengeType;
-                challengeType ="pushup";
-                String challengeCount="0";
-                challengeCount="20";
-
-                String apName = String.format("%s/%s/%s", "EXCERCISE", challengeType, challengeCount);
-                apName = "ARPO/"+apName;
-
-                SharedPreferences.Editor editor = getContext().getSharedPreferences("GAME_INFO", getContext().MODE_PRIVATE).edit();
-                editor.putString("name", apName);
-                editor.commit();
 
                 Intent takeChallenge = new Intent(getContext(), TakeChallenge.class);
                 startActivityForResult(takeChallenge, 201);

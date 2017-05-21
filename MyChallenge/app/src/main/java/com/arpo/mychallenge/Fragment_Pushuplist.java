@@ -135,8 +135,15 @@ public class Fragment_Pushuplist extends Fragment implements AdapterView.OnItemC
                 Log.d("JKS","CLicked in postion "+position);
                 try {
 
-                    Log.d("JKS","got to next fragment");
+                    String name = list1.get(position).getName();
+                    String pushupid = list1.get(position).getId();
+                    Log.d("JKS","got to next fragment with "+name + " id="+pushupid);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("NAME",name);
+                    bundle.putString("ID",pushupid);
+                    // save all data in bundle
                     Fragment nextFrag = Fragment_description.class.newInstance();
+                    nextFrag.setArguments(bundle);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.flContent, nextFrag, "description")

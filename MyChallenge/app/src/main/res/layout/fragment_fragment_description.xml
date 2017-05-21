@@ -39,30 +39,10 @@
                         android:layout_height="0px"
                         android:layout_weight="3"
                         android:id="@+id/tv_des"
-                        android:text="Step1 : "
+                        android:text="Step1 : fgfdgfgf cgfgf gfgf vgff ghg\n Step 2: ghuyuy gh ft ftry ghg."
                         android:layout_gravity="center_horizontal" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0px"
-                        android:layout_weight="3"
-                        android:id="@+id/tv_des2"
-                        android:text="Step2 : "
-                        android:layout_gravity="center_horizontal" />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0px"
-                        android:layout_weight="3"
-                        android:id="@+id/tv_des3"
-                        android:text="Step3 :"
-                        android:layout_gravity="center_horizontal" />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0px"
-                        android:layout_weight="3"
-                        android:id="@+id/tv_des4"
-                        android:text="Step4 : "
-                        android:layout_gravity="center_horizontal" />
+
                 </LinearLayout>
             </ScrollView>
 
