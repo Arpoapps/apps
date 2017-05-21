@@ -3,6 +3,7 @@ package com.arpo.mychallenge;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -124,6 +125,20 @@ String des = "";
         challenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                String challengeType;
+                challengeType ="pushup";
+                String challengeCount="0";
+                challengeCount="20";
+
+                String apName = String.format("%s/%s/%s", "EXCERCISE", challengeType, challengeCount);
+                apName = "ARPO/"+apName;
+
+                SharedPreferences.Editor editor = getContext().getSharedPreferences("GAME_INFO", getContext().MODE_PRIVATE).edit();
+                editor.putString("name", apName);
+                editor.commit();
+
                 Intent takeChallenge = new Intent(getContext(), TakeChallenge.class);
                 startActivityForResult(takeChallenge, 201);
             }
