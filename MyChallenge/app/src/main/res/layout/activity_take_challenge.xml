@@ -7,8 +7,21 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/color_gradient"
     tools:context="com.arpo.mychallenge.TakeChallenge">
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
 
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/circle_design">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +30,7 @@
         android:id="@+id/runningTimer"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="89dp" />
+        android:layout_marginTop="76dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,5 +40,7 @@
         android:id="@+id/runningCounter"
         android:layout_below="@+id/runningTimer"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="49dp" />
+        android:layout_marginTop="29dp" />
+            </RelativeLayout>
+    </FrameLayout>
 </RelativeLayout>

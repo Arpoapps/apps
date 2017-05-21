@@ -3,66 +3,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+       android:id="@+id/re"
     tools:context="com.arpo.mychallenge.MainActivityFragment">
-
-
+    
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <android.support.v4.view.ViewPager
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/pager"
+        android:layout_height="wrap_content"
+        android:id="@+id/linerlayout1"
+        android:orientation="vertical"
+        >
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2.5" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_weight="3">
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0px"
-                        android:layout_weight="3"
-                        android:id="@+id/tv_des"
-                        android:text="Step1 : fgfdgfgf cgfgf gfgf vgff ghg\n Step 2: ghuyuy gh ft ftry ghg."
-                        android:layout_gravity="center_horizontal" />
-
-
-                </LinearLayout>
-            </ScrollView>
-
-        </LinearLayout>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.8"
-            android:text="Challenge"
-            android:id="@+id/btn_description_challenge"
-            android:layout_gravity="right"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_height="250dp"
+            android:id="@+id/imageview1"
+            android:layout_gravity="center"
+            />
+        
     </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/sv"
+        android:layout_below="@+id/linerlayout1"
+        android:layout_marginBottom="75dp"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/linerlayout2"
+        android:layout_below="@+id/linerlayout1"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="3"
+            android:id="@+id/tv_des"
+            android:textSize="15dp"
+            android:textAllCaps="true"
+            android:textColor="#d65e05"
+            android:textStyle="bold"
+            android:text="Step1 : fgfdgfgf cgfgf gfgf vgff ghg\nStep 2: ghuyuy gh ft ftry ghg."
+            android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+    </ScrollView>
+
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_description_challenge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/challengebuttonnew"
+        android:layout_marginBottom="12dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
+
 
 
 </RelativeLayout>
 
 
+
+  
 
 
 
