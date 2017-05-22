@@ -12,11 +12,24 @@
         android:id="@+id/linerlayout1"
         android:orientation="vertical"
         >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_headline"
+            android:textSize="22dp"
+            android:textAllCaps="true"
+            android:textColor="#d65e05"
+            android:textStyle="bold"
+            android:text="pushup name"
+            android:textAlignment="center"
+
+            />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:id="@+id/imageview1"
             android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             />
         
     </LinearLayout>

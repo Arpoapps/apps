@@ -39,10 +39,12 @@ public class Fragment_description extends Fragment {
 
     Databasepushup db;
     TextView tv_step1;
+    TextView tv_heading;
 
     int position;
     String fid;
-String des = "";
+    String des = "";
+
     public Fragment_description() {
         // Required empty public constructor
     }
@@ -64,10 +66,11 @@ String des = "";
         fragment.setArguments(args);
         return fragment;
     }
-    void print(String str)
-    {
-        Log.d("JKS",str);
+
+    void print(String str) {
+        Log.d("JKS", str);
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,14 +81,13 @@ String des = "";
     }
 
 
-
     private void getDescription(String id) {
-        db=new Databasepushup(getContext());
+        db = new Databasepushup(getContext());
         db.openConnection();
-        String se = "select Steps from tb_description where Pushup_id=" + id ;
+        String se = "select Steps from tb_description where Pushup_id=" + id;
         Cursor c = db.selectData(se);
         int i = 1;
-        print("Got "+c.getCount());
+        print("Got " + c.getCount());
         if (c != null) {
             while (c.moveToNext()) {
                 String s1 = c.getString(0);
@@ -98,6 +100,7 @@ String des = "";
             }
             tv_step1.setText(des);
 
+
         }
         db.closeConnection();
 
@@ -107,8 +110,9 @@ String des = "";
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View description_page =  inflater.inflate(R.layout.fragment_fragment_description, container, false);
-        tv_step1= (TextView)description_page.findViewById(R.id.tv_des);
+        View description_page = inflater.inflate(R.layout.fragment_fragment_description, container, false);
+        tv_step1 = (TextView) description_page.findViewById(R.id.tv_des);
+        tv_heading = (TextView) description_page.findViewById(R.id.tv_headline);
         /*getDescription();
         fid = getIntent().getStringExtra("fid");
         position = getIntent().getIntExtra("position", -1);
@@ -119,19 +123,18 @@ String des = "";
         Bundle bundle = this.getArguments();
         String name = bundle.getString("NAME");
         String id = bundle.getString("ID");
-
+        tv_heading.setText(name);
         getDescription(id);
-        print("GOT PUSH UP = "+name+"WITH ID="+id);
-
+        print("GOT PUSH UP = " + name + "WITH ID=" + id);
 
 
         String challengeType;
-        challengeType ="pushup";
-        String challengeCount="0";
-        challengeCount="20";
+        challengeType = "pushup";
+        String challengeCount = "0";
+        challengeCount = "20";
 
         String apName = String.format("%s/%s/%s", "EXCERCISE", challengeType, challengeCount);
-        apName = "ARPO/"+apName;
+        apName = "ARPO/" + apName;
 
         SharedPreferences.Editor editor = getContext().getSharedPreferences("GAME_INFO", getContext().MODE_PRIVATE).edit();
         editor.putString("name", apName);
@@ -139,7 +142,7 @@ String des = "";
 
 
         // button cclick listner
-        Button challenge = (Button)description_page.findViewById(R.id.btn_description_challenge);
+        Button challenge = (Button) description_page.findViewById(R.id.btn_description_challenge);
         challenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,8 +199,7 @@ String des = "";
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         print("OnActivity result");
-        if (requestCode == 201)
-        {
+        if (requestCode == 201) {
 
             print("got the result");
             print("result =" + resultCode);
