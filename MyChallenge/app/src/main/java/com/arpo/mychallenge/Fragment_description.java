@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -44,6 +45,8 @@ public class Fragment_description extends Fragment {
     int position;
     String fid;
     String des = "";
+    String challengeCount = "0";
+    String challengeType;
 
     public Fragment_description() {
         // Required empty public constructor
@@ -113,12 +116,6 @@ public class Fragment_description extends Fragment {
         View description_page = inflater.inflate(R.layout.fragment_fragment_description, container, false);
         tv_step1 = (TextView) description_page.findViewById(R.id.tv_des);
         tv_heading = (TextView) description_page.findViewById(R.id.tv_headline);
-        /*getDescription();
-        fid = getIntent().getStringExtra("fid");
-        position = getIntent().getIntExtra("position", -1);
-        Log.d("JKS", "Intent received on details page pos= " + position + " fid = " + fid);
-        getpushupdescription();
-*/
 
         Bundle bundle = this.getArguments();
         String name = bundle.getString("NAME");
@@ -127,10 +124,9 @@ public class Fragment_description extends Fragment {
         getDescription(id);
         print("GOT PUSH UP = " + name + "WITH ID=" + id);
 
+        print("Create view again");
 
-        String challengeType;
         challengeType = "pushup";
-        String challengeCount = "0";
         challengeCount = "20";
 
         String apName = String.format("%s/%s/%s", "EXCERCISE", challengeType, challengeCount);
@@ -147,11 +143,44 @@ public class Fragment_description extends Fragment {
             @Override
             public void onClick(View v) {
 
+                print("Button click");
+                challengeCount = "20";
+                challengeType = "pushup";
 
+                String apName = String.format("%s/%s/%s", "EXCERCISE", challengeType, challengeCount);
+                apName = "ARPO/" + apName;
+
+                SharedPreferences.Editor editor = getContext().getSharedPreferences("GAME_INFO", getContext().MODE_PRIVATE).edit();
+                editor.putString("name", apName);
+                editor.commit();
                 Intent takeChallenge = new Intent(getContext(), TakeChallenge.class);
                 startActivityForResult(takeChallenge, 201);
             }
         });
+
+
+        Databasepushup db = new Databasepushup(getContext());
+        db.openConnection();
+
+        if(db.isStaminaTestTaken() == false)
+        {
+            print("STAMINA TEST IS NOT TAKEN; TAKE TEST");
+            challengeCount = "20";
+            challengeType = "staminatest";
+
+            apName = String.format("%s/%s/%s", "STAMINATEST", challengeType, challengeCount);
+            apName = "ARPO/" + apName;
+
+            SharedPreferences.Editor editor_stamina = getContext().getSharedPreferences("GAME_INFO", getContext().MODE_PRIVATE).edit();
+            editor_stamina.putString("name", apName);
+            editor_stamina.commit();
+
+            //Take stamina Test
+            Intent takeStaminaTest = new Intent(getContext(), TakeChallenge.class);
+            startActivityForResult(takeStaminaTest, 301);
+        }
+
+        db.closeConnection();
 
 
         return description_page;
@@ -209,6 +238,24 @@ public class Fragment_description extends Fragment {
 
                 print("Taken = " + count + " time = " + time + " FROM Activity");
 
+            }
+
+        }
+
+        if (requestCode == 301) {
+
+            print("got the result for stamina test");
+            print("result =" + resultCode);
+            if (resultCode != 0) {
+                String count = data.getStringExtra("count");
+                String time = data.getStringExtra("time");
+
+                print("Taken = " + count + " time = " + time + " FROM Activity");
+
+                Databasepushup db = new Databasepushup(getContext());
+                db.openConnection();
+                db.updateStamina(count,time);
+                db.closeConnection();
             }
 
         }

@@ -27,6 +27,25 @@ public class Databasepushup extends SQLiteOpenHelper {
         initData();
     }
 
+    public void updateStamina(String pushUps, String timeTaken)
+    {
+        String query = "INSERT INTO tb_staminatest(numPushUp,Timetaken) VALUES("+pushUps+","+timeTaken+")";
+        sqldb.execSQL(query);
+    }
+
+    public boolean isStaminaTestTaken()
+    {
+        boolean result = false;
+
+        String query = "SELECT * FROM tb_staminatest";
+        Cursor staminaTest = sqldb.rawQuery(query,null);
+        if(staminaTest.getCount() > 0)
+        {
+            result = true;
+        }
+        return  result;
+    }
+
     private void createTables()
     {
 

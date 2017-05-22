@@ -105,7 +105,7 @@ public class Fragment_Pushuplist extends Fragment implements AdapterView.OnItemC
                     p1.setTopbest(c.getString(3));
                     p1.setTaken(c.getString(6));
                     list1.add(p1);
-                    Log.d("JKS", "Adding " + n);
+                    //Log.d("JKS", "Adding " + n);
 
                 }
             }

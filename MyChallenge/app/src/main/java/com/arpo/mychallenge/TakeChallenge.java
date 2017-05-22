@@ -45,7 +45,10 @@ public class TakeChallenge extends AppCompatActivity  implements TextToSpeech.On
 
     boolean stopChallenge = false;
 
+    boolean calledCompleteCb = false;
+
     void print(String str) {Log.d("JKS", str);}
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class TakeChallenge extends AppCompatActivity  implements TextToSpeech.On
         getSupportActionBar().hide();
         setContentView(R.layout.activity_take_challenge);
 
+        calledCompleteCb = false;
 
         SharedPreferences prefs = getSharedPreferences("GAME_INFO", MODE_PRIVATE);
         String challengeName = prefs.getString("name", null);
@@ -60,19 +64,30 @@ public class TakeChallenge extends AppCompatActivity  implements TextToSpeech.On
         print("ChallangeName=" + challengeName);
 
         String[] tokens = challengeName.split("/");
-        for (String t : tokens)
+       /* for (String t : tokens)
             print("s=" + t);
         print("NAME:" + tokens[1] + " TYPE=" + tokens[2] + " COUNT=" + tokens[3]);
+*/
+        TextView txt_heading = (TextView) findViewById(R.id.txt_takechallenge_heading);
+        txt_heading.setText("");
 
         if(tokens[2].equals("time"))
         {
             challengeType = 0;
             time=Integer.parseInt(tokens[3]);
+            txt_heading.setText("PUSH UP TIME CHALLENGE");
         }
         else if(tokens[2].equals("pushup"))
         {
             challengeType=1;
             pushUpCount=Integer.parseInt(tokens[3]);
+            txt_heading.setText("PUSH UP CHALLENGE");
+        }
+        else if(tokens[2].equals("staminatest"))
+        {
+            txt_heading.setText("STAMINA TEST CHALLENGE");
+            challengeType=0;
+            time = 10;
         }
 
         /*
@@ -210,10 +225,12 @@ public class TakeChallenge extends AppCompatActivity  implements TextToSpeech.On
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss.S");
         simpleDateFormat.setTimeZone(TimeZone.getDefault());
 
-        if(stopClk == true && stopChallenge == true)
+        if(stopClk == true && stopChallenge == true && calledCompleteCb == false)
         {
             pushUpTaken = Integer.toString(nearCount);
             timeTaken = Integer.toString(time);
+
+            calledCompleteCb = true;
             completedCb();
         }
         return simpleDateFormat.format(date);
@@ -249,7 +266,7 @@ public class TakeChallenge extends AppCompatActivity  implements TextToSpeech.On
             if(challengeType == 0)
             nearCount++;
             else nearCount--;
-            if(challengeType == 1 && nearCount == 0)
+            if(challengeType == 1 && nearCount == 0 && calledCompleteCb == false)
             {
                 stopChallenge = true;
                 stopClk = true;
@@ -296,7 +313,7 @@ public class TakeChallenge extends AppCompatActivity  implements TextToSpeech.On
             }
         } else if(requestCode == 301 )
         {
-            print("Displayed congratulations");
+
             Intent intentData = new Intent();
             intentData.putExtra("time",timeTaken);
             intentData.putExtra("count",pushUpTaken);
