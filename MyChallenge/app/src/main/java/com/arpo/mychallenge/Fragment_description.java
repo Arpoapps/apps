@@ -143,6 +143,8 @@ public class Fragment_description extends Fragment {
             @Override
             public void onClick(View v) {
 
+                if(staminaCheck())
+                    return;
                 print("Button click");
                 challengeCount = "20";
                 challengeType = "pushup";
@@ -159,33 +161,29 @@ public class Fragment_description extends Fragment {
         });
 
 
-        Databasepushup db = new Databasepushup(getContext());
-        db.openConnection();
-
-        if(db.isStaminaTestTaken() == false)
-        {
-            print("STAMINA TEST IS NOT TAKEN; TAKE TEST");
-            challengeCount = "20";
-            challengeType = "staminatest";
-
-            apName = String.format("%s/%s/%s", "STAMINATEST", challengeType, challengeCount);
-            apName = "ARPO/" + apName;
-
-            SharedPreferences.Editor editor_stamina = getContext().getSharedPreferences("GAME_INFO", getContext().MODE_PRIVATE).edit();
-            editor_stamina.putString("name", apName);
-            editor_stamina.commit();
-
-            //Take stamina Test
-            Intent takeStaminaTest = new Intent(getContext(), TakeChallenge.class);
-            startActivityForResult(takeStaminaTest, 301);
-        }
-
-        db.closeConnection();
 
 
         return description_page;
     }
 
+    private boolean staminaCheck()
+    {
+        boolean result = false;
+        Databasepushup db = new Databasepushup(getContext());
+        db.openConnection();
+
+        result = db.isStaminaTestTaken();
+        if(result == false)
+        {
+            Intent confirmationPopUp = new Intent(getContext(), ConfirmationPopUpDialog.class);
+            String confirmationMessage = "You need to take a stamina test. This is required for us to calculate your statmina. We will schedule your workout based on this result.";
+            confirmationPopUp.putExtra("Message",confirmationMessage);
+            startActivityForResult(confirmationPopUp, 401);
+        }
+
+        db.closeConnection();
+        return !result;
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -258,6 +256,29 @@ public class Fragment_description extends Fragment {
                 db.closeConnection();
             }
 
+        }
+
+        if (requestCode == 401) {
+            int result = data.getIntExtra("confirmation",-1);
+            if(result ==1) {
+                print("STAMINA TEST IS NOT TAKEN; TAKE TEST");
+                challengeCount = "20";
+                challengeType = "staminatest";
+
+                String apName = String.format("%s/%s/%s", "EXCERCISE", challengeType, challengeCount);
+                apName = "ARPO/" + apName;
+
+                apName = String.format("%s/%s/%s", "STAMINATEST", challengeType, challengeCount);
+                apName = "ARPO/" + apName;
+
+                SharedPreferences.Editor editor_stamina = getContext().getSharedPreferences("GAME_INFO", getContext().MODE_PRIVATE).edit();
+                editor_stamina.putString("name", apName);
+                editor_stamina.commit();
+
+                //Take stamina Test
+                Intent takeStaminaTest = new Intent(getContext(), TakeChallenge.class);
+                startActivityForResult(takeStaminaTest, 301);
+            }
         }
 
     }

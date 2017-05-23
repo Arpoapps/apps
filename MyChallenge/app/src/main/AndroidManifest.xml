@@ -18,8 +18,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-       >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -37,13 +36,16 @@
             android:name=".AddPlayerPopUpActivity"
             android:theme="@style/custom"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".TakeChallenge"/>
+        <activity android:name=".TakeChallenge" />
         <activity
             android:name=".ResultPopUp"
             android:theme="@style/custom" />
         <activity
             android:name=".Winner"
             android:theme="@style/custom" />
+
+        <activity android:name=".ConfirmationPopUpDialog"
+            android:theme="@style/custom"></activity>
     </application>
 
 </manifest>
