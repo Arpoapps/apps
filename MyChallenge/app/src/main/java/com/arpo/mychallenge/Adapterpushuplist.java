@@ -95,6 +95,7 @@ public class Adapterpushuplist extends BaseAdapter {
         {
             // yellow color
             viewHolder.progressLayout.setBackgroundColor(context.getResources().getColor(R.color.yellow));
+            viewHolder.percent.setTextColor(context.getResources().getColor(R.color.colorAccent));
         }
         else if(percentageTaken >=40 && percentageTaken < 80 )
         {
@@ -105,6 +106,11 @@ public class Adapterpushuplist extends BaseAdapter {
         {
             // green color
             viewHolder.progressLayout.setBackgroundColor(context.getResources().getColor(R.color.green));
+        }
+        else
+        {
+            // default color
+            viewHolder.progressLayout.setBackgroundColor(context.getResources().getColor(R.color.grey));
         }
 
         viewHolder.percent.setText(percentageTaken+"%");

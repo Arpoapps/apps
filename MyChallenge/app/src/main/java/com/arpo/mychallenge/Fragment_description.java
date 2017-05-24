@@ -47,6 +47,7 @@ public class Fragment_description extends Fragment {
     String des = "";
     String challengeCount = "0";
     String challengeType;
+    String pushUpId;
 
     public Fragment_description() {
         // Required empty public constructor
@@ -119,15 +120,16 @@ public class Fragment_description extends Fragment {
 
         Bundle bundle = this.getArguments();
         String name = bundle.getString("NAME");
-        String id = bundle.getString("ID");
+        pushUpId = bundle.getString("ID");
+        String nextSet = bundle.getString("NEXTSET");
         tv_heading.setText(name);
-        getDescription(id);
-        print("GOT PUSH UP = " + name + "WITH ID=" + id);
+        getDescription(pushUpId);
+        print("GOT PUSH UP = " + name + "WITH ID=" + pushUpId);
 
         print("Create view again");
 
         challengeType = "pushup";
-        challengeCount = "20";
+        challengeCount = nextSet;
 
         String apName = String.format("%s/%s/%s", "EXCERCISE", challengeType, challengeCount);
         apName = "ARPO/" + apName;
@@ -146,7 +148,6 @@ public class Fragment_description extends Fragment {
                 if(staminaCheck())
                     return;
                 print("Button click");
-                challengeCount = "20";
                 challengeType = "pushup";
 
                 String apName = String.format("%s/%s/%s", "EXCERCISE", challengeType, challengeCount);
@@ -235,6 +236,22 @@ public class Fragment_description extends Fragment {
                 String time = data.getStringExtra("time");
 
                 print("Taken = " + count + " time = " + time + " FROM Activity");
+
+                Databasepushup db = new Databasepushup(getContext());
+                db.openConnection();
+                db.updatePushResult(count,time,pushUpId);
+                db.closeConnection();
+
+                try {
+                    Fragment nextFrag = Fragment_Pushuplist.class.newInstance();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.flContent, nextFrag, "ListPage")
+                            .addToBackStack(null)
+                            .commit();
+                } catch (Exception ex) {
+
+                }
 
             }
 

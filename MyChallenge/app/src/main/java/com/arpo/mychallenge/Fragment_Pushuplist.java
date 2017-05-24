@@ -141,6 +141,7 @@ public class Fragment_Pushuplist extends Fragment implements AdapterView.OnItemC
                     Bundle bundle=new Bundle();
                     bundle.putString("NAME",name);
                     bundle.putString("ID",pushupid);
+                    bundle.putString("NEXTSET",list1.get(position).getNextbest());
                     // save all data in bundle
                     Fragment nextFrag = Fragment_description.class.newInstance();
                     nextFrag.setArguments(bundle);

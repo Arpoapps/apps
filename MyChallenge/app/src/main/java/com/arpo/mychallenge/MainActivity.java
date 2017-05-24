@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                         Fragment nextFrag = Fragment_Pushuplist.class.newInstance();
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         fragmentManager.beginTransaction()
-                                .replace(R.id.flContent, nextFrag, "HomePage")
+                                .replace(R.id.flContent, nextFrag, "ListPage")
                                 .addToBackStack(null)
                                 .commit();
                     } catch (Exception ex) {

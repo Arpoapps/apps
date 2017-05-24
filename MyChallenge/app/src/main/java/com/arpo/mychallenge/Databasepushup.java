@@ -4,6 +4,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by SONY on 06-09-2016.
@@ -14,6 +21,10 @@ public class Databasepushup extends SQLiteOpenHelper {
     Context mContext;
 
 
+    private void print(String str)
+    {
+        Log.d("JKS",str);
+    }
 
     public Databasepushup(Context C)
     {
@@ -31,6 +42,43 @@ public class Databasepushup extends SQLiteOpenHelper {
     {
         String query = "INSERT INTO tb_staminatest(numPushUp,Timetaken) VALUES("+pushUps+","+timeTaken+")";
         sqldb.execSQL(query);
+
+        // stamina is calculated as number pushups which can be taken in 10 seconds
+        int statmina = Integer.parseInt(pushUps);
+
+        int nextSet = statmina;
+        if(nextSet <= 5) {
+            nextSet = 6;
+        }
+        else if(nextSet <= 10)
+        {
+            nextSet = 10;
+        }
+        query = "UPDATE tb_pushupdetails SET nextset="+nextSet;
+        sqldb.execSQL(query);
+
+    }
+
+    public int getStamina()
+    {
+        int stamina = 0;
+
+        int pushups = 0;
+        int timeTaken = 0;
+
+        String query = "SELECT * FROM tb_staminatest";
+        Cursor staminaCursor = sqldb.rawQuery(query,null);
+        if(staminaCursor.getCount() == 0)
+            return  0;
+        while(staminaCursor.moveToNext())
+        {
+            pushups = staminaCursor.getInt(1);
+            timeTaken = staminaCursor.getInt(2);
+        }
+        //stamina is the number of pushups can be taken in 10 seconds
+        stamina = (pushups/timeTaken) * 10;
+        stamina = pushups;
+        return  stamina;
     }
 
     public boolean isStaminaTestTaken()
@@ -46,6 +94,104 @@ public class Databasepushup extends SQLiteOpenHelper {
         return  result;
     }
 
+    public void updatePushResult(String pushUps, String timeTaken, String pushUpid)
+    {
+        int badge = 0;
+        int attemptNo = 0;
+        //update pushUp database
+        String query = "INSERT INTO tb_pushupdata (Pushup_id,Date,Attemptno,Numpushup,Timetaken,Badge) values("+
+                pushUpid+",'"+
+                getDateTime()+"',"+
+                attemptNo +","+
+                pushUps+",'" +
+                timeTaken+"',"+
+                badge+")";
+        //print(query);
+        sqldb.execSQL(query);
+        //update nextSet
+        int currentSet = getCurrentSet(pushUpid);
+        int nextSet = currentSet + currentSet / 4;
+        updateNextSet(pushUpid,nextSet);
+        updateTaken(pushUpid,pushUps);
+        updateBestTime(pushUpid,timeTaken);
+    }
+    private int getCurrentSet(String id)
+    {
+        int currentSet = 0;
+        String query = "SELECT nextset FROM tb_pushupdetails WHERE Pushup_id="+id;
+        Cursor data = sqldb.rawQuery(query,null);
+        while(data.moveToNext())
+        {
+            currentSet = data.getInt(0);
+        }
+
+        return currentSet;
+    }
+    private void updateTaken(String id, String pushUps)
+    {
+        int taken = 0;
+        String query = "SELECT taken FROM tb_pushupdetails WHERE Pushup_id="+id;
+        Cursor takenCursor = sqldb.rawQuery(query,null);
+        while(takenCursor.moveToNext())
+        {
+            taken = takenCursor.getInt(0);
+        }
+        taken = taken + Integer.parseInt(pushUps);
+        query =  "UPDATE tb_pushupdetails SET taken="+taken +" WHERE Pushup_id="+id;
+        sqldb.execSQL(query);
+
+    }
+    private void updateBestTime(String id, String timeTaken)
+    {
+        String bestTime = "" ;
+        float float_bestTime = 0;
+        float float_newTime = 0;
+        String query = "SELECT besttime FROM tb_pushupdetails WHERE Pushup_id="+id;
+        Cursor takenCursor = sqldb.rawQuery(query,null);
+        while(takenCursor.moveToNext())
+        {
+            bestTime = takenCursor.getString(0);
+        }
+        if(bestTime.equals("nil"))
+        {
+            query =  "UPDATE tb_pushupdetails SET besttime='"+timeTaken +"' WHERE Pushup_id="+id;
+            sqldb.execSQL(query);
+        }
+        else
+        {
+            DateFormat df = new SimpleDateFormat("mm:ss.S");
+            try {
+                Date dtBestTime = df.parse(bestTime);
+                Date dtNewTime = df.parse(timeTaken);
+                long bestMillis = dtBestTime.getTime()+ TimeZone.getDefault().getRawOffset();;
+                long newTimeMillis = dtNewTime.getTime()+TimeZone.getDefault().getRawOffset();;
+
+                if(newTimeMillis < bestMillis)
+                {
+                    query =  "UPDATE tb_pushupdetails SET besttime='"+timeTaken +"' WHERE Pushup_id="+id;
+                    sqldb.execSQL(query);
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+    private void updateNextSet(String id, int nextSet)
+    {
+        String query = "UPDATE tb_pushupdetails SET nextset="+nextSet +" WHERE Pushup_id="+id;
+        sqldb.execSQL(query);
+    }
+    public static String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
     private void createTables()
     {
 
@@ -57,7 +203,7 @@ public class Databasepushup extends SQLiteOpenHelper {
         sqldb.execSQL(qury1);
 
 
-        String qury2 = "CREATE TABLE IF NOT EXISTS tb_pushupdata(Data_id INTEGER PRIMARY KEY AUTOINCREMENT ,Pushup_id INTEGER NOT NULL , Date VARCHAR(500) ,Attemptno VARCHAR(30) ,Numpushup INTEGER NOT NULL,Timetaken INTEGER NOT NULL,Badge INTEGER NOT NULL )";
+        String qury2 = "CREATE TABLE IF NOT EXISTS tb_pushupdata(Data_id INTEGER PRIMARY KEY AUTOINCREMENT ,Pushup_id INTEGER NOT NULL , Date VARCHAR(500) ,Attemptno INTEGER , Numpushup INTEGER NOT NULL, Timetaken VARCHAR(100) NOT NULL,Badge INTEGER NOT NULL )";
         sqldb.execSQL(qury2);
 
 
@@ -166,10 +312,51 @@ public class Databasepushup extends SQLiteOpenHelper {
                 "SUPERMAN PUSHUP",
                 "FINGER TIP PUSHUP"};
 
-        int count = 100;
+        int count = 0;
+
+        int [] countPushUp = {
+                100,//STANDARD
+                50,//KNEE PUSHUP
+                50,//SHOULDER TAP
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                100,
+                75,
+                100,
+                80,
+                50,
+                40,
+                100,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                100,
+                75,
+                100,
+                80,
+                50,
+                40,
+                75,
+                100,
+                80,
+                50,
+                40,
+                50
+
+        };
 
         for(int i=0;i<names.length;i++) {
-            String st1 = "insert into tb_pushupdetails(excersisename,images,targetPushUp,nextset,besttime,taken )values('"+names[i]+"','"+img[i]+"',"+count+",10,'nil',0)";
+
+            String st1 = "insert into tb_pushupdetails(excersisename,images,targetPushUp,nextset,besttime,taken )values('"+names[i]+"','"+img[i]+"',"+countPushUp[i]+",0,'nil',0)";
             //count += 5;
             sqldb.execSQL(st1);
         }
